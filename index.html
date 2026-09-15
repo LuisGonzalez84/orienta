@@ -1,0 +1,1353 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Sube tu estado de cuenta del Infonavit y descubre en un minuto cuánto te falta realmente, cuánto pagas de intereses y en cuánto tiempo terminas. Habítalo Orienta.">
+<style>
+  :root{ color-scheme: light; }
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; }
+  body{ font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:#FAFAF8; }
+  img{ max-width:100%; }
+  [hidden]{ display:none !important; }
+  /* ---- Prueba con voluntarios ---- */
+  .prueba{padding:18px 20px;display:flex;flex-direction:column;gap:12px;background:var(--gold-soft);}
+  .prueba p{margin:0;color:var(--ink);font-size:15px;}
+  .prueba .chico{font-size:13.5px;color:var(--ink-soft);}
+  .prueba a.pagar{align-self:flex-start;}
+</style>
+<title>Sube tu estado de cuenta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+
+</head>
+<body>
+<style>
+  :root{
+    --ground:#EEF0F4; --paper:#FFFFFF; --band:#1B2E4F; --band-ink:#F2F5FA;
+    --ink:#14243F; --ink-soft:#54617A; --ink-faint:#8A95A8;
+    --rule:#D7DCE5; --rule-soft:#EAEDF2; --field:#F7F9FC; --field-edge:#BFCBDD;
+    --gold:#9A6F15; --gold-soft:#F8F1DE;
+    --ok:#2C6E52; --ok-soft:#E6F1EB; --stop:#9C382F; --stop-soft:#F9E8E5;
+    --shadow:0 1px 2px rgba(20,36,63,.07), 0 10px 26px rgba(20,36,63,.06);
+    --display:"Bitter",Georgia,serif; --body:"Source Sans 3","Helvetica Neue",Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0C1420; --paper:#141E2C; --band:#1E2C42; --band-ink:#E8EDF5;
+      --ink:#E6EBF2; --ink-soft:#A3AFC2; --ink-faint:#75819A;
+      --rule:#26334A; --rule-soft:#1D2736; --field:#1B2739; --field-edge:#36455F;
+      --gold:#DCAB4A; --gold-soft:#33280F;
+      --ok:#6FC39C; --ok-soft:#162B22; --stop:#E28A7E; --stop-soft:#2D1B18;
+      --shadow:0 1px 2px rgba(0,0,0,.45), 0 12px 30px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0C1420; --paper:#141E2C; --band:#1E2C42; --band-ink:#E8EDF5;
+    --ink:#E6EBF2; --ink-soft:#A3AFC2; --ink-faint:#75819A;
+    --rule:#26334A; --rule-soft:#1D2736; --field:#1B2739; --field-edge:#36455F;
+    --gold:#DCAB4A; --gold-soft:#33280F;
+    --ok:#6FC39C; --ok-soft:#162B22; --stop:#E28A7E; --stop-soft:#2D1B18;
+    --shadow:0 1px 2px rgba(0,0,0,.45), 0 12px 30px rgba(0,0,0,.3);
+  }
+
+  body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:22px 60px;display:flex;flex-direction:column;gap:18px;}
+  h1,h2{font-family:var(--display);margin:0;line-height:1.22;text-wrap:balance;}
+  p{margin:0;}
+  *:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+
+  .topbar{background:var(--band);color:var(--band-ink);border-radius:5px;padding:16px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;}
+  .brand{font-family:var(--display);font-size:19px;font-weight:700;}
+  .brand em{font-style:normal;color:var(--gold);}
+  .topbar .warn{font-size:12.5px;opacity:.7;border-top:1px solid rgba(255,255,255,.14);padding-top:8px;}
+
+  .aviso-ejemplo{
+    background:var(--gold);color:#1B1405;border-radius:5px;padding:12px 16px;
+    display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between;
+    font-size:14.5px;line-height:1.4;box-shadow:var(--shadow);
+  }
+  .aviso-ejemplo b{font-weight:700;}
+  .aviso-ejemplo button{background:#1B1405;color:var(--gold);border-color:#1B1405;flex:none;}
+  .aviso-ejemplo button:hover{background:#2E2410;color:#fff;border-color:#2E2410;}
+
+  .card{background:var(--paper);border:1px solid var(--rule);border-radius:5px;box-shadow:var(--shadow);overflow:hidden;}
+  .card > h2{background:var(--band);color:var(--band-ink);padding:11px 20px;font-size:15px;font-weight:600;}
+  .pad{padding:18px 20px;display:flex;flex-direction:column;gap:12px;}
+
+  h1.lede{font-size:24px;font-weight:600;}
+  .sub{color:var(--ink-soft);font-size:16px;}
+
+  .drop{
+    border:2px dashed var(--field-edge);border-radius:6px;background:var(--field);
+    padding:26px 18px;text-align:center;display:flex;flex-direction:column;gap:9px;align-items:center;
+    cursor:pointer;transition:border-color .15s, background .15s;
+  }
+  .drop:hover,.drop.over{border-color:var(--gold);background:var(--gold-soft);}
+  .drop .big{font-size:17px;font-weight:600;}
+  .drop .small{font-size:14px;color:var(--ink-soft);}
+  .drop input{display:none;}
+  .privacy{background:var(--ok-soft);color:var(--ok);border-radius:4px;padding:11px 14px;font-size:14.5px;display:flex;flex-direction:column;gap:9px;}
+  .privacy b{font-weight:700;}
+  .privacy details.check{border-top:1px solid rgba(44,110,82,.22);padding-top:9px;}
+  .privacy summary{color:var(--ok);font-size:14px;}
+  .privacy ol{margin:9px 0 0;padding-left:19px;display:flex;flex-direction:column;gap:7px;line-height:1.45;}
+  .privacy li::marker{font-weight:700;}
+  #tomado{border:1px solid var(--rule);border-radius:4px;padding:12px 14px;}
+  #tomado summary{color:var(--ink-soft);}
+  #tomado table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px;}
+  #tomado td{padding:4px 0;border-bottom:1px solid var(--rule-soft);}
+  #tomado td:last-child{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  #tomado .nota{font-size:13px;color:var(--ink-faint);margin-top:10px;}
+
+  details{border-top:1px solid var(--rule-soft);padding-top:12px;}
+  summary{cursor:pointer;font-size:14.5px;color:var(--ink-soft);font-weight:600;}
+  textarea{
+    font-family:var(--mono);font-size:12.5px;line-height:1.5;color:var(--ink);background:var(--field);
+    border:1px solid var(--field-edge);border-radius:4px;padding:10px;width:100%;min-height:110px;resize:vertical;margin-top:10px;
+  }
+  .btnrow{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:10px;}
+  button.link{font:inherit;font-size:14px;font-weight:600;color:var(--ink);background:var(--paper);border:1px solid var(--field-edge);border-radius:4px;padding:7px 14px;cursor:pointer;}
+  button.link:hover{border-color:var(--gold);color:var(--gold);}
+  button.go{background:var(--band);color:var(--band-ink);border-color:var(--band);}
+  button.go:hover{background:var(--gold);border-color:var(--gold);color:#1B1405;}
+
+  .status{font-size:14.5px;padding:10px 13px;border-radius:4px;display:none;}
+  .status.on{display:block;}
+  .status.ok{background:var(--ok-soft);color:var(--ok);}
+  .status.bad{background:var(--stop-soft);color:var(--stop);}
+  .status.work{background:var(--gold-soft);color:var(--gold);}
+
+  .q{padding:13px 20px;border-bottom:1px solid var(--rule-soft);display:grid;grid-template-columns:1fr 168px;gap:4px 14px;align-items:center;}
+  .q:last-of-type{border-bottom:none;}
+  .q label{font-size:15.5px;font-weight:600;}
+  .q .where{font-size:12.5px;color:var(--ink-faint);grid-column:1;}
+  .q .fld{grid-row:span 2;grid-column:2;display:flex;align-items:center;gap:5px;}
+  .q .pre{font-family:var(--mono);font-size:16px;color:var(--ink-faint);}
+  input{
+    font-family:var(--mono);font-size:16px;color:var(--ink);background:var(--field);
+    border:1.5px solid var(--field-edge);border-radius:4px;padding:7px 9px;width:100%;
+    font-variant-numeric:tabular-nums;text-align:right;
+  }
+  input.bad{border-color:var(--stop);background:var(--stop-soft);}
+  input[type="date"]{text-align:left;font-size:14px;}
+
+  .deduced{background:var(--gold-soft);padding:14px 20px;display:flex;flex-direction:column;gap:7px;}
+  .deduced h3{margin:0;font-family:var(--body);font-size:13.5px;font-weight:700;color:var(--gold);}
+  .deduced ul{margin:0;padding-left:18px;font-size:14.5px;color:var(--ink-soft);display:flex;flex-direction:column;gap:3px;}
+  .deduced li::marker{color:var(--gold);}
+  .deduced strong{color:var(--ink);}
+
+  .nums{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule-soft);}
+  .num{background:var(--paper);padding:16px 18px;display:flex;flex-direction:column;gap:2px;}
+  .num b{font-family:var(--display);font-size:24px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.12;}
+  .num span{font-size:13.5px;color:var(--ink-soft);line-height:1.35;}
+  .sim{padding:16px 20px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:10px;}
+  .sim label{font-size:16px;font-weight:600;}
+  .sim .fld{display:flex;align-items:center;gap:6px;max-width:190px;}
+  input[type="range"]{
+    -webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;
+    border:none;padding:0;cursor:pointer;
+  }
+  input[type="range"]::-webkit-slider-runnable-track{height:6px;border-radius:99px;background:var(--rule);}
+  input[type="range"]::-moz-range-track{height:6px;border-radius:99px;background:var(--rule);}
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:24px;height:24px;border-radius:99px;background:var(--band);
+    border:3px solid var(--paper);margin-top:-9px;box-shadow:0 1px 3px rgba(0,0,0,.25);
+  }
+  input[type="range"]::-moz-range-thumb{
+    width:20px;height:20px;border-radius:99px;background:var(--band);
+    border:3px solid var(--paper);box-shadow:0 1px 3px rgba(0,0,0,.25);
+  }
+  .meta-out{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;
+    background:var(--gold-soft);border-radius:4px;padding:12px 15px;}
+  .meta-out b{font-family:var(--display);font-size:22px;font-weight:700;color:var(--gold);white-space:nowrap;}
+  .meta-out span{font-size:15.5px;color:var(--ink-soft);flex:1;min-width:180px;}
+  .meta-out span strong{color:var(--ink);font-weight:700;}
+  .sim .manual{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;
+    border-top:1px solid var(--rule-soft);padding-top:13px;}
+  .sim .manual label{font-size:14.5px;font-weight:400;color:var(--ink-soft);}
+  .simout{font-size:16px;color:var(--ink-soft);}
+  .simout b{color:var(--ink);font-weight:600;}
+  .gate{padding:16px 20px;background:var(--stop-soft);color:var(--stop);font-size:15.5px;display:none;}
+  .gate.on{display:block;}
+
+  /* ---- número bloqueado ---- */
+  .num.lock{position:relative;}
+  .num.lock b{filter:blur(7px);user-select:none;color:var(--ink-faint);}
+  .num.lock::after{
+    content:"🔒";position:absolute;top:14px;right:16px;font-size:14px;opacity:.6;
+  }
+
+  /* ---- cobro ---- */
+  .cobro{padding:18px 20px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:12px;background:var(--gold-soft);}
+  .cobro .precio{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;}
+  .cobro .monto{font-family:var(--display);font-size:32px;font-weight:700;color:var(--gold);line-height:1;}
+  .cobro .que{font-size:14.5px;color:var(--ink-soft);flex:1;min-width:200px;line-height:1.45;}
+  a.pagar{
+    font:inherit;font-size:16.5px;font-weight:700;color:var(--band-ink);background:var(--band);
+    border:none;border-radius:5px;padding:14px 20px;cursor:pointer;width:100%;
+    display:block;text-align:center;text-decoration:none;
+  }
+  a.pagar:hover{background:var(--gold);color:#1B1405;}
+  .cobro .sello{font-size:12.5px;color:var(--ink-faint);text-align:center;line-height:1.5;}
+  .cobro .liga{font-family:var(--mono);font-size:12px;color:var(--ink-soft);user-select:all;}
+  .regreso{border-top:1px solid rgba(154,111,21,.28);padding-top:12px;display:flex;flex-direction:column;gap:8px;}
+  .regreso label{font-size:14px;color:var(--ink-soft);}
+  .regreso .fila{display:flex;gap:8px;flex-wrap:wrap;}
+  .regreso input{flex:1;min-width:150px;text-align:left;font-size:15px;}
+  .regreso .hint{font-size:13px;min-height:1em;}
+  .regreso .hint.err{color:var(--stop);}
+  .regreso .hint.ok{color:var(--ok);}
+
+  .checkout{padding:18px 20px;border-top:1px solid var(--rule);background:var(--rule-soft);display:flex;flex-direction:column;gap:11px;}
+  .checkout .sim-label{
+    font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);
+  }
+  .checkout p{font-size:14.5px;color:var(--ink-soft);}
+  .checkout .opts{display:flex;flex-wrap:wrap;gap:8px;}
+
+  .pago-estado{padding:14px 20px;border-top:1px solid var(--rule);font-size:15px;display:flex;flex-direction:column;gap:9px;}
+  .pago-estado.ok{background:var(--ok-soft);color:var(--ok);}
+  .pago-estado.esperando{background:var(--gold-soft);color:var(--gold);}
+  .pago-estado.mal{background:var(--stop-soft);color:var(--stop);}
+  .pago-estado .folio{font-family:var(--mono);font-size:12.5px;opacity:.85;}
+  button.descargar{
+    font:inherit;font-size:15px;font-weight:700;color:var(--band-ink);background:var(--band);
+    border:none;border-radius:5px;padding:11px 18px;cursor:pointer;align-self:flex-start;
+  }
+  button.descargar:hover{background:var(--gold);color:#1B1405;}
+  button.descargar:disabled{opacity:.6;cursor:default;}
+  /* ---- el diagnóstico en pantalla, para cuando no se puede descargar ---- */
+  .doc{padding:20px;display:flex;flex-direction:column;gap:18px;}
+  .doc h3{margin:0;font-family:var(--body);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--gold);border-bottom:1px solid var(--rule);padding-bottom:6px;}
+  .doc .grande{display:flex;flex-direction:column;gap:12px;}
+  .doc .grande div{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;}
+  .doc .grande b{font-family:var(--display);font-size:22px;font-weight:700;color:var(--ink);
+    min-width:160px;font-variant-numeric:tabular-nums;}
+  .doc .grande span{font-size:14.5px;color:var(--ink-soft);flex:1;min-width:150px;}
+  .doc .caja{background:var(--gold-soft);border-radius:4px;padding:13px 15px;font-size:15px;color:var(--ink);}
+  .doc table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .doc td{padding:5px 0;border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);}
+  .doc td:last-child{text-align:right;font-family:var(--mono);color:var(--ink);font-weight:600;white-space:nowrap;}
+  .doc .sub{font-size:11.5px;color:var(--ink-faint);font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-top:4px;}
+  .doc ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-soft);display:flex;flex-direction:column;gap:5px;}
+  .doc ul li::marker{color:var(--gold);}
+  .doc .folio-doc{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);}
+  .doc-pie{padding:14px 20px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:9px 12px;align-items:center;}
+  .doc-msg{font-size:13.5px;color:var(--ok);}
+  @media print{
+    body{background:#fff;}
+    .topbar,.aviso-ejemplo,.card:not(#doc-card),.doc-pie,footer{display:none !important;}
+    #doc-card{border:none;box-shadow:none;}
+  }
+
+  .pdf-msg{font-size:14px;line-height:1.45;border-radius:4px;padding:10px 13px;}
+  .pdf-msg.ok{background:var(--paper);color:var(--ok);}
+  .pdf-msg.warn{background:var(--paper);color:var(--warn-ink,#7A4E0B);border:1px solid var(--gold);}
+  .pdf-msg.bad{background:var(--paper);color:var(--stop);border:1px solid var(--stop);}
+  .pago-estado .correo{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .pago-estado input{max-width:230px;text-align:left;font-size:14px;}
+
+  .consent{padding:16px 20px;display:flex;flex-direction:column;gap:12px;}
+  .consent .aviso{font-size:13.5px;color:var(--ink-soft);line-height:1.5;}
+  .consent .aviso a{color:var(--gold);}
+  .consent .check{display:flex;gap:10px;align-items:flex-start;font-size:15px;cursor:pointer;line-height:1.4;}
+  .consent .check input{width:19px;height:19px;flex:none;margin:1px 0 0;accent-color:var(--band);cursor:pointer;}
+  .consent .check em{color:var(--ink-faint);font-style:normal;font-size:13.5px;}
+  .consent .registro{font-size:12.5px;color:var(--ok);background:var(--ok-soft);border-radius:4px;padding:8px 11px;font-family:var(--mono);}
+  .hueco{background:var(--gold-soft);color:var(--gold);font-family:var(--mono);font-size:.9em;padding:1px 5px;border-radius:3px;}
+
+  footer{font-size:13px;color:var(--ink-faint);display:flex;flex-direction:column;gap:6px;}
+  @media (max-width:460px){
+    .q{grid-template-columns:1fr;}
+    .q .fld{grid-row:auto;grid-column:1;margin-top:4px;}
+    .nums{grid-template-columns:1fr;}
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <span class="brand">Habítalo <em>Orienta</em></span>
+    <span class="warn">Esta no es una página del Infonavit ni está afiliada a esa institución. Es la herramienta de Habítalo México para preparar tu diagnóstico.</span>
+  </div>
+
+  <div class="aviso-ejemplo" id="aviso-ejemplo" hidden>
+    <span><b>Estás viendo un caso de ejemplo.</b> Los números de abajo son de un crédito inventado — no son los tuyos.</span>
+    <button class="link" id="btn-vaciar" type="button">Vaciar y usar el mío</button>
+  </div>
+
+  <div class="card">
+    <div class="pad">
+      <h1 class="lede">Sube tu estado de cuenta y nosotros lo leemos</h1>
+      <p class="sub">Descarga tu <strong>estado de cuenta histórico</strong> del portal del Infonavit y súbelo aquí tal como te lo dieron. No hay que capturar nada.</p>
+
+      <label class="drop" id="drop" for="file">
+        <span class="big" id="drop-title">Elige tu archivo PDF</span>
+        <span class="small">o arrástralo aquí</span>
+        <input type="file" id="file" accept="application/pdf,.pdf">
+      </label>
+
+      <div class="privacy">
+        <p>🔒 <b>Tu archivo no se sube a ningún lado.</b> Se lee aquí mismo, en tu dispositivo. Tu nombre, NSS, RFC, CURP y domicilio ni se leen ni se guardan: solo tomamos los números de tu crédito.</p>
+        <details class="check">
+          <summary>No me lo creas: compruébalo</summary>
+          <ol>
+            <li><b>Ponte en modo avión</b> y sube el archivo. Vas a ver que funciona igual, porque la lectura pasa dentro de tu teléfono y no hay nada que enviar.</li>
+            <li>Cuando termine, abre <b>«Ver exactamente qué se tomó»</b> aquí abajo. Esa lista es todo lo que salió de tu documento.</li>
+            <li>¿Prefieres tacharlo antes de subirlo? Puedes, pero que sepas una cosa: <b>un recuadro negro puesto encima en un visor de PDF tapa el dato, no lo borra</b> — el texto sigue debajo y cualquiera lo recupera. Lo probamos. Si de plano no quieres subir el archivo, captura los ocho números a mano: es la única vía en la que el documento nunca se abre.</li>
+          </ol>
+        </details>
+      </div>
+
+      <div class="status" id="status"></div>
+
+      <details id="tomado" hidden>
+        <summary>Ver exactamente qué se tomó de tu documento</summary>
+        <div id="tomado-body"></div>
+      </details>
+
+      <details id="fallback">
+        <summary>¿Problemas con el archivo? Pega el texto</summary>
+        <p class="sub" style="font-size:14.5px;margin-top:8px;">Abre el PDF, selecciona todo el texto (Ctrl+A), cópialo y pégalo aquí.</p>
+        <textarea id="paste" placeholder="Saldo de capital $ 643,518.16 Mensualidad con relación laboral $ 9,757.12&#10;..."></textarea>
+        <div class="btnrow">
+          <button class="link go" id="btn-paste" type="button">Leer el texto</button>
+        </div>
+      </details>
+
+      <div class="btnrow" style="margin-top:0;">
+        <button class="link" id="btn-manual" type="button">Prefiero capturar a mano</button>
+        <button class="link" id="btn-demo" type="button">Ver un ejemplo</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Confirma que son tus números</h2>
+    <div class="gate" id="gate"></div>
+    <div id="campos">
+      <div class="q">
+        <label for="f-capital">Saldo de capital</label>
+        <span class="where">lo que debes de puro crédito</span>
+        <span class="fld"><span class="pre">$</span><input id="f-capital" inputmode="decimal"></span>
+      </div>
+      <div class="q">
+        <label for="f-interes">Saldo de interés</label>
+        <span class="where">intereses acumulados sin cobrar</span>
+        <span class="fld"><span class="pre">$</span><input id="f-interes" inputmode="decimal"></span>
+      </div>
+      <div class="q">
+        <label for="f-comis">Comisiones</label>
+        <span class="where">seguros y cuotas pendientes</span>
+        <span class="fld"><span class="pre">$</span><input id="f-comis" inputmode="decimal"></span>
+      </div>
+      <div class="q">
+        <label for="f-total">Saldo total del crédito</label>
+        <span class="where" id="w-total">debe ser la suma de los tres de arriba</span>
+        <span class="fld"><span class="pre">$</span><input id="f-total" inputmode="decimal"></span>
+      </div>
+      <div class="q">
+        <label for="f-tasa">Tasa de interés</label>
+        <span class="where">anual, fija</span>
+        <span class="fld"><input id="f-tasa" inputmode="decimal"><span class="pre">%</span></span>
+      </div>
+      <div class="q">
+        <label for="f-mcon">Mensualidad con relación laboral</label>
+        <span class="where">tu pago mensual, ya con seguros</span>
+        <span class="fld"><span class="pre">$</span><input id="f-mcon" inputmode="decimal"></span>
+      </div>
+      <div class="q">
+        <label for="f-msin">Mensualidad sin relación laboral</label>
+        <span class="where" id="w-msin">la diferencia es tu seguro de desempleo</span>
+        <span class="fld"><span class="pre">$</span><input id="f-msin" inputmode="decimal"></span>
+      </div>
+      <div class="q">
+        <label for="f-corte">Fecha de corte</label>
+        <span class="where">hasta qué día están estos números</span>
+        <span class="fld"><input id="f-corte" type="date"></span>
+      </div>
+      <div class="q" id="q-sueldo" hidden>
+        <label for="f-sueldo">¿Cuánto ganas al mes?</label>
+        <span class="where">antes de descuentos. No viene en el papel: sirve para calcular lo que aporta tu patrón</span>
+        <span class="fld"><span class="pre">$</span><input id="f-sueldo" inputmode="decimal"></span>
+      </div>
+    </div>
+    <div class="deduced">
+      <h3 id="deduced-title">LO QUE SACAMOS DE TUS MOVIMIENTOS</h3>
+      <ul id="deduced-list"><li>Sube tu documento para verlo.</li></ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Antes de ver tus números</h2>
+    <div class="consent">
+      <p class="aviso"><strong>Aviso de privacidad.</strong> Alejandro Rodríguez Aznar, quien opera como <strong>Habítalo México</strong>, en Cancún, Quintana Roo, es responsable del tratamiento de tus datos. Tu estado de cuenta se lee dentro de tu dispositivo: tu nombre, NSS, RFC, CURP y domicilio no se leen ni se guardan. De tu crédito tomamos saldos, tasa, mensualidades, fechas y movimientos, y los usamos para calcular tu diagnóstico y entregártelo. Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos, gratis y sin costo, escribiendo a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a>. <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener" id="link-aviso">Consulta el aviso completo</a>.</p>
+      <label class="check"><input type="checkbox" id="c-obligatorio"> <span>He leído el aviso de privacidad y <strong>autorizo el tratamiento de mis datos financieros</strong> para calcular mi diagnóstico.</span></label>
+      <label class="check"><input type="checkbox" id="c-opcional"> <span>Quiero recibir información de otros servicios de Habítalo. <em>(opcional — puedes dejarlo sin marcar y tu diagnóstico sale igual)</em></span></label>
+      <p class="registro" id="registro" hidden></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Tus números</h2>
+    <div class="nums" id="nums"></div>
+
+    <div class="cobro" id="cobro" hidden>
+      <div class="precio">
+        <span class="monto">$50</span>
+        <span class="que">Tu diagnóstico completo: la fecha en que terminas, lo que pagarías de intereses, lo que aporta tu patrón y el simulador de abonos. Se descuenta si después contratas el Dictamen Orienta.</span>
+      </div>
+      <a class="pagar" id="btn-pagar" href="https://mpago.la/21HBfF5" target="_blank" rel="noopener">Pagar $50 y ver mi diagnóstico</a>
+      <p class="sello">Pago seguro con Mercado Pago. No cobramos hasta que tus datos cuadran — y ya cuadraron.<br>
+        Si no se abre la pestaña, copia esta liga: <span class="liga">https://mpago.la/21HBfF5</span></p>
+      <div class="regreso">
+        <label for="f-folio">¿Ya pagaste? Escribe el número de operación que te dio Mercado Pago</label>
+        <div class="fila">
+          <input id="f-folio" inputmode="numeric" autocomplete="off" placeholder="p. ej. 1234567890">
+          <button class="link go" id="btn-confirmar" type="button">Desbloquear</button>
+        </div>
+        <p class="hint" id="folio-msg"></p>
+      </div>
+    </div>
+
+    <div class="pago-estado" id="pago-estado" hidden></div>
+
+    <div class="sim" id="simwrap" hidden>
+      <label for="f-meta">¿En cuántos años quieres terminar de pagar?</label>
+      <input type="range" id="f-meta" min="1" max="30" step="0.5" value="5">
+      <div class="meta-out">
+        <b id="meta-anios">—</b>
+        <span id="meta-abono">—</span>
+      </div>
+      <div class="manual">
+        <label for="f-abono">O dinos lo que puedes abonar al mes</label>
+        <span class="fld"><span class="pre">$</span><input id="f-abono" inputmode="decimal" value="3,000"></span>
+      </div>
+      <p class="simout" id="simout"></p>
+    </div>
+  </div>
+
+  <div class="card" id="doc-card" hidden>
+    <h2>Tu diagnóstico, en pantalla</h2>
+    <div class="doc" id="doc-vista"></div>
+    <div class="doc-pie">
+      <button class="link" id="btn-imprimir" type="button">Imprimir o guardar como PDF</button>
+      <button class="link" id="btn-copiar" type="button">Copiar mis números</button>
+      <span class="doc-msg" id="doc-msg"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Esto es una prueba. Tu opinión es lo que estamos buscando</h2>
+    <div class="prueba">
+      <p>Estamos probando la herramienta con un grupo pequeño antes de abrirla al público. Si algo no cargó, si los números no cuadraron con tu estado de cuenta, o si simplemente no se entendió, cuéntanoslo.</p>
+      <p><strong>Lo que más nos sirve es lo que salió mal.</strong> Si tu documento no se pudo leer, ése es justo el caso que necesitamos conocer.</p>
+      <a class="pagar" id="btn-feedback" href="#" rel="noopener">Mandar mi comentario</a>
+      <p class="chico">Por favor no mandes capturas con tu nombre, NSS, RFC o CURP a la vista: no los necesitamos para nada.</p>
+    </div>
+  </div>
+
+  <footer>
+    <div>El ejemplo cargado es un caso inventado; no corresponde a ningún acreditado real.</div>
+    <div>Es una proyección con supuestos, no una cotización del Infonavit ni asesoría legal o fiscal. Supone que tu descuento de nómina sigue igual.</div>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="pdfgen.js"></script>
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  function pdfjs(){
+    // se consulta al momento de usarlo: el CDN puede tardar en llegar
+    if(!window.pdfjsLib) return null;
+    try{
+      if(!window.pdfjsLib.GlobalWorkerOptions.workerSrc){
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      }
+    }catch(e){}
+    return window.pdfjsLib;
+  }
+
+  /* ================= utilidades ================= */
+  var MES = {enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,septiembre:9,octubre:10,noviembre:11,diciembre:12};
+  function nm(s){ if(s===null||s===undefined) return NaN; var t=String(s).replace(/[$,\s%]/g,""); return t===""?NaN:parseFloat(t); }
+  function money(n){ return isFinite(n) ? "$"+n.toLocaleString("es-MX",{minimumFractionDigits:2,maximumFractionDigits:2}) : "—"; }
+  function money0(n){ return isFinite(n) ? "$"+Math.round(n).toLocaleString("es-MX") : "—"; }
+  function iso(d){ return d ? d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2) : ""; }
+  function parseISO(s){ var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s||"")); return m?new Date(+m[1],+m[2]-1,+m[3]):null; }
+  function lastDay(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0).getDate(); }
+  function mk(d){ return d.getFullYear()*12+d.getMonth()+1+(d.getDate()>=lastDay(d)?1:0); }
+  function d360(a,b){ return (b.getFullYear()-a.getFullYear())*360+(b.getMonth()-a.getMonth())*30+(Math.min(b.getDate(),30)-Math.min(a.getDate(),30)); }
+  function addM(d,n){ var day=d.getDate(), t=new Date(d.getFullYear(), d.getMonth()+n, 1); t.setDate(Math.min(day,lastDay(t))); return t; }
+  var MM=["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
+  function mesAnio(d){ return MM[d.getMonth()]+" "+d.getFullYear(); }
+
+  /* ======== reconstrucción de líneas desde pdf.js ======== */
+  function lineasDe(items){
+    var filas = [];
+    for(var i=0;i<items.length;i++){
+      var it = items[i];
+      if(!it.str || !it.str.trim()) continue;
+      var y = Math.round(it.transform[5]), hit = null;
+      for(var k=0;k<filas.length;k++){ if(Math.abs(filas[k].y - y) <= 3){ hit = filas[k]; break; } }
+      if(!hit){ hit = {y:y, its:[]}; filas.push(hit); }
+      hit.its.push({x:it.transform[4], s:it.str});
+    }
+    filas.sort(function(a,b){ return b.y - a.y; });
+    return filas.map(function(f){
+      f.its.sort(function(a,b){ return a.x - b.x; });
+      return f.its.map(function(o){ return o.s; }).join(" ").replace(/\s+/g," ").trim();
+    });
+  }
+
+  /* ================= el lector del documento ================= */
+  function leerDocumento(lineas){
+    var txt = lineas.join("\n");
+    function buscar(rx){ var m = rx.exec(txt); return m ? m[1].trim() : null; }
+    function fLarga(s){
+      if(!s) return null;
+      var m = /(\d{1,2}) de ([a-zA-ZáéíóúÁÉÍÓÚ]+) de (\d{4})/.exec(s);
+      if(!m) return null;
+      var mes = MES[m[2].toLowerCase()];
+      return mes ? new Date(+m[3], mes-1, +m[1]) : null;
+    }
+    var H = {
+      tasa:    parseFloat(buscar(/Tasa de inter[eé]s\s+([\d.]+)\s*%/))/100,
+      capital: nm(buscar(/Saldo de capital\s+\$?\s*([\d,]+\.\d{2})/)),
+      interes: nm(buscar(/Saldo de inter[eé]s\s+\$?\s*([\d,]+\.\d{2})/)),
+      comis:   nm(buscar(/Comisiones\s+\$?\s*([\d,]+\.\d{2})/)),
+      total:   nm(buscar(/Saldo total del cr[eé]dito\s+\$?\s*([\d,]+\.\d{2})/)),
+      mcon:    nm(buscar(/Mensualidad con relaci[oó]n laboral\s+\$?\s*([\d,]+\.\d{2})/)),
+      msin:    nm(buscar(/Mensualidad sin relaci[oó]n laboral\s+\$?\s*([\d,]+\.\d{2})/)),
+      corte:   fLarga(buscar(/Fecha de corte estado de cuenta\s+(.+)/)),
+      tipoPago:buscar(/Tipo de pago\s+(\w+)/)
+    };
+    // candado: productos fuera de alcance
+    var U = txt.toUpperCase();
+    H.fuera = null;
+    if(/COFINANCIADO|INFONAVIT TOTAL/.test(U)) H.fuera = "cofinanciado";
+    else if(/VECES SALARIO M[IÍ]NIMO|\bVSM\b|\bUMA\b/.test(U)) H.fuera = "en VSM o UMA";
+    else if(/MEJORAVIT/.test(U)) H.fuera = "Mejoravit";
+
+    // movimientos
+    var MOV = /^(\d{2}\/\d{2}\/\d{4})\s+(\d{4}\s+[A-ZÁÉÍÓÚÑ.\s\/]+?)\s+(?:-|\d{3,4})\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)$/;
+    var movs = [];
+    for(var i=0;i<lineas.length;i++){
+      var m = MOV.exec(lineas[i].trim());
+      if(!m) continue;
+      var p = m[1].split("/");
+      movs.push({fecha:new Date(+p[2], +p[1]-1, +p[0]), concepto:m[2].trim(), monto:parseFloat(m[3])});
+    }
+    H.movs = movs;
+    return H;
+  }
+
+  /* ============ agregación de los movimientos ============ */
+  function agregar(movs){
+    var A = {n:movs.length, ok:false};
+    if(!movs.length) return A;
+    var pagos = movs.filter(function(m){ return /APORT\. PATRONAL|RETENC SALARIAL/.test(m.concepto); });
+    if(!pagos.length) return A;
+
+    // fechas en que entró un pago, sin repetir
+    var vistas = {}, fechas = [];
+    pagos.forEach(function(p){
+      var k = p.fecha.getFullYear()*10000 + (p.fecha.getMonth()+1)*100 + p.fecha.getDate();
+      if(!vistas[k]){ vistas[k] = 1; fechas.push(p.fecha); }
+    });
+    fechas.sort(function(a,b){ return a - b; });
+    A.ultimoPago = fechas[fechas.length-1];
+
+    // cada cuántos meses entran: la separación más habitual entre pagos
+    var saltos = [];
+    for(var i=1;i<fechas.length;i++){
+      saltos.push(Math.max(1, Math.round(((fechas[i]-fechas[i-1])/86400000)/30.44)));
+    }
+    A.periodicidad = 1;
+    if(saltos.length){
+      var orden = saltos.slice().sort(function(a,b){ return a-b; });
+      var med = orden[Math.floor(orden.length/2)];
+      if(med >= 1 && med <= 6) A.periodicidad = med;
+    }
+
+    // promedio de los últimos tres pagos: la misma regla del modelo en Excel,
+    // que evita arrastrar un movimiento parcial o un salario viejo
+    var usar = fechas.slice(-3), desde = usar[0];
+    A.eventos = usar.length;
+    A.meses = usar.length * A.periodicidad;
+    A.retencion = pagos.filter(function(p){ return /RETENC/.test(p.concepto) && p.fecha >= desde; })
+                       .reduce(function(a,b){ return a+b.monto; }, 0);
+    A.patronal  = pagos.filter(function(p){ return /PATRONAL/.test(p.concepto) && p.fecha >= desde; })
+                       .reduce(function(a,b){ return a+b.monto; }, 0);
+    A.retMes = A.retencion/A.meses; A.apMes = A.patronal/A.meses; A.salario = A.apMes/0.05;
+    var cuotas = movs.filter(function(m){ return /7011/.test(m.concepto); });
+    if(cuotas.length){
+      var maxC = Math.max.apply(null, cuotas.map(function(c){ return +c.fecha; }));
+      var trio = cuotas.filter(function(c){ return +c.fecha === maxC; })
+                       .map(function(c){ return c.monto; }).sort(function(a,b){ return b-a; });
+      A.cuotasPorMes = trio.length;
+      A.cuotaPct = trio.length >= 3 ? 0.01 : 0;
+      A.seguro = trio.length >= 3 ? trio[2] : (trio.length === 2 ? trio[1] : NaN);
+      A.perfil = trio.length >= 3 ? "sí paga cuota de administración" : "está exento de cuota de administración";
+    }
+    A.ok = isFinite(A.retMes) && isFinite(A.apMes) && isFinite(A.seguro);
+    return A;
+  }
+
+  /* ================= motor ================= */
+  function correr(p){
+    var s=p.saldo, i=p.interes, c=p.comis, dp=p.corte, ti=0, tc=0, fin=null;
+    for(var n=1;n<=700;n++){
+      if(s+i+c<=0) return {periodos:n-1, fin:fin, interes:ti, cargos:tc};
+      var d = n===1 ? p.primerPago : addM(p.primerPago, n-1);
+      var f = d360(dp,d), t = mk(d)-mk(dp);
+      var j = s*p.tasa/360*f, k = t*(s*p.cuotaPct/12 + p.fpp + p.seguro);
+      var per = p.periodicidad || 1;
+      var L = ((n-1) % per === 0) ? (p.pago + (p.abono||0)) * per : 0;
+      var mm = Math.min(L, c+k), nn = Math.min(L-mm, i+j), oo = Math.min(L-mm-nn, s);
+      ti += nn; tc += mm;
+      s = Math.round((s-oo)*100)/100; i = Math.round((i+j-nn)*100)/100; c = Math.round((c+k-mm)*100)/100;
+      fin = d; dp = d;
+    }
+    return {periodos:700, fin:fin, interes:ti, cargos:tc};
+  }
+
+  /* ================= estado y pintado ================= */
+  var AGG = null;
+  var MODO = "doc";   // "doc" = leído del estado de cuenta | "manual" = capturado a mano
+
+  function setModo(m){
+    MODO = m;
+    $("q-sueldo").hidden = (m !== "manual");
+    $("deduced-title").textContent = (m === "manual")
+      ? "LO QUE DEDUJIMOS DE TUS NÚMEROS"
+      : "LO QUE SACAMOS DE TUS MOVIMIENTOS";
+  }
+
+  function pintarCampos(H){
+    $("f-capital").value = isFinite(H.capital) ? H.capital.toLocaleString("es-MX",{minimumFractionDigits:2}) : "";
+    $("f-interes").value = isFinite(H.interes) ? H.interes.toLocaleString("es-MX",{minimumFractionDigits:2}) : "";
+    $("f-comis").value   = isFinite(H.comis)   ? H.comis.toLocaleString("es-MX",{minimumFractionDigits:2}) : "";
+    $("f-total").value   = isFinite(H.total)   ? H.total.toLocaleString("es-MX",{minimumFractionDigits:2}) : "";
+    $("f-tasa").value    = isFinite(H.tasa)    ? (H.tasa*100).toFixed(2) : "";
+    $("f-mcon").value    = isFinite(H.mcon)    ? H.mcon.toLocaleString("es-MX",{minimumFractionDigits:2}) : "";
+    $("f-msin").value    = isFinite(H.msin)    ? H.msin.toLocaleString("es-MX",{minimumFractionDigits:2}) : "";
+    $("f-corte").value   = iso(H.corte);
+  }
+
+  function pintarDeducido(A, fpp){
+    if(!A || !A.ok){
+      $("deduced-list").innerHTML = MODO === "manual"
+        ? "<li>Se llena solo en cuanto completes los números de arriba.</li>"
+        : "<li>Sube tu documento para verlo.</li>";
+      return;
+    }
+    if(A.manual){
+      $("deduced-list").innerHTML =
+        '<li>Tu último pago se aplicó hace <strong>'+A.dias+' días</strong>, contados al corte. Lo sacamos de tu saldo de interés.</li>' +
+        '<li>Tu seguro de desempleo es <strong>'+money(fpp)+'</strong> y el de daños <strong>'+money(A.seguro)+'</strong>.</li>' +
+        '<li>Tu crédito <strong>'+A.perfil+'</strong>.</li>' +
+        '<li>Tu patrón pone <strong>'+money(A.apMes)+'</strong> al mes en tu crédito.</li>';
+      return;
+    }
+    $("deduced-list").innerHTML =
+      '<li>Leímos <strong>'+A.n+' movimientos</strong> de tu historial.</li>' +
+      '<li>Tu último pago se aplicó el <strong>'+A.ultimoPago.toLocaleDateString("es-MX")+'</strong>, y tus pagos entran <strong>'+
+        (A.periodicidad === 1 ? "cada mes" : "cada " + A.periodicidad + " meses")+'</strong>.</li>' +
+      '<li>Te descuentan <strong>'+money(A.retMes)+'</strong> al mes y tu patrón pone <strong>'+money(A.apMes)+'</strong> más.</li>' +
+      '<li>De ahí sale tu salario: <strong>'+money0(A.salario)+'</strong> al mes.</li>' +
+      '<li>Tu seguro de desempleo es <strong>'+money(fpp)+'</strong> y el de daños <strong>'+money(A.seguro)+'</strong>.</li>' +
+      '<li>Tu crédito <strong>'+A.perfil+'</strong>.</li>';
+  }
+
+  function pintarTomado(H, A){
+    var filas = [
+      ["Saldo de capital", money(H.capital)],
+      ["Saldo de interés", money(H.interes)],
+      ["Comisiones", money(H.comis)],
+      ["Saldo total del crédito", money(H.total)],
+      ["Tasa de interés", isFinite(H.tasa) ? (H.tasa*100).toFixed(2)+" %" : "—"],
+      ["Mensualidad con relación laboral", money(H.mcon)],
+      ["Mensualidad sin relación laboral", money(H.msin)],
+      ["Fecha de corte", H.corte ? H.corte.toLocaleDateString("es-MX") : "—"],
+      ["Movimientos (fecha, concepto y monto)", (A && A.n ? A.n : 0) + " renglones"]
+    ];
+    var html = "<table><tbody>";
+    for(var i=0;i<filas.length;i++) html += "<tr><td>"+filas[i][0]+"</td><td>"+filas[i][1]+"</td></tr>";
+    html += "</tbody></table><p class=\"nota\">Esto es todo. Tu nombre, tu NSS, tu RFC, tu CURP y tu domicilio están en el documento y no aparecen aquí porque no se leen. Y nada de esta lista viajó a ningún servidor: está solo en la memoria de tu navegador y se borra al cerrar la página.</p>";
+    $("tomado-body").innerHTML = html;
+    $("tomado").hidden = false;
+  }
+
+  function leerCampos(){
+    return {
+      capital:nm($("f-capital").value), interes:nm($("f-interes").value), comis:nm($("f-comis").value),
+      total:nm($("f-total").value), tasa:nm($("f-tasa").value)/100,
+      mcon:nm($("f-mcon").value), msin:nm($("f-msin").value), corte:parseISO($("f-corte").value),
+      sueldo:nm($("f-sueldo").value)
+    };
+  }
+
+  /* ===== sin movimientos: lo que el propio recuadro ya implica ===== */
+  function derivarDeNumeros(v){
+    var D = {ok:false, manual:true};
+    if(!isFinite(v.capital) || !isFinite(v.interes) || !isFinite(v.tasa) || v.capital <= 0 || v.tasa <= 0) return D;
+    D.dias = Math.round(v.interes / (v.capital * v.tasa / 360));
+    if(!isFinite(D.dias) || D.dias < 0 || D.dias > 120 || !v.corte) return D;
+    D.ultimoPago = new Date(v.corte.getTime()); D.ultimoPago.setDate(D.ultimoPago.getDate() - D.dias);
+    D.meses = Math.max(1, mk(v.corte) - mk(D.ultimoPago));
+    if(!isFinite(v.mcon) || !isFinite(v.msin) || !isFinite(v.comis)) return D;
+    var fpp = Math.round((v.mcon - v.msin)*100)/100;
+    var cands = [
+      {cuotaPct:0.01, perfil:"sí paga cuota de administración",     seguro:(v.comis - D.meses*(v.capital*0.01/12 + fpp))/D.meses},
+      {cuotaPct:0,    perfil:"está exento de cuota de administración", seguro:(v.comis - D.meses*fpp)/D.meses}
+    ];
+    cands.sort(function(a,b){ return Math.abs(a.seguro-15) - Math.abs(b.seguro-15); });
+    var best = cands[0];
+    if(!(best.seguro > 0 && best.seguro < 120)) return D;
+    D.cuotaPct = best.cuotaPct; D.perfil = best.perfil; D.seguro = Math.round(best.seguro*100)/100;
+    if(!isFinite(v.sueldo) || v.sueldo <= 0) return D;
+    D.apMes = v.sueldo*0.05; D.retMes = v.mcon; D.salario = v.sueldo;
+    D.ok = true;
+    return D;
+  }
+
+  function calcular(){
+    var v = leerCampos();
+    var fpp = Math.round((v.mcon - v.msin)*100)/100;
+    var CTX = (AGG && AGG.ok) ? AGG : derivarDeNumeros(v);
+    pintarDeducido(CTX, fpp);
+
+    var sum = v.capital + v.interes + v.comis;
+    var malSuma = isFinite(sum) && isFinite(v.total) && Math.abs(sum - v.total) > 1;
+    ["f-capital","f-interes","f-comis","f-total"].forEach(function(id){ $(id).classList.toggle("bad", malSuma); });
+    $("w-total").textContent = malSuma
+      ? "no cuadra: los tres de arriba dan " + money(sum)
+      : "debe ser la suma de los tres de arriba";
+    $("w-msin").textContent = isFinite(fpp) && fpp > 0
+      ? "tu seguro de desempleo es " + money(fpp)
+      : "la diferencia es tu seguro de desempleo";
+
+    if(!CTX.ok || !v.corte || !isFinite(v.capital) || !isFinite(v.tasa) || malSuma){
+      $("nums").innerHTML = '<div class="num" style="grid-column:1/-1;"><span>' +
+        (MODO === "manual" ? "Se llenan solos en cuanto completes los números de arriba."
+                           : "Se llenan solos en cuanto leamos tu documento.") + '</span></div>';
+      $("simout").textContent = ""; $("cobro").hidden = true; $("simwrap").hidden = true;
+      return;
+    }
+    if(!$("c-obligatorio").checked){
+      $("nums").innerHTML = '<div class="num" style="grid-column:1/-1;"><span>Tus números están listos. Marca la casilla del aviso de privacidad aquí arriba para verlos.</span></div>';
+      $("simout").textContent = ""; $("cobro").hidden = true; $("simwrap").hidden = true;
+      return;
+    }
+    var p = {
+      saldo:v.capital, interes:v.interes, comis:v.comis, tasa:v.tasa,
+      cuotaPct:CTX.cuotaPct, fpp:fpp, seguro:CTX.seguro,
+      pago:CTX.retMes + CTX.apMes, periodicidad:CTX.periodicidad || 1,
+      corte:v.corte, primerPago:addM(CTX.ultimoPago, CTX.periodicidad || 1), abono:0
+    };
+    var base = correr(p);
+    var pagado = (PAGO === "aprobado");
+    var L = pagado ? "" : " lock";
+    var per = p.periodicidad || 1;
+    var nPagos = Math.ceil(base.periodos / per);
+    $("nums").innerHTML =
+      '<div class="num"><b>'+nPagos+' pagos</b><span>te faltan, al ritmo de hoy — unos '+(base.periodos/12).toFixed(1)+' años</span></div>' +
+      '<div class="num'+L+'"><b>'+(base.fin?mesAnio(base.fin):"—")+'</b><span>terminarías de pagar</span></div>' +
+      '<div class="num'+L+'"><b>'+money0(base.interes+base.cargos)+'</b><span>pagarías de intereses, seguros y cuotas en el camino</span></div>' +
+      '<div class="num'+L+'"><b>'+money0(CTX.apMes)+'</b><span>pone tu patrón cada mes, además de tu descuento</span></div>';
+    $("cobro").hidden = pagado;
+    $("simwrap").hidden = !pagado;
+    ULTIMO = {v:v, CTX:CTX, base:base, p:p, fpp:fpp};
+    guardarBorrador();
+    if(pagado) configurarMeta(p, base);
+  }
+
+  /* ===== la pregunta al revés: ¿cuánto abonar para terminar en X años? =====
+     El libro lo interpola sobre seis puntos; aquí se busca el abono exacto. */
+  var META_MAX = null;
+
+  function abonoParaMeta(p, meta){
+    function plazo(ab){
+      var q = {}; for(var k in p) q[k] = p[k];
+      q.abono = ab; return correr(q).periodos;
+    }
+    if(plazo(0) <= meta) return 0;
+    var hi = p.saldo + p.interes + p.comis, lo = 0;
+    if(plazo(hi) > meta) return null;
+    for(var i=0;i<38;i++){
+      var mid = (lo+hi)/2;
+      if(plazo(mid) > meta) lo = mid; else hi = mid;
+    }
+    return Math.ceil(hi/50)*50;   // redondeo hacia arriba: nunca queda corto
+  }
+
+  function configurarMeta(p, base){
+    var maxA = Math.max(1, Math.ceil(base.periodos/12));
+    var s = $("f-meta");
+    s.min = 1; s.step = 0.5; s.max = maxA;
+    if(META_MAX !== maxA){ META_MAX = maxA; s.value = Math.max(1, Math.round(maxA*0.6*2)/2); }
+    if(+s.value > maxA) s.value = maxA;
+    metaRender(p, base);
+  }
+
+  function metaRender(p, base){
+    var anios = parseFloat($("f-meta").value);
+    var meta = Math.max(1, Math.round(anios*12));
+    var ab = abonoParaMeta(p, meta);
+    $("meta-anios").textContent = (anios % 1 === 0 ? anios : anios.toFixed(1)) + (anios === 1 ? " año" : " años");
+    if(ab === null){
+      $("meta-abono").innerHTML = "ni liquidando de golpe se alcanza ese plazo.";
+      return;
+    }
+    if(ab <= 0){
+      $("meta-abono").innerHTML = "es tu plazo de hoy: <strong>no necesitas abonar nada</strong>.";
+      $("f-abono").value = "0";
+      $("simout").textContent = "";
+      return;
+    } else {
+      $("meta-abono").innerHTML = "necesitas abonar <strong>" + money0(ab) + "</strong> al mes.";
+      $("f-abono").value = Math.round(ab).toLocaleString("es-MX");
+    }
+    simular(p, base);
+  }
+
+  function simular(p, base){
+    var ab = nm($("f-abono").value);
+    if(!isFinite(ab) || ab <= 0){ $("simout").textContent = "Escribe un monto para ver cuánto se acorta."; return; }
+    var q = {}; for(var k in p) q[k] = p[k];
+    q.abono = ab;
+    var con = correr(q);
+    var pr = p.periodicidad || 1;
+    var menos = Math.ceil(base.periodos/pr) - Math.ceil(con.periodos/pr);
+    $("simout").innerHTML = "Abonando <b>"+money0(ab)+"</b> al mes acabarías en <b>"+
+      (con.fin?mesAnio(con.fin):"—")+"</b>: son <b>"+menos+" pagos menos</b> y dejarías de pagar <b>"+
+      money0((base.interes+base.cargos)-(con.interes+con.cargos))+"</b> de intereses y cargos.";
+  }
+
+  function estado(clase, texto){
+    var s = $("status");
+    s.className = "status on " + clase;
+    s.textContent = texto;
+  }
+
+  function aplicar(H, fuente){
+    if(H.fuera){
+      $("gate").className = "gate on";
+      $("gate").textContent = "Tu crédito aparece como " + H.fuera + ". Este diagnóstico todavía no cubre ese producto, así que no seguimos: escríbenos y lo vemos contigo, sin costo.";
+    } else {
+      $("gate").className = "gate";
+    }
+    setModo("doc");
+    PAGO = "no"; FOLIO = null; REF_PAGO = null; pintarPago();
+    if(fuente !== "un documento de ejemplo"){ EJEMPLO = false; $("aviso-ejemplo").hidden = true; }
+    $("doc-card").hidden = true;
+    AGG = agregar(H.movs || []);
+    pintarCampos(H);
+    pintarTomado(H, AGG);
+    calcular();
+    var faltan = [];
+    ["capital","interes","comis","total","mcon","msin","tasa"].forEach(function(k){ if(!isFinite(H[k])) faltan.push(k); });
+    if(!H.corte) faltan.push("fecha de corte");
+    if(faltan.length){
+      estado("bad", "Leí el documento pero no encontré todo (" + faltan.length + " datos). Revísalos abajo y corrige lo que falte.");
+    } else if(AGG.ok){
+      estado("ok", "Listo: " + AGG.n + " movimientos leídos" + (fuente ? " de " + fuente : "") + ". Confirma abajo que son tus números.");
+    } else {
+      estado("bad", "Leí tus saldos pero no encontré los movimientos. Súbelo completo, con todas las hojas.");
+    }
+  }
+
+  /* ================= entradas ================= */
+  async function leerPDF(file){
+    var lib = pdfjs();
+    if(!lib){ estado("bad", "No se pudo cargar el lector de PDF. Usa la opción de pegar el texto."); $("fallback").open = true; return; }
+    estado("work", "Leyendo tu documento en tu dispositivo…");
+    try{
+      var buf = await file.arrayBuffer();
+      var doc = await lib.getDocument({data:new Uint8Array(buf)}).promise;
+      var lineas = [];
+      for(var i=1;i<=doc.numPages;i++){
+        var page = await doc.getPage(i);
+        var tc = await page.getTextContent();
+        lineas = lineas.concat(lineasDe(tc.items));
+      }
+      if(!lineas.length){
+        estado("bad", "Ese PDF no trae texto: parece escaneado o una foto. Usa la opción de pegar el texto o captúralo a mano.");
+        return;
+      }
+      aplicar(leerDocumento(lineas), doc.numPages + " hojas");
+    }catch(e){
+      estado("bad", "No pude abrir ese archivo. Asegúrate de que sea el PDF del estado de cuenta histórico.");
+    }
+  }
+
+  $("file").addEventListener("change", function(e){
+    var f = e.target.files && e.target.files[0];
+    if(!f) return;
+    $("drop-title").textContent = f.name;
+    leerPDF(f);
+  });
+  ["dragenter","dragover"].forEach(function(ev){
+    $("drop").addEventListener(ev, function(e){ e.preventDefault(); $("drop").classList.add("over"); });
+  });
+  ["dragleave","drop"].forEach(function(ev){
+    $("drop").addEventListener(ev, function(e){ e.preventDefault(); $("drop").classList.remove("over"); });
+  });
+  $("drop").addEventListener("drop", function(e){
+    var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if(f){ $("drop-title").textContent = f.name; leerPDF(f); }
+  });
+
+  $("btn-paste").addEventListener("click", function(){
+    var t = $("paste").value;
+    if(!t.trim()){ estado("bad", "Pega primero el texto de tu documento."); return; }
+    aplicar(leerDocumento(t.split(/\r?\n/)), "el texto pegado");
+  });
+
+  /* ===== circuito de cobro =====
+     En producción: la preferencia se crea en el servidor, el acreditado sale a Mercado
+     Pago y vuelve a back_urls. El desbloqueo NO depende del parámetro de la URL: la
+     página le pregunta al servidor por el estado de SU folio, y el servidor solo lo marca
+     pagado cuando el webhook fue verificado contra la API con el access token.
+     Las cifras del diagnóstico nunca viajan: sobreviven al redirect en el propio
+     dispositivo y se restauran al volver. */
+  var EJEMPLO = false;      // true mientras se muestra el caso inventado
+  var REF_PAGO = null;      // número de operación que reporta el acreditado
+  var PAGO = "no";          // no | aprobado | pendiente | rechazado
+  var FOLIO = null;
+  var ULTIMO = null;        // último cálculo, para armar el PDF
+
+  /* ===== entregable: el PDF se arma en el dispositivo, sin librerías externas ===== */
+  var MESES_L = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
+                 "septiembre","octubre","noviembre","diciembre"];
+  function fechaLarga(d){ return d.getDate() + " de " + MESES_L[d.getMonth()] + " de " + d.getFullYear(); }
+
+  function datosPDF(){
+    if(!ULTIMO || !window.OrientaPDF) return null;
+    var v = ULTIMO.v, C = ULTIMO.CTX, base = ULTIMO.base;
+    var ab = nm($("f-abono").value), con = null;
+    if(isFinite(ab) && ab > 0){
+      var q = {}; for(var k in ULTIMO.p) q[k] = ULTIMO.p[k];
+      q.abono = ab; con = correr(q);
+    }
+    var cap = [
+      ["Saldo de capital", money(v.capital)],
+      ["Saldo de interés", money(v.interes)],
+      ["Comisiones", money(v.comis)],
+      ["Saldo total del crédito", money(v.total)],
+      ["Tasa de interés anual", (v.tasa*100).toFixed(2) + " %"],
+      ["Mensualidad con relación laboral", money(v.mcon)],
+      ["Mensualidad sin relación laboral", money(v.msin)],
+      ["Fecha de corte", fechaLarga(v.corte)]
+    ];
+    var ded = [];
+    if(C.manual){
+      ded.push(["Días del último pago al corte", C.dias + " días"]);
+      ded.push(["Sueldo que declaraste", money0(C.salario)]);
+    } else {
+      ded.push(["Movimientos leídos", C.n + " renglones"]);
+      ded.push(["Último pago aplicado", fechaLarga(C.ultimoPago)]);
+      ded.push(["Tus pagos entran", C.periodicidad === 1 ? "cada mes" : "cada " + C.periodicidad + " meses"]);
+      ded.push(["Retención mensual", money(C.retMes)]);
+      ded.push(["Aportación patronal mensual", money(C.apMes)]);
+      ded.push(["Salario mensual integrado", money0(C.salario)]);
+    }
+    ded.push(["Seguro de desempleo", money(ULTIMO.fpp)]);
+    ded.push(["Seguro de daños", money(C.seguro)]);
+    ded.push(["Cuota de administración", C.cuotaPct ? "sí la paga" : "está exento"]);
+
+    var per = ULTIMO.p.periodicidad || 1;
+    return {
+      folio: FOLIO || "—",
+      fecha: fechaLarga(new Date()),
+      pagos: Math.ceil(base.periodos/per),
+      anios: (base.periodos/12).toFixed(1),
+      fechaFin: base.fin ? mesAnio(base.fin) : "—",
+      costo: money0(base.interes + base.cargos),
+      patronal: money0(C.apMes),
+      abono: money0(ab),
+      abonoFin: con && con.fin ? mesAnio(con.fin) : "—",
+      abonoMenos: con ? (Math.ceil(base.periodos/per) - Math.ceil(con.periodos/per)) : 0,
+      abonoAhorro: con ? money0((base.interes+base.cargos)-(con.interes+con.cargos)) : "—",
+      capturado: cap,
+      deducido: ded,
+      avisoVersion: AVISO_VERSION,
+      consentido: CONSENT ? new Date(CONSENT.fecha).toLocaleString("es-MX") : "—"
+    };
+  }
+
+  /* ===== el mismo diagnóstico, pintado en la página =====
+     No necesita permisos ni descargas: siempre funciona. */
+  function textoPlano(d){
+    var l = ["DIAGNÓSTICO HABÍTALO ORIENTA · folio " + d.folio + " · " + d.fecha, "",
+             "Te faltan " + d.pagos + " pagos (unos " + d.anios + " años).",
+             "Terminarías de pagar en " + d.fechaFin + ".",
+             "Pagarías " + d.costo + " de intereses, seguros y cuotas.",
+             "Tu patrón pone " + d.patronal + " al mes, además de tu descuento.", ""];
+    if(d.abonoMenos) l.push("Abonando " + d.abono + " al mes: acabarías en " + d.abonoFin +
+                            ", " + d.abonoMenos + " pagos menos, y te ahorrarías " + d.abonoAhorro + ".", "");
+    l.push("DE TU ESTADO DE CUENTA");
+    d.capturado.forEach(function(f){ l.push("  " + f[0] + ": " + f[1]); });
+    l.push("", "DEDUCIDO DE TUS MOVIMIENTOS");
+    d.deducido.forEach(function(f){ l.push("  " + f[0] + ": " + f[1]); });
+    l.push("", "Es una proyección con supuestos, no una cotización del Infonavit",
+           "ni asesoría legal o fiscal.");
+    return l.join("\n");
+  }
+
+  function filasHTML(pares){
+    return "<table><tbody>" + pares.map(function(f){
+      return "<tr><td>" + f[0] + "</td><td>" + f[1] + "</td></tr>";
+    }).join("") + "</tbody></table>";
+  }
+
+  function pintarDocumento(){
+    var d = datosPDF();
+    if(!d) return false;
+    var h = '<h3>Así vas hoy, sin cambiar nada</h3><div class="grande">' +
+      '<div><b>' + d.pagos + ' pagos</b><span>te faltan, unos ' + d.anios + ' años</span></div>' +
+      '<div><b>' + d.fechaFin + '</b><span>terminarías de pagar</span></div>' +
+      '<div><b>' + d.costo + '</b><span>pagarías de intereses, seguros y cuotas</span></div>' +
+      '<div><b>' + d.patronal + '</b><span>pone tu patrón cada mes, además de tu descuento</span></div></div>';
+    if(d.abonoMenos){
+      h += '<div class="caja"><b>Si abonas ' + d.abono + ' cada mes:</b> acabarías en <b>' + d.abonoFin +
+           '</b>, son <b>' + d.abonoMenos + ' pagos menos</b>, y dejarías de pagar <b>' + d.abonoAhorro +
+           '</b> de intereses y cargos.</div>';
+    }
+    h += '<h3>De dónde salen estos números</h3>' +
+         '<div class="sub">Lo que dice tu estado de cuenta</div>' + filasHTML(d.capturado) +
+         '<div class="sub">Lo que dedujimos de tus movimientos</div>' + filasHTML(d.deducido);
+    h += '<h3>Antes de decidir</h3><ul>' +
+         '<li>Es una proyección, no una cotización del Infonavit. Para cualquier trámite manda la cifra que el Infonavit te dé por escrito.</li>' +
+         '<li>Supone que tu descuento de nómina sigue igual y que conservas tu relación laboral.</li>' +
+         '<li>Al hacer un abono, pide expresamente que se aplique a capital.</li>' +
+         '<li>No es asesoría legal ni fiscal, ni recomendación de inversión.</li></ul>' +
+         '<div class="folio-doc">Folio ' + d.folio + ' · ' + d.fecha +
+         ' · aviso de privacidad versión ' + d.avisoVersion + '</div>';
+    $("doc-vista").innerHTML = h;
+    $("doc-card").hidden = false;
+    return true;
+  }
+
+  $("btn-imprimir").addEventListener("click", function(){
+    try{ window.print(); }
+    catch(e){ $("doc-msg").textContent = "Tu navegador no dejó abrir la impresión; toma una captura de pantalla."; }
+  });
+
+  $("btn-copiar").addEventListener("click", async function(){
+    var d = datosPDF();
+    if(!d) return;
+    try{
+      await navigator.clipboard.writeText(textoPlano(d));
+      $("doc-msg").textContent = "Copiado. Ya lo puedes pegar en WhatsApp o en un correo.";
+    }catch(e){
+      $("doc-msg").textContent = "Tu navegador no dejó copiar; selecciona el texto de arriba a mano.";
+    }
+  });
+
+  function msgPDF(clase, texto){
+    var m = $("pdf-msg");
+    if(!m) return;
+    m.hidden = false;
+    m.className = "pdf-msg " + clase;
+    m.innerHTML = texto;
+  }
+
+  async function descargarPDF(btn){
+    var d = datosPDF();
+    if(!d){
+      msgPDF("bad", "No pude armar el documento. Recarga la página y vuelve a intentarlo; si sigue igual, escríbele a Habítalo.");
+      return;
+    }
+    var bytes, nombre = "Diagnostico_Orienta_" + (FOLIO || "s-n") + ".pdf";
+    try{
+      bytes = window.OrientaPDF.diagnostico(d);
+    }catch(e){
+      msgPDF("bad", "No pude armar el documento. Escríbele a Habítalo con tu folio <b>" + (FOLIO || "—") + "</b> y te lo mandamos.");
+      return;
+    }
+
+    var etiqueta = btn.textContent;
+    btn.disabled = true; btn.textContent = "Preparando…";
+
+    // ¿estamos dentro del visor de Claude o en un sitio normal?
+    var enVisor = !!(window.claude && window.claude.use);
+    var dl = null;
+    try{ if(enVisor) dl = await window.claude.use("downloads"); }catch(e){ dl = null; }
+
+    if(dl){
+      try{
+        await dl.save({filename:nombre, data:new Blob([bytes], {type:"application/pdf"})});
+        btn.textContent = "Descargado";
+        msgPDF("ok", "Listo, tu diagnóstico quedó guardado como <b>" + nombre + "</b>.");
+      }catch(e){
+        btn.textContent = etiqueta;
+        if(e && e.code === "declined"){
+          msgPDF("warn", "Cancelaste la descarga. Puedes volver a intentarlo cuando quieras.");
+        } else {
+          msgPDF("bad", "No se pudo guardar el archivo. Escríbele a Habítalo con tu folio <b>" + (FOLIO || "—") + "</b> y te lo mandamos.");
+        }
+      }
+      btn.disabled = false;
+      return;
+    }
+
+    var url = URL.createObjectURL(new Blob([bytes], {type:"application/pdf"}));
+
+    if(!enVisor){
+      // sitio propio: la descarga normal funciona
+      var a = document.createElement("a");
+      a.href = url; a.download = nombre; a.rel = "noopener";
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 8000);
+      btn.textContent = etiqueta; btn.disabled = false;
+      msgPDF("ok", "Si la descarga no empezó sola, revisa el bloqueador de tu navegador.");
+      return;
+    }
+
+    // dentro del visor y sin permiso de descarga: último intento, abrirlo en otra pestaña
+    var w = null;
+    try{ w = window.open(url, "_blank"); }catch(e){ w = null; }
+    btn.textContent = etiqueta; btn.disabled = false;
+    if(w){
+      msgPDF("ok", "Tu diagnóstico se abrió en otra pestaña. Desde ahí puedes guardarlo o imprimirlo.");
+    } else {
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+      var hay = pintarDocumento();
+      if(hay){
+        msgPDF("ok", "Esta vista no deja guardar archivos, así que te dejamos <b>tu diagnóstico completo aquí abajo</b>. Puedes imprimirlo, guardarlo como PDF desde tu navegador, copiarlo para WhatsApp o tomarle una captura.");
+        $("doc-card").scrollIntoView({behavior:"smooth", block:"start"});
+      } else {
+        msgPDF("warn", "Esta vista compartida no permite guardar archivos. Tus números están completos arriba: tómales una captura, o pídele el documento a Habítalo con tu folio <b>" + (FOLIO || "—") + "</b>.");
+      }
+    }
+  }
+
+  function nuevoFolio(){
+    return "ORI-" + new Date().toISOString().slice(0,10).replace(/-/g,"") + "-" +
+           Math.random().toString(36).slice(2,7).toUpperCase();
+  }
+
+  function guardarBorrador(){
+    // sobrevive al redirect a Mercado Pago sin salir del dispositivo
+    try{
+      var v = leerCampos();
+      sessionStorage.setItem("orienta.borrador", JSON.stringify({
+        campos:{
+          capital:$("f-capital").value, interes:$("f-interes").value, comis:$("f-comis").value,
+          total:$("f-total").value, tasa:$("f-tasa").value, mcon:$("f-mcon").value,
+          msin:$("f-msin").value, corte:$("f-corte").value, sueldo:$("f-sueldo").value
+        },
+        modo:MODO, folio:FOLIO, pago:PAGO
+      }));
+    }catch(e){ /* navegador sin almacenamiento: el flujo sigue, solo no sobrevive al redirect */ }
+  }
+
+  function pintarPago(){
+    var e = $("pago-estado");
+    if(PAGO === "no"){ e.hidden = true; return; }
+    e.hidden = false;
+    if(PAGO === "aprobado"){
+      e.className = "pago-estado ok";
+      e.innerHTML = "<div><strong>Pago recibido.</strong> Tu diagnóstico completo está abajo, ya con el simulador de abonos.</div>" +
+                    '<button class="descargar" id="btn-pdf" type="button">Descargar mi diagnóstico (PDF)</button>' +
+                    '<p class="pdf-msg" id="pdf-msg" hidden></p>' +
+                    '<div class="folio">Folio ' + FOLIO +
+                    (REF_PAGO ? " · pago " + REF_PAGO : "") + "</div>";
+      $("btn-pdf").addEventListener("click", function(){ descargarPDF(this); });
+    } else if(PAGO === "pendiente"){
+      e.className = "pago-estado esperando";
+      e.innerHTML = "<div><strong>Tu pago en efectivo todavía no se acredita.</strong> Puede tardar unas horas. Déjanos tu correo y te avisamos en cuanto entre; no tienes que dejar esta página abierta.</div>" +
+                    '<div class="correo"><input id="f-correo" type="email" placeholder="tu@correo.com"><button class="link" id="btn-correo" type="button">Avísenme</button></div>' +
+                    '<div class="folio">Folio ' + FOLIO + "</div>";
+      var b = $("btn-correo");
+      if(b) b.addEventListener("click", function(){
+        var c = $("f-correo").value.trim();
+        if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c)){ $("f-correo").classList.add("bad"); return; }
+        e.className = "pago-estado ok";
+        e.innerHTML = "<div><strong>Listo.</strong> Te escribimos a " + c + " en cuanto se acredite tu pago.</div>" +
+                      '<div class="folio">Folio ' + FOLIO + "</div>";
+      });
+    } else {
+      e.className = "pago-estado mal";
+      e.innerHTML = "<div><strong>El pago no se completó.</strong> No se te cobró nada. Puedes intentar otra vez con otro método.</div>";
+    }
+  }
+
+  /* El cobro es por liga de Mercado Pago: la página no puede verificar el pago,
+     así que se pide el número de operación y queda como rastro para cotejarlo. */
+  $("btn-pagar").addEventListener("click", function(){
+    guardarBorrador();
+    $("folio-msg").className = "hint";
+    $("folio-msg").textContent = "Cuando termines de pagar, regresa a esta pestaña y escribe aquí tu número de operación.";
+  });
+
+  $("btn-confirmar").addEventListener("click", function(){
+    var ref = $("f-folio").value.replace(/[^0-9A-Za-z-]/g, "");
+    if(ref.length < 6){
+      $("folio-msg").className = "hint err";
+      $("folio-msg").textContent = "Escribe el número de operación completo: Mercado Pago te lo da al terminar el pago, en el comprobante.";
+      $("f-folio").classList.add("bad");
+      return;
+    }
+    $("f-folio").classList.remove("bad");
+    REF_PAGO = ref;
+    FOLIO = nuevoFolio();
+    PAGO = "aprobado";
+    pintarPago();
+    calcular();
+    $("pago-estado").scrollIntoView({behavior:"smooth", block:"center"});
+  });
+
+  /* ===== consentimiento: se registra cuándo y contra qué versión del aviso ===== */
+  var AVISO_VERSION = "1.0";
+  var CONSENT = null;
+
+  function marcarConsentimiento(){
+    var ok = $("c-obligatorio").checked;
+    if(ok && !CONSENT){
+      CONSENT = {
+        fecha: new Date().toISOString(),
+        aviso: AVISO_VERSION,
+        adicionales: $("c-opcional").checked
+      };
+    } else if(!ok){
+      CONSENT = null;
+    } else {
+      CONSENT.adicionales = $("c-opcional").checked;
+    }
+    var r = $("registro");
+    if(CONSENT){
+      r.hidden = false;
+      r.textContent = "Consentimiento registrado el " + new Date(CONSENT.fecha).toLocaleString("es-MX") +
+                      " · aviso versión " + CONSENT.aviso +
+                      " · finalidades adicionales: " + (CONSENT.adicionales ? "aceptadas" : "no aceptadas");
+    } else {
+      r.hidden = true;
+    }
+    calcular();
+  }
+
+  $("c-obligatorio").addEventListener("change", marcarConsentimiento);
+  $("c-opcional").addEventListener("change", marcarConsentimiento);
+
+
+  $("f-meta").addEventListener("input", function(){
+    if(ULTIMO && !$("simwrap").hidden) metaRender(ULTIMO.p, ULTIMO.base);
+  });
+
+  document.addEventListener("input", function(e){
+    if(e.target.id === "f-meta") return;                       // tiene su propio manejador
+    if(e.target.id === "f-abono"){                             // el acreditado escribió su monto
+      if(ULTIMO && !$("simwrap").hidden) simular(ULTIMO.p, ULTIMO.base);
+      return;
+    }
+    if(e.target.closest("#campos")) calcular();
+  });
+
+  /* ============ ejemplo precargado ============ */
+  function ejemplo(){
+    var mov = [], y = 2026;
+    var cuotas = [449.57,445.89,442.17,438.42,434.63,430.81];
+    for(var i=0;i<6;i++){
+      var mes = 2+i;
+      mov.push({fecha:new Date(y,mes-1,7), concepto:"8880 APORT. PATRONAL", monto:1900.00});
+      mov.push({fecha:new Date(y,mes-1,7), concepto:"8880 RETENC SALARIAL", monto:7775.98});
+      var ult = new Date(y,mes,0).getDate();
+      mov.push({fecha:new Date(y,mes-1,ult), concepto:"7011 SEGURO/COMISION", monto:cuotas[i]});
+      mov.push({fecha:new Date(y,mes-1,ult), concepto:"7011 SEGURO/COMISION", monto:143.60});
+      mov.push({fecha:new Date(y,mes-1,ult), concepto:"7011 SEGURO/COMISION", monto:11.13});
+    }
+    aplicar({
+      tasa:0.1045, capital:512340.55, interes:3569.31, comis:581.68, total:516491.54,
+      mcon:7761.68, msin:7618.08, corte:new Date(2026,7,1), tipoPago:"FIJO", fuera:null, movs:mov
+    }, "un documento de ejemplo");
+    EJEMPLO = true;
+    $("aviso-ejemplo").hidden = false;
+    estado("ok", "Ejemplo cargado: 30 movimientos de un crédito inventado. Sube tu propio documento para ver tus números.");
+  }
+  $("btn-demo").addEventListener("click", ejemplo);
+
+  /* arranca en blanco: nadie debe ver números que no son suyos */
+  function vaciar(mensaje){
+    EJEMPLO = false;
+    $("aviso-ejemplo").hidden = true;
+    AGG = null; ULTIMO = null; META_MAX = null;
+    PAGO = "no"; FOLIO = null; REF_PAGO = null; $("f-folio").value = ""; $("folio-msg").textContent = "";
+    setModo("doc");
+    ["f-capital","f-interes","f-comis","f-total","f-tasa","f-mcon","f-msin","f-corte","f-sueldo"].forEach(function(id){ $(id).value = ""; });
+    $("c-obligatorio").checked = false; $("c-opcional").checked = false; CONSENT = null;
+    $("registro").hidden = true;
+    $("gate").className = "gate";
+    $("tomado").hidden = true;
+    $("doc-card").hidden = true;
+    $("drop-title").textContent = "Elige tu archivo PDF";
+    $("paste").value = "";
+    pintarPago();
+    calcular();
+    if(mensaje) estado("ok", mensaje);
+    else { var s = $("status"); s.className = "status"; s.textContent = ""; }
+  }
+  $("btn-vaciar").addEventListener("click", function(){
+    vaciar("Listo, la pantalla quedó en blanco. Sube tu estado de cuenta cuando quieras.");
+  });
+
+  $("btn-manual").addEventListener("click", function(){
+    AGG = null;
+    EJEMPLO = false; $("aviso-ejemplo").hidden = true;
+    setModo("manual");
+    PAGO = "no"; FOLIO = null; REF_PAGO = null; pintarPago();
+    ["f-capital","f-interes","f-comis","f-total","f-tasa","f-mcon","f-msin","f-corte","f-sueldo"].forEach(function(id){ $(id).value = ""; });
+    $("gate").className = "gate";
+    $("tomado").hidden = true;
+    $("drop-title").textContent = "Elige tu archivo PDF";
+    estado("ok", "Captura a mano: tu documento no se abre en ningún momento. Copia los ocho números del recuadro de saldos de la primera hoja.");
+    calcular();
+    $("campos").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+
+  /* ------------------------------------------------------------------
+     PRUEBA CON VOLUNTARIOS — a dónde llegan los comentarios
+
+     Escribe tu WhatsApp entre las comillas de abajo: lada del país y
+     número, SOLO NÚMEROS, sin +, sin espacios y sin guiones.
+     México: 52 y luego los 10 dígitos.  Ejemplo: "529981234567"
+
+     Si lo dejas vacío, el botón manda un correo a contacto@habitalo.com.mx.
+     ------------------------------------------------------------------ */
+  var WHATSAPP = "";
+
+  function ligaComentario(){
+    var f = (typeof FOLIO !== "undefined" && FOLIO) ? " (folio " + FOLIO + ")" : "";
+    var t = "Hola, probé Habítalo Orienta" + f + " y les quiero contar: ";
+    var w = WHATSAPP.replace(/[^0-9]/g, "");
+    if(w.length >= 10){
+      return {u:"https://wa.me/" + w + "?text=" + encodeURIComponent(t), nueva:true};
+    }
+    return {u:"mailto:contacto@habitalo.com.mx?subject=" + encodeURIComponent("Prueba de Orienta" + f) +
+              "&body=" + encodeURIComponent(t), nueva:false};
+  }
+
+  $("btn-feedback").addEventListener("click", function(e){
+    e.preventDefault();
+    var l = ligaComentario();
+    if(l.nueva) window.open(l.u, "_blank", "noopener"); else location.href = l.u;
+  });
+
+  vaciar();
+})();
+</script>
+
+</body>
+</html>
