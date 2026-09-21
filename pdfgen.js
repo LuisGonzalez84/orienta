@@ -169,6 +169,13 @@
     p.linea(MARGEN, y + 5, W - MARGEN, y + 5, RAYA, 0.5);
     return y + 17;
   }
+  /* fila compacta para dos columnas */
+  function fila2(p, x, w, y, etiqueta, valor){
+    p.texto(x, y, etiqueta, {size: 8.5, color: SUAVE});
+    p.texto(x + w, y, valor, {size: 8.5, bold: true, align: "right", color: TINTA});
+    p.linea(x, y + 5, x + w, y + 5, RAYA, 0.5);
+    return y + 15;
+  }
   function vinetas(p, y, items, size){
     size = size || 9.5;
     for (var i = 0; i < items.length; i++){
@@ -310,7 +317,7 @@
   /* ================= el documento =================
      d lleva TODO ya calculado por el motor. Ver datosPDF() en la página. */
   function diagnostico(d){
-    var DE = 6, y, i;
+    var DE = 4, y, i;
 
     /* ---------- 1. el hallazgo ---------- */
     var p1 = new Pagina();
@@ -387,103 +394,75 @@
 
     pie(p2, "Habítalo Orienta · Proyección con supuestos, no una cotización del Infonavit.", 2, DE);
 
-    /* ---------- 3. la tabla ---------- */
+    /* ---------- 3. cómo comprobar: pagos, predicción e insumos ---------- */
     var p3 = new Pagina();
-    encabezado(p3, "Tu crédito, año por año", d.folio, d.fecha);
+    encabezado(p3, "Cómo comprobar estos números", d.folio, d.fecha);
 
     y = 116;
-    y = seccion(p3, y, "Al ritmo de hoy, sin abonar");
-    y = tabla(p3, y, [["Año", 12, "left"], ["Saldo inicial", 22, "right"], ["Pagado", 20, "right"],
-                      ["Intereses y cargos", 24, "right"], ["A capital", 20, "right"], ["Saldo final", 22, "right"]],
-              d.anual, {alto: 14});
-
-    y += 6;
-    y = seccion(p3, y, "Abonando " + d.elegido.abono + " cada mes");
-    y = tabla(p3, y, [["Año", 12, "left"], ["Saldo inicial", 22, "right"], ["Pagado", 20, "right"],
-                      ["Intereses y cargos", 24, "right"], ["A capital", 20, "right"], ["Saldo final", 22, "right"]],
-              d.anualAb, {alto: 14});
-
-    pie(p3, "Habítalo Orienta · Cada renglón sale del mismo motor que calculó tus números.", 3, DE);
-
-    /* ---------- 4. comprobación y avisos ---------- */
-    var p4 = new Pagina();
-    encabezado(p4, "Cómo comprobar estos números", d.folio, d.fecha);
-
-    y = 116;
-    y = seccion(p4, y, "Tus siguientes pagos " + d.frecuencia + ", uno por uno");
-    y = tabla(p4, y, [["Pago", 9, "left"], ["Fecha", 18, "left"], ["Días", 9, "right"],
+    y = seccion(p3, y, "Tus siguientes pagos " + d.frecuencia + ", uno por uno");
+    y = tabla(p3, y, [["Pago", 9, "left"], ["Fecha", 18, "left"], ["Días", 9, "right"],
                       ["Entra", 19, "right"], ["Comisiones", 16, "right"],
                       ["Intereses", 17, "right"], ["A capital", 16, "right"], ["Saldo", 20, "right"]],
-              d.primeros, {alto: 13.5, size: 8});
-    y = p4.parrafo(MARGEN, y, "Suma la columna de intereses y la de capital: así se arma el titular " +
-        "de la primera página. Los días se cuentan con base 30/360 y cada pago se aplica en este " +
-        "orden: primero comisiones, luego intereses, y lo que sobra baja tu deuda.",
-        {size: 8.5, color: TENUE, max: ANCHO}) + 16;
+              d.primeros.slice(0, 6), {alto: 13.5, size: 8});
+    y = p3.parrafo(MARGEN, y, "Cada pago se aplica en este orden: primero comisiones, luego intereses, " +
+        "y lo que sobra baja tu deuda. Los días se cuentan con base 30/360.",
+        {size: 8.5, color: TENUE, max: ANCHO}) + 14;
 
-    y = seccion(p4, y, "La cuenta del primer pago, paso a paso");
-    p4.caja(MARGEN, y - 12, ANCHO, 62, NIEVE);
-    y = p4.parrafo(MARGEN + 12, y, d.cuenta, {size: 9, color: TINTA, max: ANCHO - 24, alto: 14}) + 26;
+    y = seccion(p3, y, "Compruébalo contra tu próximo estado de cuenta");
+    p3.caja(MARGEN, y - 12, ANCHO, 50, CREMA);
+    y = p3.parrafo(MARGEN + 12, y, d.prediccion, {size: 9.5, color: TINTA, max: ANCHO - 24}) + 24;
 
-    y = seccion(p4, y, "Compruébalo contra tu próximo estado de cuenta");
-    p4.caja(MARGEN, y - 12, ANCHO, 50, CREMA);
-    y = p4.parrafo(MARGEN + 12, y, d.prediccion, {size: 9.5, color: TINTA, max: ANCHO - 24}) + 24;
+    y = seccion(p3, y, "De dónde salen estos números");
+    var hueco = 22, wc = (ANCHO - hueco) / 2, xa = MARGEN, xb = MARGEN + wc + hueco;
+    p3.texto(xa, y - 6, "Lo que dice tu estado de cuenta", {size: 8, bold: true, color: TENUE});
+    p3.texto(xb, y - 6, "Lo que dedujimos de tus movimientos", {size: 8, bold: true, color: TENUE});
+    var ded = d.deducido.filter(function(f){ return !/Salario mensual integrado/.test(f[0]); });
+    var ya = y + 10, yb = y + 10;
+    for (i = 0; i < d.capturado.length; i++) ya = fila2(p3, xa, wc, ya, d.capturado[i][0], d.capturado[i][1]);
+    for (i = 0; i < ded.length; i++) yb = fila2(p3, xb, wc, yb, ded[i][0], ded[i][1]);
+    y = Math.max(ya, yb) + 10;
 
-    pie(p4, "Habítalo Orienta · Cancún, Quintana Roo", 4, DE);
-
-    /* ---------- 5. los números leídos y los avisos ---------- */
-    var p5 = new Pagina();
-    encabezado(p5, "De dónde salen estos números", d.folio, d.fecha);
-
-    y = 116;
-    p5.texto(MARGEN, y, "Lo que dice tu estado de cuenta", {size: 8.5, bold: true, color: TENUE});
+    p3.texto(MARGEN, y, "Los pagos que usamos para proyectar", {size: 8, bold: true, color: TENUE});
     y += 16;
-    for (i = 0; i < d.capturado.length; i++) y = fila(p5, y, d.capturado[i][0], d.capturado[i][1]);
-    y += 10;
-    p5.texto(MARGEN, y, "Lo que dedujimos de tus movimientos", {size: 8.5, bold: true, color: TENUE});
-    y += 16;
-    for (i = 0; i < d.deducido.length; i++) y = fila(p5, y, d.deducido[i][0], d.deducido[i][1]);
-
-    y += 14;
-    y = seccion(p5, y, "Los movimientos que usamos para proyectar");
-    for (i = 0; i < d.movimientos.length; i++) y = fila(p5, y, d.movimientos[i][0], d.movimientos[i][1]);
-    y = p5.parrafo(MARGEN, y + 6, "De todos tus movimientos, estos son los que sostienen la proyección. " +
-        "Si alguno no corresponde a tu caso, escríbenos: el diagnóstico cambia.",
+    var usados = d.movimientos.filter(function(f){ return /^Pago \d/.test(f[0]) || /Días|Sueldo/.test(f[0]); });
+    for (i = 0; i < usados.length; i++) y = fila2(p3, xa, wc, y, usados[i][0], usados[i][1]);
+    y = p3.parrafo(MARGEN, y + 4, "Si alguno de estos datos no corresponde a tu caso, escríbenos: el diagnóstico cambia.",
         {size: 8.5, color: TENUE, max: ANCHO});
 
-    pie(p5, "Habítalo Orienta · Cada cifra de este documento sale de estos insumos.", 5, DE);
+    pie(p3, "Habítalo Orienta · Cada cifra de este documento sale de estos insumos.", 3, DE);
 
-    /* ---------- 6. avisos y constancia ---------- */
-    var p6 = new Pagina();
-    encabezado(p6, "Lo que tienes que tomar en cuenta", d.folio, d.fecha);
+    /* ---------- 4. avisos y constancia ---------- */
+    var p4 = new Pagina();
+    encabezado(p4, "Lo que tienes que tomar en cuenta", d.folio, d.fecha);
 
     y = 116;
-    y = seccion(p6, y, "Antes de decidir");
-    y = vinetas(p6, y, d.avisos, 9);
+    y = seccion(p4, y, "Antes de decidir");
+    y = vinetas(p4, y, d.avisos, 9);
 
     y += 6;
-    y = seccion(p6, y, "Lo que este documento no es");
-    y = vinetas(p6, y, [
+    y = seccion(p4, y, "Lo que este documento no es");
+    y = vinetas(p4, y, [
       "No es asesoría legal ni fiscal. Si tu caso toca sucesión, copropiedad, litigio, escrituración o impuestos, eso lo ve un especialista aliado.",
       "No es asesoría de inversión ni una recomendación de contratar ningún producto financiero.",
       "No es un estado de cuenta ni un documento emitido por el Infonavit."
     ], 9);
 
     y += 8;
-    p6.caja(MARGEN, y - 12, ANCHO, 44, NIEVE);
-    y = p6.parrafo(MARGEN + 12, y, "Tus datos no se guardaron. Tu estado de cuenta se leyó dentro de tu " +
+    p4.caja(MARGEN, y - 12, ANCHO, 44, NIEVE);
+    y = p4.parrafo(MARGEN + 12, y, "Tus datos no se guardaron. Tu estado de cuenta se leyó dentro de tu " +
         "dispositivo y este documento se armó ahí mismo: tu nombre, NSS, RFC, CURP y domicilio nunca " +
         "salieron de tu equipo.", {size: 9, color: SUAVE, max: ANCHO - 24}) + 22;
 
-    y = seccion(p6, y, "Constancia");
-    y = fila(p6, y, "Folio", d.folio);
-    y = fila(p6, y, "Fecha de emisión", d.fecha);
-    y = fila(p6, y, "Versión del motor de cálculo", d.motor);
-    y = fila(p6, y, "Versión del aviso de privacidad", d.avisoVersion);
-    y = fila(p6, y, "Consentimiento registrado", d.consentido);
+    y = seccion(p4, y, "Constancia");
+    y = fila(p4, y, "Folio", d.folio);
+    y = fila(p4, y, "Fecha de emisión", d.fecha);
+    y = fila(p4, y, "Versión del motor de cálculo", d.motor);
+    y = fila(p4, y, "Versión del aviso de privacidad", d.avisoVersion);
+    y = fila(p4, y, "Consentimiento registrado", d.consentido);
 
-    pie(p6, "Habítalo Orienta · No es una institución financiera ni está afiliada al Infonavit.", 6, DE);
+    pie(p4, "Habítalo Orienta · No es una institución financiera ni está afiliada al Infonavit.", 4, DE);
 
-    return construir([p1, p2, p3, p4, p5, p6]);
+    return construir([p1, p2, p3, p4]);
   }
 
   return {diagnostico: diagnostico, construir: construir, Pagina: Pagina, VERSION: "1.4"};
