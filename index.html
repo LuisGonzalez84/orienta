@@ -275,6 +275,15 @@
   .hero .brand{font-size:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.14);margin-bottom:4px;}
   .hero .brand em{color:#E0BC60;}
   .hero-aviso{font-size:12.5px;opacity:.6;}
+  /* fotos: la misma escena del anuncio, para que quien da clic reconozca dónde llegó */
+  .hero .hero-foto{margin:0 -22px;}
+  .hero .hero-foto img{display:block;width:100%;height:auto;aspect-ratio:5/2;object-fit:cover;}
+  @media (min-width:520px){ .hero .hero-foto img{aspect-ratio:2/1;} }
+  .foto{margin:0;}
+  .foto img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;}
+  img[data-foto="casa"]{object-position:center 88%;}
+  img[data-foto="fecha"]{object-position:center 28%;}
+  img[data-foto="antes"]{object-position:center 60%;}
   .sellos li::before{content:"✓ ";color:#E0BC60;font-weight:700;}
 
   .landing .pad{gap:14px;padding:22px 20px;}
@@ -391,6 +400,8 @@
   <!-- ======================= LANDING ======================= -->
   <section class="hero">
     <span class="brand">Habítalo <em>Orienta</em></span>
+    <figure class="hero-foto"><img id="hero-foto" data-foto="casa" src="foto-casa.jpg" width="459" height="532"
+      alt="Billetes arrugados cayendo en un bote de basura con la etiqueta «intereses»"></figure>
     <p class="eyebrow">Para quien paga un crédito Infonavit</p>
     <h1 id="hero-titulo">¿Estás pagando una casa… o principalmente intereses?</h1>
     <p class="hero-sub">Sube tu estado de cuenta y en un minuto ves, <b>gratis</b>, cuánto te falta de verdad y a dónde se va cada peso que te descuentan.</p>
@@ -405,6 +416,8 @@
   </section>
 
   <section class="card landing" id="l-caso">
+    <figure class="foto" data-seccion="casa"><img data-foto="casa" src="foto-casa.jpg" width="459" height="532" loading="lazy"
+      alt="Billetes arrugados cayendo en un bote de basura con la etiqueta «intereses»"></figure>
     <div class="pad">
       <p class="kicker">Un caso ilustrativo</p>
       <h2 class="lh" data-frase="casa" data-alterna="Lo que tu estado de cuenta no te dice">¿Estás pagando una casa… o principalmente intereses?</h2>
@@ -420,6 +433,8 @@
   </section>
 
   <section class="card landing" id="l-obtienes">
+    <figure class="foto" data-seccion="fecha"><img data-foto="fecha" src="foto-fecha.jpg" width="626" height="655" loading="lazy"
+      alt="Calendario de escritorio con la leyenda «mi última mensualidad» y un día marcado en círculo"></figure>
     <div class="pad">
       <p class="kicker">Lo que obtienes por $50</p>
       <h2 class="lh" data-frase="fecha" data-alterna="Tu crédito, explicado en cuatro hojas">¿Sabes realmente cuándo será tu última mensualidad del Infonavit?</h2>
@@ -442,6 +457,8 @@
   </section>
 
   <section class="card landing" id="l-antes">
+    <figure class="foto" data-seccion="antes"><img data-foto="antes" src="foto-antes.jpg" width="960" height="400" loading="lazy"
+      alt="Hojas de calendario tachadas volando junto a una casa y una cadena rota"></figure>
     <div class="pad">
       <p class="kicker">Lo que puedes cambiar</p>
       <h2 class="lh" data-frase="antes" data-alterna="Lo que cambia si abonas">¿Y si pudieras dejar de pagar tu mensualidad antes de lo que imaginas?</h2>
@@ -2115,6 +2132,12 @@
     var v = (q.get("v") || q.get("utm_content") || "").toLowerCase();
     var clave = FRASES[v] ? v : "casa";
     $("hero-titulo").textContent = FRASES[clave];
+    var hf = $("hero-foto"), fs = document.querySelector('.foto[data-seccion="' + clave + '"] img');
+    if(fs){                                   // la foto del anuncio sube al inicio y no se repite abajo
+      hf.src = fs.getAttribute("src"); hf.alt = fs.alt; hf.setAttribute("data-foto", clave);
+      hf.width = fs.width; hf.height = fs.height;
+      fs.parentNode.hidden = true;
+    }
     document.querySelectorAll("[data-frase]").forEach(function(h){
       h.textContent = (h.getAttribute("data-frase") === clave) ? h.getAttribute("data-alterna") : FRASES[h.getAttribute("data-frase")];
     });
