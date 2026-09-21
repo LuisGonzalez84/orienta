@@ -205,30 +205,58 @@
     return y + alto + 12;
   }
 
-  /* escalera: qué parte de lo que entra baja la deuda, año por año.
-     Deja ver que la proporción de hoy NO es la de siempre. */
+  /* Escalera: qué PORCENTAJE de lo que pagas cada año se abona a capital.
+     Lleva eje de 0 a 100%, la referencia de la mitad, y etiquetas en el
+     primer año, el año del cruce y el último, para que se lea sola. */
   function escalera(p, y, anios, pcts, idx){
-    var alto = 62, base = y + alto, n = anios.length;
-    var hueco = n > 24 ? 1 : 2, w = (ANCHO - hueco * (n - 1)) / n;
-    var y50 = base - alto * 0.5;
-    for (var i = 0; i < n; i++){
-      var h = Math.max(1.5, alto * Math.min(100, pcts[i]) / 100);
-      var x = MARGEN + i * (w + hueco);
+    var ejeW = 26;
+    var x0 = MARGEN + ejeW, anchoG = (W - MARGEN) - x0;
+    var arriba = y + 12, alto = 64, base = arriba + alto;
+    var n = anios.length, hueco = n > 22 ? 1 : 2, w = (anchoG - hueco * (n - 1)) / n;
+    var i;
+
+    /* rejilla y eje de porcentaje */
+    var marcas = [0, 50, 100];
+    for (i = 0; i < marcas.length; i++){
+      var v = marcas[i], yy = base - alto * v / 100;
+      p.linea(x0, yy, W - MARGEN, yy, v === 50 ? [0.80, 0.72, 0.52] : [0.88, 0.90, 0.93], v === 50 ? 0.8 : 0.5);
+      p.texto(x0 - 5, yy + 3, v + "%", {size: 7, align: "right", color: v === 50 ? ORO : TENUE});
+    }
+
+    /* barras */
+    for (i = 0; i < n; i++){
+      var h = Math.max(1.2, alto * Math.min(100, pcts[i]) / 100);
+      var x = x0 + i * (w + hueco);
       p.caja(x, base - h, w, h, (idx >= 0 && i >= idx) ? ORO_C : [0.62, 0.68, 0.78]);
     }
-    /* la referencia del 50% va encima de las barras, si no se pierde */
-    p.linea(MARGEN, y50, W - MARGEN, y50, [0.45, 0.33, 0.09], 0.9);
-    p.texto(MARGEN + 3, y50 - 4, "la mitad de lo que pagas ya baja tu deuda",
-            {size: 7, color: [0.45, 0.33, 0.09]});
-    p.linea(MARGEN, base, W - MARGEN, base, [0.72, 0.76, 0.82], 0.9);
-    p.texto(MARGEN, base + 11, String(anios[0]), {size: 7.5, color: TENUE});
+
+    /* la referencia de la mitad, encima de las barras para que no se pierda */
+    var y50 = base - alto * 0.5;
+    p.linea(x0, y50, W - MARGEN, y50, [0.45, 0.33, 0.09], 0.9);
+    p.linea(x0, base, W - MARGEN, base, [0.72, 0.76, 0.82], 0.9);
+
+    /* etiquetas de porcentaje en los años que importan */
+    function etiqueta(k, bold){
+      if (k < 0 || k >= n) return;
+      var hh = alto * Math.min(100, pcts[k]) / 100;
+      p.texto(x0 + k * (w + hueco) + w / 2, base - hh - 4, Math.round(pcts[k]) + "%",
+              {size: 7.5, bold: !!bold, align: "center",
+               color: (idx >= 0 && k >= idx) ? ORO : SUAVE});
+    }
+    etiqueta(0);
+    if (idx > 1 && idx < n - 2) etiqueta(idx, true);
+    etiqueta(n - 1);
+
+    /* años */
+    p.texto(x0, base + 11, String(anios[0]), {size: 7.5, color: TENUE});
     p.texto(W - MARGEN, base + 11, String(anios[n - 1]), {size: 7.5, align: "right", color: TENUE});
-    if (idx >= 0){
-      var xc = MARGEN + idx * (w + hueco) + w / 2;
+    if (idx > 1 && idx < n - 2){
+      var xc = x0 + idx * (w + hueco) + w / 2;
       p.texto(xc, base + 11, String(anios[idx]), {size: 8, bold: true, align: "center", color: ORO});
       p.texto(xc, base + 22, "aquí llegas a la mitad", {size: 7.5, align: "center", color: ORO});
+      return base + 34;
     }
-    return base + (idx >= 0 ? 34 : 22);
+    return base + 22;
   }
 
   /* línea del tiempo: hoy -> fin sin abonar, con el tramo que te ahorras */
@@ -297,7 +325,10 @@
         d.doce.entra + " a tu crédito y tu deuda bajará " + d.doce.capital + ".",
         {size: 10, color: SUAVE, max: ANCHO}) + 14;
 
-    y = seccion(p1, y, "Y esto no se queda así");
+    y = seccion(p1, y, "Porcentaje de tu pago que se abona a capital, año por año");
+    y = p1.parrafo(MARGEN, y - 10, "Cada barra es un año. La altura es qué parte de lo que pagas ese año " +
+        "baja tu deuda; el resto son intereses, seguros y comisiones.",
+        {size: 8.5, color: TENUE, max: ANCHO}) + 4;
     y = escalera(p1, y, d.escalera.anios, d.escalera.pcts, d.escalera.idx);
     y = p1.parrafo(MARGEN, y, d.noSeQueda, {size: 9, color: SUAVE, max: ANCHO}) + 14;
 
