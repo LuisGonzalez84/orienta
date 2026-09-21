@@ -46,12 +46,20 @@
              722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,
              278,333,584,556,333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,
              611,611,389,556,333,611,556,778,556,556,500,389,280,389,584];
+  /* Las letras con acento miden lo mismo que su letra base en Helvetica
+     (í = i, á = a, Ñ = N). Medirlas bien importa: el párrafo con énfasis
+     coloca cada palabra a mano y un ancho de más deja huecos visibles. */
+  var ESPECIAL = {"¿":611, "¡":333, "·":278, "—":1000, "–":556, "°":400,
+                  "“":333, "”":333, "‘":222, "’":222, "•":350, "€":556};
   function ancho(s, size, bold){
     var t = bold ? AWB : AW, w = 0;
     s = String(s);
     for (var i = 0; i < s.length; i++){
-      var c = s.charCodeAt(i);
-      w += (c >= 32 && c <= 126) ? t[c - 32] : (c === 8212 ? 1000 : 556);
+      var ch = s[i], c = s.charCodeAt(i);
+      if (c >= 32 && c <= 126){ w += t[c - 32]; continue; }
+      if (ESPECIAL[ch] !== undefined){ w += ESPECIAL[ch]; continue; }
+      var b = ch.normalize ? ch.normalize("NFD").charCodeAt(0) : 0;
+      w += (b >= 32 && b <= 126) ? t[b - 32] : 556;
     }
     return w * size / 1000;
   }
@@ -159,8 +167,8 @@
     p.texto(W - MARGEN, PIE, "Página " + n + " de " + de, {size: 8, align: "right", color: TENUE});
   }
   function seccion(p, y, titulo){
-    p.texto(MARGEN, y, String(titulo).toUpperCase(), {size: 9, bold: true, color: ORO});
-    p.linea(MARGEN, y + 7, W - MARGEN, y + 7, [0.84, 0.80, 0.70]);
+    p.texto(MARGEN, y, String(titulo).toUpperCase(), {size: 8.5, bold: true, color: SUAVE});
+    p.linea(MARGEN, y + 7, W - MARGEN, y + 7, [0.84, 0.86, 0.90]);
     return y + 24;
   }
   function fila(p, y, etiqueta, valor){
@@ -169,6 +177,52 @@
     p.linea(MARGEN, y + 5, W - MARGEN, y + 5, RAYA, 0.5);
     return y + 17;
   }
+  /* Párrafo con énfasis en línea. **texto** va en negritas del color fuerte;
+     ^^texto^^ va en negritas doradas. Solo se parte renglón donde hay espacio,
+     así "$654,472." nunca queda separado de su punto. */
+  function parrafoRico(p, x, y, s, o){
+    o = o || {};
+    var size = o.size || 10, alto = o.alto || size * 1.45, max = o.max || ANCHO;
+    var base = o.color || TINTA, fuerte = o.fuerte || TINTA;
+    var segs = [], re = /\*\*([^*]+)\*\*|\^\^([^\^]+)\^\^/g, m, ult = 0;
+    s = String(s);
+    while ((m = re.exec(s))){
+      if (m.index > ult) segs.push({t: s.slice(ult, m.index), k: 0});
+      segs.push({t: m[1] || m[2], k: m[1] ? 1 : 2}); ult = re.lastIndex;
+    }
+    if (ult < s.length) segs.push({t: s.slice(ult), k: 0});
+    var grupos = [], esp = false;
+    segs.forEach(function(g){
+      g.t.split(/(\s+)/).forEach(function(w){
+        if (!w) return;
+        if (/^\s+$/.test(w)){ esp = true; return; }
+        var pz = {t: w, k: g.k};
+        if (esp || !grupos.length) grupos.push([pz]); else grupos[grupos.length - 1].push(pz);
+        esp = false;
+      });
+    });
+    function wPz(pz){ return ancho(pz.t, size, !!o.bold || pz.k > 0); }
+    function wGr(g){ var a = 0; g.forEach(function(pz){ a += wPz(pz); }); return a; }
+    var sp = ancho(" ", size, false), lineas = [[]], anchoAct = 0;
+    grupos.forEach(function(g){
+      var wg = wGr(g), extra = lineas[lineas.length - 1].length ? sp : 0;
+      if (anchoAct + extra + wg > max && lineas[lineas.length - 1].length){ lineas.push([g]); anchoAct = wg; }
+      else { lineas[lineas.length - 1].push(g); anchoAct += extra + wg; }
+    });
+    for (var li = 0; li < lineas.length; li++){
+      var cx = x;
+      lineas[li].forEach(function(g, gi){
+        if (gi) cx += sp;
+        g.forEach(function(pz){
+          p.texto(cx, y + li * alto, pz.t, {size: size, bold: !!o.bold || pz.k > 0,
+                  color: pz.k === 2 ? ORO : (pz.k === 1 ? fuerte : base)});
+          cx += wPz(pz);
+        });
+      });
+    }
+    return y + lineas.length * alto;
+  }
+
   /* fila compacta para dos columnas */
   function fila2(p, x, w, y, etiqueta, valor){
     p.texto(x, y, etiqueta, {size: 8.5, color: SUAVE});
@@ -204,11 +258,11 @@
   function barra(p, y, fracA, etA, valA, etB, valB){
     var alto = 34, wA = Math.max(6, Math.min(ANCHO - 6, ANCHO * fracA)), wB = ANCHO - wA;
     p.caja(MARGEN, y, wA, alto, NAVY);
-    p.caja(MARGEN + wA, y, wB, alto, ORO_C);
+    p.caja(MARGEN + wA, y, wB, alto, [0.80, 0.83, 0.88]);
     p.texto(MARGEN + 9, y + 15, valA, {size: 11, bold: true, color: [1, 1, 1]});
     p.texto(MARGEN + 9, y + 27, etA, {size: 7.5, color: [0.80, 0.84, 0.90]});
-    p.texto(MARGEN + wA + 9, y + 15, valB, {size: 11, bold: true, color: [0.16, 0.12, 0.03]});
-    p.texto(MARGEN + wA + 9, y + 27, etB, {size: 7.5, color: [0.33, 0.26, 0.08]});
+    p.texto(MARGEN + wA + 9, y + 15, valB, {size: 11, bold: true, color: TINTA});
+    p.texto(MARGEN + wA + 9, y + 27, etB, {size: 7.5, color: SUAVE});
     return y + alto + 12;
   }
 
@@ -327,9 +381,9 @@
     y = seccion(p1, y, "Lo primero que tienes que saber");
     p1.texto(MARGEN, y + 12, "De cada $100 que entran a tu crédito este año,", {size: 15, color: TINTA});
     p1.texto(MARGEN, y + 36, "solo $" + d.pctCapital + " bajan tu deuda.", {size: 21, bold: true, color: TINTA});
-    y = p1.parrafo(MARGEN, y + 58, "Los otros $" + d.pctInteres +
-        " son intereses, seguros y comisiones. En los próximos 12 meses entrarán " +
-        d.doce.entra + " a tu crédito y tu deuda bajará " + d.doce.capital + ".",
+    y = parrafoRico(p1, MARGEN, y + 58, "Los otros $" + d.pctInteres +
+        " son intereses, seguros y comisiones. En los próximos 12 meses entrarán **" +
+        d.doce.entra + "** a tu crédito y tu deuda bajará solo **" + d.doce.capital + "**.",
         {size: 10, color: SUAVE, max: ANCHO}) + 14;
 
     y = seccion(p1, y, "Porcentaje de tu pago que se abona a capital, año por año");
@@ -337,12 +391,12 @@
         "baja tu deuda; el resto son intereses, seguros y comisiones.",
         {size: 8.5, color: TENUE, max: ANCHO}) + 4;
     y = escalera(p1, y, d.escalera.anios, d.escalera.pcts, d.escalera.idx);
-    y = p1.parrafo(MARGEN, y, d.noSeQueda, {size: 9, color: SUAVE, max: ANCHO}) + 14;
+    y = parrafoRico(p1, MARGEN, y, d.noSeQueda, {size: 9, color: SUAVE, max: ANCHO}) + 14;
 
     y = seccion(p1, y, "Lo que te falta pagar, repartido");
     y = barra(p1, y, d.barraFrac, "lo que debes de capital", d.capitalPend,
               "intereses, seguros y comisiones", d.costo);
-    y = p1.parrafo(MARGEN, y, d.barraNota, {size: 8.5, color: TENUE, max: ANCHO}) + 14;
+    y = parrafoRico(p1, MARGEN, y, d.barraNota, {size: 8.5, color: TENUE, max: ANCHO}) + 14;
 
     y = seccion(p1, y, "Así vas hoy, sin cambiar nada");
     y = mosaico(p1, y, [
@@ -351,6 +405,7 @@
       [d.costo, "pagarías de intereses, seguros y cuotas"],
       [d.patronal, "pone tu patrón cada mes, además de tu descuento"]
     ]);
+    y = p1.parrafo(MARGEN, y + 2, d.aclaraFrec, {size: 8.5, color: SUAVE, max: ANCHO}) + 10;
 
     y = seccion(p1, y, "Para dimensionarlo");
     y = fila(p1, y, "Tu crédito genera, cada día que pasa", d.porDia);
@@ -366,14 +421,19 @@
 
     y = 116;
     y = seccion(p2, y, "Si abonas " + d.elegido.abono + " cada mes");
-    y = tiempo(p2, y, d.tiempoFrac, d.hoyMes, d.elegido.fin, d.fechaFin, d.elegido.ganas);
-    y = p2.parrafo(MARGEN, y, "Abonando " + d.elegido.abono + " al mes terminarías en " +
-        d.elegido.fin + ": terminas " + d.elegido.antes + " antes (" + d.elegido.menosTxt +
-        " menos) y dejarías de pagar " +
-        d.elegido.ahorro + " de intereses y cargos." +
+    if (d.elegido.menos > 0){
+      p2.texto(MARGEN, y + 12, "Terminas " + d.elegido.antes + " antes", {size: 21, bold: true, color: ORO});
+      y = parrafoRico(p2, MARGEN, y + 34, "y dejas de pagar **" + d.elegido.ahorro + "** de intereses y cargos.",
+          {size: 13, color: TINTA, max: ANCHO}) + 12;
+    }
+    /* el titular de arriba ya dice cuánto antes y cuánto ahorras: no se repite */
+    y = tiempo(p2, y, d.tiempoFrac, d.hoyMes, d.elegido.fin, d.fechaFin,
+               d.elegido.menos > 0 ? "" : d.elegido.ganas) - (d.elegido.menos > 0 ? 14 : 0);
+    y = parrafoRico(p2, MARGEN, y, "Abonando " + d.elegido.abono + " al mes terminarías en **" +
+        d.elegido.fin + "** en vez de " + d.fechaFin + " (" + d.elegido.menosTxt + " menos)." +
         (d.cruceAb && d.cruceGana > 0
           ? (" Y el punto en que la mitad de lo que pagas ya baja tu deuda se adelanta de " +
-             d.cruce + " a " + d.cruceAb + ": " + d.cruceGana +
+             d.cruce + " a ^^" + d.cruceAb + "^^: " + d.cruceGana +
              (d.cruceGana === 1 ? " año antes." : " años antes."))
           : ""),
         {size: 10, color: TINTA, max: ANCHO}) + 18;
@@ -387,7 +447,7 @@
 
     y = seccion(p2, y, "Lo que cuesta esperar");
     p2.caja(MARGEN, y - 12, ANCHO, 58, CREMA);
-    y = p2.parrafo(MARGEN + 12, y, d.esperar, {size: 10, color: TINTA, max: ANCHO - 24}) + 26;
+    y = parrafoRico(p2, MARGEN + 12, y, d.esperar, {size: 10, color: TINTA, max: ANCHO - 24}) + 26;
 
     y = seccion(p2, y, "Qué sí puedes hacer");
     y = vinetas(p2, y, d.acciones);
@@ -404,13 +464,13 @@
                       ["Entra", 19, "right"], ["Comisiones", 16, "right"],
                       ["Intereses", 17, "right"], ["A capital", 16, "right"], ["Saldo", 20, "right"]],
               d.primeros.slice(0, 6), {alto: 13.5, size: 8});
-    y = p3.parrafo(MARGEN, y, "Cada pago se aplica en este orden: primero comisiones, luego intereses, " +
-        "y lo que sobra baja tu deuda. Los días se cuentan con base 30/360.",
+    y = p3.parrafo(MARGEN, y, d.aclaraFrec + " Cada pago se aplica en este orden: primero comisiones, " +
+        "luego intereses, y lo que sobra baja tu deuda. Los días se cuentan con base 30/360.",
         {size: 8.5, color: TENUE, max: ANCHO}) + 14;
 
     y = seccion(p3, y, "Compruébalo contra tu próximo estado de cuenta");
     p3.caja(MARGEN, y - 12, ANCHO, 50, CREMA);
-    y = p3.parrafo(MARGEN + 12, y, d.prediccion, {size: 9.5, color: TINTA, max: ANCHO - 24}) + 24;
+    y = parrafoRico(p3, MARGEN + 12, y, d.prediccion, {size: 9.5, color: TINTA, max: ANCHO - 24}) + 24;
 
     y = seccion(p3, y, "De dónde salen estos números");
     var hueco = 22, wc = (ANCHO - hueco) / 2, xa = MARGEN, xb = MARGEN + wc + hueco;

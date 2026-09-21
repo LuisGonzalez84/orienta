@@ -195,6 +195,7 @@
     text-transform:uppercase;color:var(--gold);margin:10px 0 2px;}
   .grafica .pieg{font-size:12.5px;color:var(--ink-faint);margin:0 0 10px;}
   .grafica svg{display:block;width:100%;height:auto;}
+  .nota-frec{grid-column:1/-1;margin:0;padding:10px 20px 14px;font-size:13px;color:var(--ink-soft);}
   .grafica .cierre{font-size:13.5px;color:var(--ink-soft);margin:8px 0 0;}
   .cobro{padding:18px 20px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:12px;background:var(--gold-soft);}
   .cobro .precio{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;}
@@ -522,6 +523,15 @@
     var f = FREC[per || 1], cab = n + (n === 1 ? " pago" : " pagos");
     return f ? cab + " " + (n === 1 ? f : f + "es") : cab + " (uno cada " + per + " meses)";
   }
+  var CADA = {1:"cada mes", 2:"cada dos meses", 3:"cada tres meses", 4:"cada cuatro meses", 6:"cada seis meses"};
+  function aclaraFrecuencia(per){
+    per = per || 1;
+    return "Tu patrón te descuenta en cada nómina y entrega el dinero al Infonavit " +
+           (CADA[per] || "cada " + per + " meses") + "; por eso tus pagos se aplican de forma " +
+           (FREC[per] || "periódica") + ".";
+  }
+  function sinMarcas(t){ return String(t).replace(/\*\*|\^\^/g, ""); }
+  function marcasHTML(t){ return String(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\^\^(.+?)\^\^/g, "<b>$1</b>"); }
   function mesesEntre(a, b){ return (b.getFullYear()-a.getFullYear())*12 + (b.getMonth()-a.getMonth()); }
   function tiempoTxt(m){
     m = Math.max(0, Math.round(m));
@@ -951,7 +961,8 @@
       '<div class="num"><b>'+(base.fin ? tiempoTxt(mesesEntre(p.corte, base.fin)) : "—")+'</b><span>te faltan, al ritmo de hoy: '+pagosTxt(nPagos, per)+'</span></div>' +
       '<div class="num'+L+'"><b>'+(base.fin?mesAnio(base.fin):"—")+'</b><span>terminarías de pagar</span></div>' +
       '<div class="num'+L+'"><b>'+money0(base.interes+base.cargos)+'</b><span>pagarías de intereses, seguros y cuotas en el camino</span></div>' +
-      '<div class="num'+L+'"><b>'+money0(CTX.apMes)+'</b><span>pone tu patrón cada mes, además de tu descuento</span></div>';
+      '<div class="num'+L+'"><b>'+money0(CTX.apMes)+'</b><span>pone tu patrón cada mes, además de tu descuento</span></div>' +
+      '<p class="nota-frec">'+aclaraFrecuencia(per)+'</p>';
     $("cobro").hidden = pagado;
     $("simwrap").hidden = !pagado;
     ULTIMO = {v:v, CTX:CTX, base:base, p:p, fpp:fpp};
@@ -1197,7 +1208,7 @@
                "De los " + money(f1.pago) + " que entran, " + money(f1.com) + " van a comisiones, " +
                money(f1.int) + " a intereses, y los " + money(f1.cap) + " que sobran bajan tu deuda.";
       prediccion = "Después de tu pago del " + fechaLarga(f1.d) + ", tu saldo de capital debe quedar " +
-                   "en " + money(f1.fin) + ". Cuando te llegue tu siguiente estado de cuenta, compáralo. " +
+                   "en **" + money(f1.fin) + "**. Cuando te llegue tu siguiente estado de cuenta, compáralo. " +
                    "Si no coincide, algo cambió en tu crédito: escríbenos y lo revisamos.";
     }
 
@@ -1263,15 +1274,15 @@
       cruceGana: (serie.cruce && serieAb.cruce) ? (serie.cruce - serieAb.cruce) : 0,
       noSeQueda: serie.cruce
         ? ("Hoy es así, pero no se queda así: conforme baja tu deuda, cada año una parte mayor de " +
-           "lo que pagas deja de ser interés. Para " + serie.cruce + " la mitad de lo que entre ya " +
+           "lo que pagas deja de ser interés. Para ^^" + serie.cruce + "^^ la mitad de lo que entre ya " +
            "estará bajando tu deuda, y de ahí en adelante mejora más rápido.")
         : "Conforme baja tu deuda, cada año una parte mayor de lo que pagas deja de ser interés.",
 
       /* barra */
       barraFrac: v.capital / (v.capital + costoBase),
       capitalPend: money0(v.capital),
-      barraNota: "De aquí a " + (base.fin ? mesAnio(base.fin) : "el final") + " vas a entregar " +
-                 money0(v.capital + costoBase) + " en total: " + money0(v.capital) +
+      barraNota: "De aquí a " + (base.fin ? mesAnio(base.fin) : "el final") + " vas a entregar **" +
+                 money0(v.capital + costoBase) + "** en total: " + money0(v.capital) +
                  " es la deuda que traes hoy y " + money0(costoBase) +
                  " son intereses, seguros y comisiones.",
 
@@ -1279,6 +1290,7 @@
       pagos: pagosDe(base),
       anios: (base.periodos/12).toFixed(1),
       frecuencia: FREC[per] ? FREC[per] + "es" : "cada " + per + " meses",
+      aclaraFrec: aclaraFrecuencia(per),
       tiempo: base.fin ? tiempoTxt(mesesEntre(v.corte, base.fin)) : "—",
       pagosTxt: pagosTxt(pagosDe(base), per),
       fechaFin: base.fin ? mesAnio(base.fin) : "—",
@@ -1305,8 +1317,8 @@
       tiempoFrac: mesesAb / mesesBase,
       esperar: pierde > 0
         ? ("Si empiezas a abonar hoy te ahorras " + elegida.ahorro + ". Si esperas un año para " +
-           "empezar, ese ahorro baja a " + money0(costoBase - costoDe(tarde)) + ": esperar te cuesta " +
-           money0(pierde) + ".")
+           "empezar, ese ahorro baja a " + money0(costoBase - costoDe(tarde)) + ": esperar te cuesta **" +
+           money0(pierde) + "**.")
         : "Empezar cuanto antes es lo que más mueve tu plazo: el interés se calcula sobre el saldo que traes cada día.",
 
       /* tablas */
@@ -1369,7 +1381,7 @@
     d.primeros.forEach(function(f){
       l.push("  " + f[1] + " · entra " + f[3] + " · intereses " + f[5] + " · a capital " + f[6] + " · saldo " + f[7]);
     });
-    l.push("", "CÓMO COMPROBARLO", "  " + d.prediccion, "",
+    l.push("", "CÓMO COMPROBARLO", "  " + sinMarcas(d.prediccion), "",
            "Es una proyección con supuestos, no una cotización del Infonavit",
            "ni asesoría legal o fiscal. Motor de cálculo versión " + d.motor + ".");
     return l.join("\n");
@@ -1388,13 +1400,14 @@
       d.pctCapital + ' bajan tu deuda.</b><br>Los otros $' + d.pctInteres +
       ' son intereses, seguros y comisiones. En los próximos 12 meses entrarán <b>' + d.doce.entra +
       '</b> a tu crédito y tu deuda bajará <b>' + d.doce.capital + '</b>.' +
-      (d.cruce ? '<br><br><b>Y esto no se queda así:</b> ' + d.noSeQueda.replace(/^Hoy es así, pero no se queda así: /, '') : '') +
+      (d.cruce ? '<br><br><b>Y esto no se queda así:</b> ' + marcasHTML(d.noSeQueda.replace(/^Hoy es así, pero no se queda así: /, '')) : '') +
       '</div>' +
       '<h3>Así vas hoy, sin cambiar nada</h3><div class="grande">' +
       '<div><b>' + d.tiempo + '</b><span>te faltan: ' + d.pagosTxt + '</span></div>' +
       '<div><b>' + d.fechaFin + '</b><span>terminarías de pagar</span></div>' +
       '<div><b>' + d.costo + '</b><span>pagarías de intereses, seguros y cuotas</span></div>' +
-      '<div><b>' + d.patronal + '</b><span>pone tu patrón cada mes, además de tu descuento</span></div></div>';
+      '<div><b>' + d.patronal + '</b><span>pone tu patrón cada mes, además de tu descuento</span></div></div>' +
+      '<p class="sub" style="text-transform:none;letter-spacing:0">' + d.aclaraFrec + '</p>';
     if(d.abonoMenos){
       h += '<div class="caja"><b>Si abonas ' + d.abono + ' cada mes:</b> acabarías en <b>' + d.abonoFin +
            '</b>, terminas <b>' + d.elegido.antes + ' antes</b> (' + d.elegido.menosTxt + ' menos), y dejarías de pagar <b>' + d.abonoAhorro +
@@ -1409,7 +1422,7 @@
          '<div class="sub">De cada pago, esto es lo que baja tu deuda</div>' +
          filasHTML(d.primeros.map(function(f){
            return [f[1] + " — entra " + f[3], "intereses " + f[5] + " · a capital " + f[6]]; }), "ancha");
-    h += '<div class="caja">' + d.prediccion + '</div>';
+    h += '<div class="caja">' + marcasHTML(d.prediccion) + '</div>';
     h += '<h3>De dónde salen estos números</h3>' +
          '<div class="sub">Lo que dice tu estado de cuenta</div>' + filasHTML(d.capturado) +
          '<div class="sub">Lo que dedujimos de tus movimientos</div>' + filasHTML(d.deducido);
