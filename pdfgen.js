@@ -205,6 +205,32 @@
     return y + alto + 12;
   }
 
+  /* escalera: qué parte de lo que entra baja la deuda, año por año.
+     Deja ver que la proporción de hoy NO es la de siempre. */
+  function escalera(p, y, anios, pcts, idx){
+    var alto = 62, base = y + alto, n = anios.length;
+    var hueco = n > 24 ? 1 : 2, w = (ANCHO - hueco * (n - 1)) / n;
+    var y50 = base - alto * 0.5;
+    for (var i = 0; i < n; i++){
+      var h = Math.max(1.5, alto * Math.min(100, pcts[i]) / 100);
+      var x = MARGEN + i * (w + hueco);
+      p.caja(x, base - h, w, h, (idx >= 0 && i >= idx) ? ORO_C : [0.62, 0.68, 0.78]);
+    }
+    /* la referencia del 50% va encima de las barras, si no se pierde */
+    p.linea(MARGEN, y50, W - MARGEN, y50, [0.45, 0.33, 0.09], 0.9);
+    p.texto(MARGEN + 3, y50 - 4, "la mitad de lo que pagas ya baja tu deuda",
+            {size: 7, color: [0.45, 0.33, 0.09]});
+    p.linea(MARGEN, base, W - MARGEN, base, [0.72, 0.76, 0.82], 0.9);
+    p.texto(MARGEN, base + 11, String(anios[0]), {size: 7.5, color: TENUE});
+    p.texto(W - MARGEN, base + 11, String(anios[n - 1]), {size: 7.5, align: "right", color: TENUE});
+    if (idx >= 0){
+      var xc = MARGEN + idx * (w + hueco) + w / 2;
+      p.texto(xc, base + 11, String(anios[idx]), {size: 8, bold: true, align: "center", color: ORO});
+      p.texto(xc, base + 22, "aquí llegas a la mitad", {size: 7.5, align: "center", color: ORO});
+    }
+    return base + (idx >= 0 ? 34 : 22);
+  }
+
   /* línea del tiempo: hoy -> fin sin abonar, con el tramo que te ahorras */
   function tiempo(p, y, fracAb, hoy, fAb, fFin, ganas){
     var x0 = MARGEN + 4, x1 = W - MARGEN - 4, L = x1 - x0;
@@ -256,7 +282,7 @@
   /* ================= el documento =================
      d lleva TODO ya calculado por el motor. Ver datosPDF() en la página. */
   function diagnostico(d){
-    var DE = 5, y, i;
+    var DE = 6, y, i;
 
     /* ---------- 1. el hallazgo ---------- */
     var p1 = new Pagina();
@@ -264,12 +290,16 @@
 
     y = 116;
     y = seccion(p1, y, "Lo primero que tienes que saber");
-    p1.texto(MARGEN, y + 12, "De cada $100 que entran a tu crédito,", {size: 15, color: TINTA});
+    p1.texto(MARGEN, y + 12, "De cada $100 que entran a tu crédito este año,", {size: 15, color: TINTA});
     p1.texto(MARGEN, y + 36, "solo $" + d.pctCapital + " bajan tu deuda.", {size: 21, bold: true, color: TINTA});
     y = p1.parrafo(MARGEN, y + 58, "Los otros $" + d.pctInteres +
         " son intereses, seguros y comisiones. En los próximos 12 meses entrarán " +
         d.doce.entra + " a tu crédito y tu deuda bajará " + d.doce.capital + ".",
-        {size: 10, color: SUAVE, max: ANCHO}) + 16;
+        {size: 10, color: SUAVE, max: ANCHO}) + 14;
+
+    y = seccion(p1, y, "Y esto no se queda así");
+    y = escalera(p1, y, d.escalera.anios, d.escalera.pcts, d.escalera.idx);
+    y = p1.parrafo(MARGEN, y, d.noSeQueda, {size: 9, color: SUAVE, max: ANCHO}) + 14;
 
     y = seccion(p1, y, "Lo que te falta pagar, repartido");
     y = barra(p1, y, d.barraFrac, "lo que debes de capital", d.capitalPend,
@@ -290,15 +320,6 @@
     y = fila(p1, y, "Lo que pondrá tu patrón en todo lo que te falta", d.patronalTotal);
     y = fila(p1, y, "Veces que pagarás tu deuda actual", d.veces);
 
-    y += 10;
-    y = seccion(p1, y, "Lo que cambiaría si abonas");
-    y = tabla(p1, y, [["Si abonas al mes", 30, "left"], ["Terminas en", 22, "left"],
-                      ["Pagos", 14, "right"], ["Pagos menos", 16, "right"], ["Te ahorras", 18, "right"]],
-              d.escenarios, {resalta: d.escenarioElegido >= 0 ? [d.escenarioElegido] : [], alto: 17});
-    y = p1.parrafo(MARGEN, y, "Cada renglón es una corrida completa de tu crédito con ese abono. " +
-        "En la página siguiente está el detalle del que elegiste.",
-        {size: 8.5, color: TENUE, max: ANCHO});
-
     pie(p1, "Habítalo Orienta · No es una institución financiera ni está afiliada al Infonavit.", 1, DE);
 
     /* ---------- 2. lo que puedes cambiar ---------- */
@@ -310,8 +331,20 @@
     y = tiempo(p2, y, d.tiempoFrac, d.hoyMes, d.elegido.fin, d.fechaFin, d.elegido.ganas);
     y = p2.parrafo(MARGEN, y, "Abonando " + d.elegido.abono + " al mes terminarías en " +
         d.elegido.fin + ": son " + d.elegido.menos + " pagos menos y dejarías de pagar " +
-        d.elegido.ahorro + " de intereses y cargos.",
+        d.elegido.ahorro + " de intereses y cargos." +
+        (d.cruceAb && d.cruceGana > 0
+          ? (" Y el punto en que la mitad de lo que pagas ya baja tu deuda se adelanta de " +
+             d.cruce + " a " + d.cruceAb + ": " + d.cruceGana +
+             (d.cruceGana === 1 ? " año antes." : " años antes."))
+          : ""),
         {size: 10, color: TINTA, max: ANCHO}) + 18;
+
+    y = seccion(p2, y, "Otros montos, para que compares");
+    y = tabla(p2, y, [["Si abonas al mes", 30, "left"], ["Terminas en", 22, "left"],
+                      ["Pagos", 14, "right"], ["Pagos menos", 16, "right"], ["Te ahorras", 18, "right"]],
+              d.escenarios, {resalta: d.escenarioElegido >= 0 ? [d.escenarioElegido] : [], alto: 17});
+    y = p2.parrafo(MARGEN, y, "Cada renglón es una corrida completa de tu crédito con ese abono.",
+        {size: 8.5, color: TENUE, max: ANCHO}) + 16;
 
     y = seccion(p2, y, "Lo que cuesta esperar");
     p2.caja(MARGEN, y - 12, ANCHO, 58, CREMA);
@@ -319,10 +352,6 @@
 
     y = seccion(p2, y, "Qué sí puedes hacer");
     y = vinetas(p2, y, d.acciones);
-
-    y += 8;
-    y = seccion(p2, y, "Antes de decidir");
-    y = vinetas(p2, y, d.avisos, 9);
 
     pie(p2, "Habítalo Orienta · Proyección con supuestos, no una cotización del Infonavit.", 2, DE);
 
@@ -367,9 +396,6 @@
     p4.caja(MARGEN, y - 12, ANCHO, 50, CREMA);
     y = p4.parrafo(MARGEN + 12, y, d.prediccion, {size: 9.5, color: TINTA, max: ANCHO - 24}) + 24;
 
-    y = seccion(p4, y, "Los movimientos que usamos para proyectar");
-    for (i = 0; i < d.movimientos.length; i++) y = fila(p4, y, d.movimientos[i][0], d.movimientos[i][1]);
-
     pie(p4, "Habítalo Orienta · Cancún, Quintana Roo", 4, DE);
 
     /* ---------- 5. los números leídos y los avisos ---------- */
@@ -386,29 +412,46 @@
     for (i = 0; i < d.deducido.length; i++) y = fila(p5, y, d.deducido[i][0], d.deducido[i][1]);
 
     y += 14;
-    y = seccion(p5, y, "Lo que este documento no es");
-    y = vinetas(p5, y, [
+    y = seccion(p5, y, "Los movimientos que usamos para proyectar");
+    for (i = 0; i < d.movimientos.length; i++) y = fila(p5, y, d.movimientos[i][0], d.movimientos[i][1]);
+    y = p5.parrafo(MARGEN, y + 6, "De todos tus movimientos, estos son los que sostienen la proyección. " +
+        "Si alguno no corresponde a tu caso, escríbenos: el diagnóstico cambia.",
+        {size: 8.5, color: TENUE, max: ANCHO});
+
+    pie(p5, "Habítalo Orienta · Cada cifra de este documento sale de estos insumos.", 5, DE);
+
+    /* ---------- 6. avisos y constancia ---------- */
+    var p6 = new Pagina();
+    encabezado(p6, "Lo que tienes que tomar en cuenta", d.folio, d.fecha);
+
+    y = 116;
+    y = seccion(p6, y, "Antes de decidir");
+    y = vinetas(p6, y, d.avisos, 9);
+
+    y += 6;
+    y = seccion(p6, y, "Lo que este documento no es");
+    y = vinetas(p6, y, [
       "No es asesoría legal ni fiscal. Si tu caso toca sucesión, copropiedad, litigio, escrituración o impuestos, eso lo ve un especialista aliado.",
       "No es asesoría de inversión ni una recomendación de contratar ningún producto financiero.",
       "No es un estado de cuenta ni un documento emitido por el Infonavit."
     ], 9);
 
     y += 8;
-    p5.caja(MARGEN, y - 12, ANCHO, 44, NIEVE);
-    y = p5.parrafo(MARGEN + 12, y, "Tus datos no se guardaron. Tu estado de cuenta se leyó dentro de tu " +
+    p6.caja(MARGEN, y - 12, ANCHO, 44, NIEVE);
+    y = p6.parrafo(MARGEN + 12, y, "Tus datos no se guardaron. Tu estado de cuenta se leyó dentro de tu " +
         "dispositivo y este documento se armó ahí mismo: tu nombre, NSS, RFC, CURP y domicilio nunca " +
         "salieron de tu equipo.", {size: 9, color: SUAVE, max: ANCHO - 24}) + 22;
 
-    y = seccion(p5, y, "Constancia");
-    y = fila(p5, y, "Folio", d.folio);
-    y = fila(p5, y, "Fecha de emisión", d.fecha);
-    y = fila(p5, y, "Versión del motor de cálculo", d.motor);
-    y = fila(p5, y, "Versión del aviso de privacidad", d.avisoVersion);
-    y = fila(p5, y, "Consentimiento registrado", d.consentido);
+    y = seccion(p6, y, "Constancia");
+    y = fila(p6, y, "Folio", d.folio);
+    y = fila(p6, y, "Fecha de emisión", d.fecha);
+    y = fila(p6, y, "Versión del motor de cálculo", d.motor);
+    y = fila(p6, y, "Versión del aviso de privacidad", d.avisoVersion);
+    y = fila(p6, y, "Consentimiento registrado", d.consentido);
 
-    pie(p5, "Habítalo Orienta · No es una institución financiera ni está afiliada al Infonavit.", 5, DE);
+    pie(p6, "Habítalo Orienta · No es una institución financiera ni está afiliada al Infonavit.", 6, DE);
 
-    return construir([p1, p2, p3, p4, p5]);
+    return construir([p1, p2, p3, p4, p5, p6]);
   }
 
   return {diagnostico: diagnostico, construir: construir, Pagina: Pagina, VERSION: "1.4"};

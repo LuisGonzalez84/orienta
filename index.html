@@ -656,6 +656,25 @@
     return a;
   }
 
+  /* Qué porcentaje de lo que entra en el año baja la deuda, y en qué año
+     ese porcentaje llega a la mitad. Es lo que impide leer el titular como
+     si la proporción de hoy se quedara igual toda la vida del crédito. */
+  function serieCapital(filas){
+    var m = {}, orden = [];
+    for(var x=0; x<filas.length; x++){
+      var r = filas[x], a = r.d.getFullYear();
+      if(!m[a]){ m[a] = {pago:0, cap:0}; orden.push(a); }
+      m[a].pago += r.pago; m[a].cap += r.cap;
+    }
+    var pcts = [], cruce = null, idx = -1;
+    for(var q=0; q<orden.length; q++){
+      var g = m[orden[q]], pct = g.pago > 0 ? (g.cap / g.pago * 100) : 0;
+      pcts.push(pct);
+      if(pct >= 50 && cruce === null){ cruce = orden[q]; idx = q; }
+    }
+    return {anios: orden, pcts: pcts, cruce: cruce, idx: idx};
+  }
+
   function porAnio(filas, maxFilas){
     var m = {}, orden = [];
     for(var x=0; x<filas.length; x++){
@@ -1033,6 +1052,10 @@
     var doce = ventana(base.filas, addM(p.corte, 12));
     var pctCap = doce.pago > 0 ? Math.round(doce.cap / doce.pago * 100) : 0;
 
+    /* cómo evoluciona esa proporción, y cuándo llega a la mitad */
+    var serie = serieCapital(base.filas);
+    var serieAb = serieCapital(elegida.r.filas);
+
     /* --- las primeras ocho aplicaciones reales --- */
     var prim = [], k2 = 0;
     for(var x=0; x<base.filas.length && prim.length < 8; x++){
@@ -1113,6 +1136,18 @@
       pctInteres: String(100 - pctCap),
       doce: {entra: money0(doce.pago), capital: money0(doce.cap), interes: money0(doce.ic)},
 
+      /* la proporción NO se queda fija: sube cada año */
+      escalera: {anios: serie.anios, pcts: serie.pcts, idx: serie.idx},
+      cruce: serie.cruce ? String(serie.cruce) : null,
+      cruceEnAnios: serie.cruce ? (serie.cruce - v.corte.getFullYear()) : null,
+      cruceAb: serieAb.cruce ? String(serieAb.cruce) : null,
+      cruceGana: (serie.cruce && serieAb.cruce) ? (serie.cruce - serieAb.cruce) : 0,
+      noSeQueda: serie.cruce
+        ? ("Hoy es así, pero no se queda así: conforme baja tu deuda, cada año una parte mayor de " +
+           "lo que pagas deja de ser interés. Para " + serie.cruce + " la mitad de lo que entre ya " +
+           "estará bajando tu deuda, y de ahí en adelante mejora más rápido.")
+        : "Conforme baja tu deuda, cada año una parte mayor de lo que pagas deja de ser interés.",
+
       /* barra */
       barraFrac: v.capital / (v.capital + costoBase),
       capitalPend: money0(v.capital),
@@ -1191,8 +1226,9 @@
      No necesita permisos ni descargas: siempre funciona. */
   function textoPlano(d){
     var l = ["DIAGNÓSTICO HABÍTALO ORIENTA · folio " + d.folio + " · " + d.fecha, "",
-             "De cada $100 que entran a tu crédito, solo $" + d.pctCapital + " bajan tu deuda.",
+             "De cada $100 que entran a tu crédito este año, solo $" + d.pctCapital + " bajan tu deuda.",
              "Los otros $" + d.pctInteres + " son intereses, seguros y comisiones.",
+             d.cruce ? "No se queda así: para " + d.cruce + " la mitad de lo que entre ya bajará tu deuda." : "",
              "En los próximos 12 meses entrarán " + d.doce.entra + " y tu deuda bajará " + d.doce.capital + ".", "",
              "Te faltan " + d.pagos + " pagos (unos " + d.anios + " años).",
              "Terminarías de pagar en " + d.fechaFin + ".",
@@ -1223,10 +1259,12 @@
   function pintarDocumento(){
     var d = datosPDF();
     if(!d) return false;
-    var h = '<div class="caja"><b style="font-size:17px">De cada $100 que entran a tu crédito, solo $' +
+    var h = '<div class="caja"><b style="font-size:17px">De cada $100 que entran a tu crédito este año, solo $' +
       d.pctCapital + ' bajan tu deuda.</b><br>Los otros $' + d.pctInteres +
       ' son intereses, seguros y comisiones. En los próximos 12 meses entrarán <b>' + d.doce.entra +
-      '</b> a tu crédito y tu deuda bajará <b>' + d.doce.capital + '</b>.</div>' +
+      '</b> a tu crédito y tu deuda bajará <b>' + d.doce.capital + '</b>.' +
+      (d.cruce ? '<br><br><b>Y esto no se queda así:</b> ' + d.noSeQueda.replace(/^Hoy es así, pero no se queda así: /, '') : '') +
+      '</div>' +
       '<h3>Así vas hoy, sin cambiar nada</h3><div class="grande">' +
       '<div><b>' + d.pagos + ' pagos</b><span>te faltan, unos ' + d.anios + ' años</span></div>' +
       '<div><b>' + d.fechaFin + '</b><span>terminarías de pagar</span></div>' +
@@ -1235,7 +1273,10 @@
     if(d.abonoMenos){
       h += '<div class="caja"><b>Si abonas ' + d.abono + ' cada mes:</b> acabarías en <b>' + d.abonoFin +
            '</b>, son <b>' + d.abonoMenos + ' pagos menos</b>, y dejarías de pagar <b>' + d.abonoAhorro +
-           '</b> de intereses y cargos.</div>';
+           '</b> de intereses y cargos.' +
+           (d.cruceAb && d.cruceGana > 0
+             ? ' Y llegarías a la mitad en <b>' + d.cruceAb + '</b> en vez de ' + d.cruce + '.'
+             : '') + '</div>';
     }
     h += '<h3>Lo que cambiaría si abonas</h3>' + filasHTML(d.escenarios.map(function(f){
            return [f[0] + " al mes", "termina " + f[1] + " · " + f[4] + " menos de intereses"]; }), "ancha");
