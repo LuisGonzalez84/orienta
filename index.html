@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, follow">
-<meta name="description" content="Sube tu estado de cuenta del Infonavit y descubre en un minuto cuánto te falta realmente, cuánto pagas de intereses y en cuánto tiempo terminas. Habítalo Orienta.">
+<meta name="description" content="Sube tu estado de cuenta del Infonavit y ve gratis cuánto te falta y a dónde se va tu pago. Diagnóstico completo con simulador de abonos: $50. Habítalo Orienta.">
 <style>
   :root{ color-scheme: light; }
   *{ box-sizing: border-box; }
@@ -16,7 +16,15 @@
 <title>¿Cuánto te falta de tu crédito Infonavit? · Habítalo Orienta</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="¿Estás pagando una casa… o principalmente intereses?">
-<meta property="og:description" content="Sube tu estado de cuenta del Infonavit y ve gratis, en un minuto, cuánto te falta y en qué fecha terminas. Tu documento no sale de tu teléfono.">
+<meta property="og:description" content="Sube tu estado de cuenta del Infonavit y ve gratis cuánto te falta y a dónde se va tu pago. Tu documento no sale de tu teléfono.">
+<!-- La imagen al compartir necesita la dirección completa: cámbiala si la página se muda a habitalo.com.mx -->
+<meta property="og:image" content="https://luisgonzalez84.github.io/orienta/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="¿Estás pagando una casa… o principalmente intereses? Habítalo México">
+<meta property="og:url" content="https://luisgonzalez84.github.io/orienta/">
+<meta property="og:locale" content="es_MX">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
@@ -269,6 +277,7 @@
   a.cta{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:17.5px;
     background:#CFAE82;color:#1B1405;border-radius:6px;padding:15px 20px;}
   a.cta:hover{background:#DDBF96;}
+  a.cta-ejemplo{text-align:center;color:var(--band-ink);font-size:15.5px;font-weight:600;text-decoration:underline;text-underline-offset:3px;opacity:.9;margin-top:-4px;}
   .hero .precio-linea{font-size:14px;opacity:.75;text-align:center;}
   .sellos{list-style:none;margin:2px 0 0;padding:12px 0 0;border-top:1px solid rgba(255,255,255,.14);
     display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;opacity:.85;}
@@ -309,6 +318,15 @@
   .hojas li b{color:var(--ink);}
   .hojas .n{font-family:var(--display);font-weight:700;font-size:15px;color:var(--band-ink);background:var(--band);
     border-radius:99px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;}
+  .oferta{display:grid;grid-template-columns:1fr 1.35fr;gap:10px;}
+  .oferta > div{border-radius:5px;padding:14px 15px;display:flex;flex-direction:column;gap:8px;}
+  .o-gratis{background:var(--field);border:1px solid var(--rule);}
+  .o-pago{background:var(--gold-soft);border:1px solid rgba(154,111,21,.35);}
+  .o-tit{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);}
+  .o-pago .o-tit{color:var(--gold);}
+  .oferta ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:14.5px;color:var(--ink-soft);line-height:1.4;}
+  .oferta b{color:var(--ink);}
+  @media (max-width:520px){ .oferta{grid-template-columns:1fr;} }
   .miniaturas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
   .miniaturas a{display:block;border:1px solid var(--rule);border-radius:3px;overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(20,36,63,.08);}
   .miniaturas img{display:block;width:100%;height:auto;}
@@ -412,6 +430,7 @@
     <h1 id="hero-titulo">¿Estás pagando una casa… o principalmente intereses?</h1>
     <p class="hero-sub">Sube tu estado de cuenta y en un minuto ves, <b>gratis</b>, cuánto te falta de verdad y a dónde se va cada peso que te descuentan.</p>
     <a class="cta" href="#empezar" data-cta="hero">Ver mi crédito gratis</a>
+    <a class="cta-ejemplo" href="#empezar" id="hero-ejemplo">o mira primero un ejemplo, sin subir nada</a>
     <p class="precio-linea">El diagnóstico completo cuesta $50 y lo pagas solo después de ver tu resultado.</p>
     <ul class="sellos">
       <li>Tu documento no sale de tu teléfono</li>
@@ -452,6 +471,27 @@
         <li><span class="n">3</span><span><b>Cómo comprobarlo.</b> Tus siguientes pagos uno por uno y el saldo que deberías ver en tu próximo estado de cuenta.</span></li>
         <li><span class="n">4</span><span><b>Lo que debes tomar en cuenta.</b> Los supuestos del cálculo, dicho claro, y la constancia de tu diagnóstico.</span></li>
       </ul>
+      <div class="oferta">
+        <div class="o-gratis">
+          <p class="o-tit">Gratis, al subir tu documento</p>
+          <ul>
+            <li>Cuánto de lo que pagas este año baja tu deuda</li>
+            <li>La gráfica de cómo cambia, año por año</li>
+            <li>Cuánto tiempo te falta, al ritmo de hoy</li>
+          </ul>
+        </div>
+        <div class="o-pago">
+          <p class="o-tit">Con tu diagnóstico · $50</p>
+          <ul>
+            <li><b>Simulador:</b> cuánto abonar para terminar en los años que tú elijas</li>
+            <li>Tres escenarios de abono, con fecha y ahorro de cada uno</li>
+            <li>Lo que te cuesta esperar un año para empezar</li>
+            <li>Fecha estimada de término y total de intereses y cargos</li>
+            <li>Tus siguientes pagos uno por uno y una predicción para comprobarlo</li>
+            <li>El PDF de 4 hojas, para guardarlo o compartirlo</li>
+          </ul>
+        </div>
+      </div>
       <div class="miniaturas">
         <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-1.jpg" alt="Hoja 1 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
         <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-2.jpg" alt="Hoja 2 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
@@ -470,7 +510,7 @@
       <h2 class="lh" data-frase="antes" data-alterna="Lo que cambia si abonas">¿Y si pudieras dejar de pagar tu mensualidad antes de lo que imaginas?</h2>
       <div class="ganancia">
         <span class="g1" id="l-antes-t">3 años y 4 meses antes</span>
-        <span class="g2">y <b id="l-ahorro">$286,259</b> menos de intereses</span>
+        <span class="g2">y <b id="l-ahorro">$286,259</b> menos en intereses y cargos</span>
         <span class="g3" id="l-antes-pie">con $1,000 extra al mes, en el caso ilustrativo.</span>
       </div>
       <p class="txt">El Infonavit acepta pagos adicionales sin comisión y se aplican a tu saldo. Tu diagnóstico te dice qué pasa con <b>tu</b> crédito si abonas, y cuánto te cuesta dejarlo para después.</p>
@@ -497,7 +537,7 @@
     <div class="pad">
       <p class="kicker">Por qué puedes confiar</p>
       <div class="razones">
-        <div><b>Tu documento no sale de tu dispositivo.</b><span>Se lee ahí mismo. Compruébalo: ponte en modo avión y verás que funciona igual.</span></div>
+        <div><b>Tu documento no sale de tu dispositivo.</b><span>Se lee ahí mismo. Compruébalo: con la página abierta, ponte en modo avión y verás que funciona igual.</span></div>
         <div><b>Cada número se puede comprobar.</b><span>Tu diagnóstico trae la cuenta completa de tu siguiente pago y el saldo que deberías ver en tu próximo estado de cuenta.</span></div>
         <div><b>No te pedimos datos personales.</b><span>Ni nombre, ni NSS, ni teléfono. De tu documento solo se toman los números de tu crédito.</span></div>
         <div><b>Pagas después de ver tu resultado.</b><span>Primero ves gratis cuánto te falta. El cobro aparece solo cuando tus números cuadran.</span></div>
@@ -516,7 +556,7 @@
       <details><summary>¿Es una página del Infonavit?</summary>
         <p>No. Habítalo Orienta es un servicio independiente de Habítalo México, en Cancún. No estamos afiliados al Infonavit ni hablamos con él por ti.</p></details>
       <details><summary>¿Qué pasa con mi estado de cuenta?</summary>
-        <p>Se lee dentro de tu teléfono o computadora y no se sube a ningún lado. Tu nombre, NSS, RFC, CURP y domicilio ni se leen ni se guardan: solo se toman saldos, tasa, pagos y fechas.</p></details>
+        <p>Se lee dentro de tu teléfono o computadora y no se sube a ningún lado. Tu nombre, NSS, RFC, CURP y domicilio pasan por el lector, pero no se usan, no se guardan y no se envían: para el cálculo solo se toman saldos, tasa, pagos y fechas.</p></details>
       <details><summary>¿Qué tan exacto es?</summary>
         <p>Es una estimación calculada con tus propios pagos. Supone que tu descuento de nómina sigue igual. Para que no tengas que creernos, tu diagnóstico te dice qué saldo deberías ver en tu próximo estado de cuenta.</p></details>
       <details><summary>¿Dónde consigo mi estado de cuenta?</summary>
@@ -524,7 +564,7 @@
       <details><summary>¿Por qué dice «pagos bimestrales» si me descuentan en cada nómina?</summary>
         <p>Tu patrón te descuenta en cada nómina y entrega el dinero al Infonavit cada dos meses. Por eso tus pagos se aplican de forma bimestral.</p></details>
       <details><summary>¿Cómo pago y cuándo recibo mi diagnóstico?</summary>
-        <p>Con Mercado Pago: tarjeta de débito, de crédito o tu saldo. Al terminar regresas a la página y descargas tu diagnóstico en PDF al momento.</p></details>
+        <p id="faq-pago">Con Mercado Pago. Al terminar, copia el número de operación de tu comprobante, regresa a esta pestaña y escríbelo en «¿Ya pagaste?»: tu diagnóstico se abre y lo descargas en PDF al momento.</p></details>
       <details><summary>¿Y si no se puede leer mi documento?</summary>
         <p>No pagas nada: el botón de pago solo aparece cuando tus números cuadran. También puedes capturar a mano los ocho números de la primera hoja.</p></details>
       <details><summary>¿Puedo abonar a mi crédito?</summary>
@@ -555,11 +595,11 @@
       </label>
 
       <div class="privacy">
-        <p>🔒 <b>Tu archivo no se sube a ningún lado.</b> Se lee aquí mismo, en tu dispositivo. Tu nombre, NSS, RFC, CURP y domicilio ni se leen ni se guardan: solo tomamos los números de tu crédito.</p>
+        <p>🔒 <b>Tu archivo no se sube a ningún lado.</b> Se lee aquí mismo, en tu dispositivo. Tu nombre, NSS, RFC, CURP y domicilio no se usan, no se guardan y no se envían: solo tomamos los números de tu crédito.</p>
         <details class="check">
           <summary>No me lo creas: compruébalo</summary>
           <ol>
-            <li><b>Ponte en modo avión</b> y sube el archivo. Vas a ver que funciona igual, porque la lectura pasa dentro de tu teléfono y no hay nada que enviar.</li>
+            <li>Con esta página ya abierta, <b>ponte en modo avión</b> y sube el archivo. Vas a ver que funciona igual, porque la lectura pasa dentro de tu teléfono y no hay nada que enviar.</li>
             <li>Cuando termine, abre <b>«Ver exactamente qué se tomó»</b> aquí abajo. Esa lista es todo lo que salió de tu documento.</li>
             <li>¿Prefieres tacharlo antes de subirlo? Puedes, pero que sepas una cosa: <b>un recuadro negro puesto encima en un visor de PDF tapa el dato, no lo borra</b> — el texto sigue debajo y cualquiera lo recupera. Lo probamos. Si de plano no quieres subir el archivo, captura los ocho números a mano: es la única vía en la que el documento nunca se abre.</li>
           </ol>
@@ -648,9 +688,8 @@
   <div class="card">
     <h2>Antes de ver tus números</h2>
     <div class="consent">
-      <p class="aviso"><strong>Aviso de privacidad.</strong> Alejandro Rodríguez Aznar, quien opera como <strong>Habítalo México</strong>, en Cancún, Quintana Roo, es responsable del tratamiento de tus datos. Tu estado de cuenta se lee dentro de tu dispositivo: tu nombre, NSS, RFC, CURP y domicilio no se leen ni se guardan. De tu crédito tomamos saldos, tasa, mensualidades, fechas y movimientos, y los usamos para calcular tu diagnóstico y entregártelo. Se guardan solo en esta pestaña mientras la tengas abierta, para que no los pierdas al pagar. Para cobrarte, a Mercado Pago solo le llega el folio de tu diagnóstico, nunca tus números. Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos, gratis y sin costo, escribiendo a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a>. <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener" id="link-aviso">Consulta el aviso completo</a>.</p>
+      <p class="aviso"><strong>Aviso de privacidad.</strong> Alejandro Rodríguez Aznar, quien opera como <strong>Habítalo México</strong>, en Cancún, Quintana Roo, es responsable del tratamiento de tus datos. Tu estado de cuenta se lee dentro de tu dispositivo: tu nombre, NSS, RFC, CURP y domicilio no se usan, no se guardan y no se envían. De tu crédito tomamos saldos, tasa, mensualidades, fechas y movimientos, y los usamos para calcular tu diagnóstico y entregártelo. Se guardan solo en esta pestaña mientras la tengas abierta, para que no los pierdas al pagar. Para cobrarte y comprobar tu pago solo viajan el folio de tu diagnóstico y tu número de operación, nunca tus números. Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos, gratis y sin costo, escribiendo a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a>. <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener" id="link-aviso">Consulta el aviso completo</a>.</p>
       <label class="check"><input type="checkbox" id="c-obligatorio"> <span>He leído el aviso de privacidad y <strong>autorizo el tratamiento de mis datos financieros</strong> para calcular mi diagnóstico.</span></label>
-      <label class="check"><input type="checkbox" id="c-opcional"> <span>Quiero recibir información de otros servicios de Habítalo. <em>(opcional — puedes dejarlo sin marcar y tu diagnóstico sale igual)</em></span></label>
       <p class="registro" id="registro" hidden></p>
     </div>
   </div>
@@ -664,7 +703,7 @@
     <div class="cobro" id="cobro" hidden>
       <div class="precio">
         <span class="monto">$50</span>
-        <span class="que">Tu diagnóstico completo: la fecha en que terminas, lo que pagarías de intereses, lo que aporta tu patrón y el simulador de abonos. Se descuenta si después contratas el Dictamen Orienta.</span>
+        <span class="que">Tu diagnóstico completo: la fecha estimada en que terminas y lo que pagarías de intereses y cargos, el simulador para elegir en cuántos años terminar, tres escenarios de abono, lo que te cuesta esperar y un PDF de 4 hojas que puedes comprobar.</span>
       </div>
       <a class="pagar" id="btn-pagar" href="https://mpago.la/1TpaU2v" target="_blank" rel="noopener">Pagar $50 y ver mi diagnóstico</a>
       <p class="sello" id="sello-pago">Pago seguro con Mercado Pago. No cobramos hasta que tus datos cuadran — y ya cuadraron.<br>
@@ -734,14 +773,24 @@
   var LIGA_PAGO = "https://mpago.la/1TpaU2v";
   var VIDEO_TUTORIAL = "";   // liga de YouTube del tutorial; vacío = no se muestra
 
+  /* El lector se prepara al abrir la página, no al subir el archivo: así la
+     lectura ya no necesita internet y la prueba del modo avión funciona. */
+  var PDFJS_WORKER = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  (function precargarLector(){
+    try{
+      var L = window.pdfjsLib;
+      if(!L || L.GlobalWorkerOptions.workerPort || L.GlobalWorkerOptions.workerSrc) return;
+      var b = new Blob(['importScripts("' + PDFJS_WORKER + '");'], {type:"application/javascript"});
+      L.GlobalWorkerOptions.workerPort = new Worker(URL.createObjectURL(b));
+    }catch(e){ /* si no se puede, se carga al subir el archivo, como antes */ }
+  })();
+
   function pdfjs(){
     // se consulta al momento de usarlo: el CDN puede tardar en llegar
     if(!window.pdfjsLib) return null;
     try{
-      if(!window.pdfjsLib.GlobalWorkerOptions.workerSrc){
-        window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-      }
+      var G = window.pdfjsLib.GlobalWorkerOptions;
+      if(!G.workerPort && !G.workerSrc) G.workerSrc = PDFJS_WORKER;
     }catch(e){}
     return window.pdfjsLib;
   }
@@ -1122,7 +1171,7 @@
     ];
     var html = "<table><tbody>";
     for(var i=0;i<filas.length;i++) html += "<tr><td>"+filas[i][0]+"</td><td>"+filas[i][1]+"</td></tr>";
-    html += "</tbody></table><p class=\"nota\">Esto es todo. Tu nombre, tu NSS, tu RFC, tu CURP y tu domicilio están en el documento y no aparecen aquí porque no se leen. Y nada de esta lista viajó a ningún servidor: está solo en la memoria de tu navegador y se borra al cerrar la página.</p>";
+    html += "</tbody></table><p class=\"nota\">Esto es todo. Tu nombre, tu NSS, tu RFC, tu CURP y tu domicilio están en el documento y no aparecen aquí porque no se usan. Y nada de esta lista viajó a ningún servidor: está solo en la memoria de tu navegador y se borra al cerrar la página.</p>";
     $("tomado-body").innerHTML = html;
     $("tomado").hidden = false;
   }
@@ -1184,7 +1233,7 @@
       $("hallazgo").hidden = true; $("grafica").hidden = true;
       return;
     }
-    if(!$("c-obligatorio").checked){
+    if(!$("c-obligatorio").checked && !EJEMPLO){          // el caso inventado no trae datos de nadie
       $("nums").innerHTML = '<div class="num" style="grid-column:1/-1;"><span>Tus números están listos. Marca la casilla del aviso de privacidad aquí arriba para verlos.</span></div>';
       $("simout").textContent = ""; $("cobro").hidden = true; $("simwrap").hidden = true;
       $("hallazgo").hidden = true; $("grafica").hidden = true;
@@ -1666,7 +1715,7 @@
              : '') + '</div>';
     }
     h += '<h3>Lo que cambiaría si abonas</h3>' + filasHTML(d.escenarios.map(function(f){
-           return [f[0] + " al mes", "termina " + f[1] + " · " + f[4] + " menos de intereses"]; }), "ancha");
+           return [f[0] + " al mes", "termina " + f[1] + " · " + f[4] + " menos en intereses y cargos"]; }), "ancha");
     h += '<h3>Tus siguientes pagos</h3>' +
          '<div class="sub">De cada pago, esto es lo que baja tu deuda</div>' +
          filasHTML(d.primeros.map(function(f){
@@ -1835,6 +1884,7 @@
   if(API){
     $("btn-pagar").removeAttribute("target");
     $("btn-pagar").href = "#";
+    $("faq-pago").textContent = "Con Mercado Pago: tarjeta de débito, de crédito o tu saldo. Al terminar regresas a la página, tu pago se comprueba solo y descargas tu diagnóstico en PDF al momento. Si no regresaste, escribe tu número de operación en «¿Ya pagaste?».";
     $("sello-pago").innerHTML = "Pago seguro con Mercado Pago: tarjeta de débito, de crédito o tu saldo de Mercado Pago. " +
       "Al terminar regresas a esta página y tu diagnóstico se abre solo.";
   }
@@ -1944,7 +1994,6 @@
     if(b.consent){
       CONSENT = b.consent;
       $("c-obligatorio").checked = true;
-      $("c-opcional").checked = !!CONSENT.adicionales;
       pintarRegistro();
     }
     if(b.pago === "aprobado"){ PAGO = "aprobado"; REF_PAGO = b.ref || null; }
@@ -1990,12 +2039,12 @@
       CONSENT = {
         fecha: new Date().toISOString(),
         aviso: AVISO_VERSION,
-        adicionales: $("c-opcional").checked
+        adicionales: false
       };
     } else if(!ok){
       CONSENT = null;
     } else {
-      CONSENT.adicionales = $("c-opcional").checked;
+      CONSENT.adicionales = false;
     }
     pintarRegistro();
     calcular();
@@ -2007,14 +2056,13 @@
       r.hidden = false;
       r.textContent = "Consentimiento registrado el " + new Date(CONSENT.fecha).toLocaleString("es-MX") +
                       " · aviso versión " + CONSENT.aviso +
-                      " · finalidades adicionales: " + (CONSENT.adicionales ? "aceptadas" : "no aceptadas");
+                      "";
     } else {
       r.hidden = true;
     }
   }
 
   $("c-obligatorio").addEventListener("change", marcarConsentimiento);
-  $("c-opcional").addEventListener("change", marcarConsentimiento);
 
 
   $("f-meta").addEventListener("input", function(){
@@ -2053,6 +2101,7 @@
   }
   function ejemplo(){
     var H = datosEjemplo();
+    EJEMPLO = true;
     aplicar(H, "un documento de ejemplo");
     EJEMPLO = true;
     $("aviso-ejemplo").hidden = false;
@@ -2068,7 +2117,7 @@
     PAGO = "no"; FOLIO = null; REF_PAGO = null; $("f-folio").value = ""; $("folio-msg").textContent = "";
     setModo("doc");
     ["f-capital","f-interes","f-comis","f-total","f-tasa","f-mcon","f-msin","f-corte","f-sueldo"].forEach(function(id){ $(id).value = ""; });
-    $("c-obligatorio").checked = false; $("c-opcional").checked = false; CONSENT = null;
+    $("c-obligatorio").checked = false; CONSENT = null;
     $("registro").hidden = true;
     $("gate").className = "gate";
     $("tomado").hidden = true;
@@ -2196,6 +2245,12 @@
     new IntersectionObserver(function(e){ heroVisto = e[0].isIntersecting; pinta(); }).observe(hero);
     new IntersectionObserver(function(e){ herramienta = e[0].isIntersecting || e[0].boundingClientRect.top < 0; pinta(); }).observe(meta);
   }
+
+  $("hero-ejemplo").addEventListener("click", function(e){
+    e.preventDefault();
+    ejemplo();
+    setTimeout(function(){ $("hallazgo").scrollIntoView({behavior:"smooth", block:"start"}); }, 60);
+  });
 
   pintarLanding();
   videoTutorial();
