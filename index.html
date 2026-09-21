@@ -514,6 +514,23 @@
   var MM=["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
   function mesAnio(d){ return MM[d.getMonth()]+" "+d.getFullYear(); }
 
+  /* Unidades: un número de pagos nunca va solo. En un crédito bimestral,
+     "39 pagos" se lee como 39 mensualidades (tres años) cuando son seis y medio.
+     Por eso el tiempo va primero y los pagos llevan siempre su frecuencia. */
+  var FREC = {1:"mensual", 2:"bimestral", 3:"trimestral", 4:"cuatrimestral", 6:"semestral"};
+  function pagosTxt(n, per){
+    var f = FREC[per || 1], cab = n + (n === 1 ? " pago" : " pagos");
+    return f ? cab + " " + (n === 1 ? f : f + "es") : cab + " (uno cada " + per + " meses)";
+  }
+  function mesesEntre(a, b){ return (b.getFullYear()-a.getFullYear())*12 + (b.getMonth()-a.getMonth()); }
+  function tiempoTxt(m){
+    m = Math.max(0, Math.round(m));
+    var a = Math.floor(m/12), r = m % 12, o = [];
+    if(a) o.push(a + (a === 1 ? " año" : " años"));
+    if(r) o.push(r + (r === 1 ? " mes" : " meses"));
+    return o.length ? o.join(" y ") : "menos de un mes";
+  }
+
   /* ======== reconstrucción de líneas desde pdf.js ======== */
   function lineasDe(items){
     var filas = [];
@@ -931,7 +948,7 @@
     var per = p.periodicidad || 1;
     var nPagos = Math.ceil(base.periodos / per);
     $("nums").innerHTML =
-      '<div class="num"><b>'+nPagos+' pagos</b><span>te faltan, al ritmo de hoy — unos '+(base.periodos/12).toFixed(1)+' años</span></div>' +
+      '<div class="num"><b>'+(base.fin ? tiempoTxt(mesesEntre(p.corte, base.fin)) : "—")+'</b><span>te faltan, al ritmo de hoy: '+pagosTxt(nPagos, per)+'</span></div>' +
       '<div class="num'+L+'"><b>'+(base.fin?mesAnio(base.fin):"—")+'</b><span>terminarías de pagar</span></div>' +
       '<div class="num'+L+'"><b>'+money0(base.interes+base.cargos)+'</b><span>pagarías de intereses, seguros y cuotas en el camino</span></div>' +
       '<div class="num'+L+'"><b>'+money0(CTX.apMes)+'</b><span>pone tu patrón cada mes, además de tu descuento</span></div>';
@@ -999,8 +1016,10 @@
     var con = correr(q);
     var pr = p.periodicidad || 1;
     var menos = Math.ceil(base.periodos/pr) - Math.ceil(con.periodos/pr);
+    var antes = (con.fin && base.fin) ? mesesEntre(con.fin, base.fin) : 0;
     $("simout").innerHTML = "Abonando <b>"+money0(ab)+"</b> al mes acabarías en <b>"+
-      (con.fin?mesAnio(con.fin):"—")+"</b>: son <b>"+menos+" pagos menos</b> y dejarías de pagar <b>"+
+      (con.fin?mesAnio(con.fin):"—")+"</b>: terminas <b>"+tiempoTxt(antes)+" antes</b> ("+pagosTxt(menos, pr)+
+      " menos) y dejarías de pagar <b>"+
       money0((base.interes+base.cargos)-(con.interes+con.cargos))+"</b> de intereses y cargos.";
   }
 
@@ -1123,10 +1142,13 @@
     }
     function resumen(monto){
       var r = corrida(monto);
+      var falta = r.fin ? mesesEntre(v.corte, r.fin) : 0;
+      var antes = (r.fin && base.fin) ? mesesEntre(r.fin, base.fin) : 0;
       return {abono: money0(monto), monto: monto, r: r,
               fin: r.fin ? mesAnio(r.fin) : "—",
               pagos: pagosDe(r),
               menos: pagosDe(base) - pagosDe(r),
+              falta: falta, antes: antes,
               ahorro: money0(costoBase - costoDe(r))};
     }
 
@@ -1138,7 +1160,7 @@
     for(var e=0; e<montos.length; e++){
       var R = resumen(montos[e]);
       if(montos[e] === ab) idx = e;
-      escen.push([R.abono, R.fin, String(R.pagos), R.menos > 0 ? "-" + R.menos : "sin cambio", R.ahorro]);
+      escen.push([R.abono, R.fin, tiempoTxt(R.falta), R.antes > 0 ? tiempoTxt(R.antes) : "sin cambio", R.ahorro]);
     }
 
     /* --- qué cuesta esperar un año para empezar a abonar --- */
@@ -1256,6 +1278,9 @@
       /* los cuatro de siempre */
       pagos: pagosDe(base),
       anios: (base.periodos/12).toFixed(1),
+      frecuencia: FREC[per] ? FREC[per] + "es" : "cada " + per + " meses",
+      tiempo: base.fin ? tiempoTxt(mesesEntre(v.corte, base.fin)) : "—",
+      pagosTxt: pagosTxt(pagosDe(base), per),
       fechaFin: base.fin ? mesAnio(base.fin) : "—",
       costo: money0(costoBase),
       patronal: money0(C.apMes),
@@ -1265,12 +1290,15 @@
       mensualizado: money0(costoBase / mesesBase),
       patronalTotal: money0(C.apMes * mesesBase),
       veces: (costoBase / v.capital).toFixed(2) + " veces",
+      porCien: "$" + Math.round(costoBase / v.capital * 100) + " de intereses y cargos",
 
       /* escenarios */
       elegido: {abono: elegida.abono, fin: elegida.fin, pagos: String(elegida.pagos),
                 menos: String(elegida.menos), ahorro: elegida.ahorro,
-                ganas: elegida.menos > 0
-                  ? ("te ahorras " + ((base.periodos - mesesAb)/12).toFixed(1) + " años y " + elegida.ahorro)
+                antes: tiempoTxt(elegida.antes),
+                menosTxt: pagosTxt(elegida.menos, per),
+                ganas: elegida.antes > 0
+                  ? ("terminas " + tiempoTxt(elegida.antes) + " antes y te ahorras " + elegida.ahorro)
                   : "—"},
       escenarios: escen,
       escenarioElegido: idx,
@@ -1327,12 +1355,12 @@
              "Los otros $" + d.pctInteres + " son intereses, seguros y comisiones.",
              d.cruce ? "No se queda así: para " + d.cruce + " la mitad de lo que entre ya bajará tu deuda." : "",
              "En los próximos 12 meses entrarán " + d.doce.entra + " y tu deuda bajará " + d.doce.capital + ".", "",
-             "Te faltan " + d.pagos + " pagos (unos " + d.anios + " años).",
+             "Te faltan " + d.tiempo + " (" + d.pagosTxt + ").",
              "Terminarías de pagar en " + d.fechaFin + ".",
              "Pagarías " + d.costo + " de intereses, seguros y cuotas.",
              "Tu patrón pone " + d.patronal + " al mes, además de tu descuento.", ""];
     if(d.abonoMenos) l.push("Abonando " + d.abono + " al mes: acabarías en " + d.abonoFin +
-                            ", " + d.abonoMenos + " pagos menos, y te ahorrarías " + d.abonoAhorro + ".", "");
+                            ", " + d.elegido.antes + " antes (" + d.elegido.menosTxt + " menos), y te ahorrarías " + d.abonoAhorro + ".", "");
     l.push("DE TU ESTADO DE CUENTA");
     d.capturado.forEach(function(f){ l.push("  " + f[0] + ": " + f[1]); });
     l.push("", "DEDUCIDO DE TUS MOVIMIENTOS");
@@ -1363,13 +1391,13 @@
       (d.cruce ? '<br><br><b>Y esto no se queda así:</b> ' + d.noSeQueda.replace(/^Hoy es así, pero no se queda así: /, '') : '') +
       '</div>' +
       '<h3>Así vas hoy, sin cambiar nada</h3><div class="grande">' +
-      '<div><b>' + d.pagos + ' pagos</b><span>te faltan, unos ' + d.anios + ' años</span></div>' +
+      '<div><b>' + d.tiempo + '</b><span>te faltan: ' + d.pagosTxt + '</span></div>' +
       '<div><b>' + d.fechaFin + '</b><span>terminarías de pagar</span></div>' +
       '<div><b>' + d.costo + '</b><span>pagarías de intereses, seguros y cuotas</span></div>' +
       '<div><b>' + d.patronal + '</b><span>pone tu patrón cada mes, además de tu descuento</span></div></div>';
     if(d.abonoMenos){
       h += '<div class="caja"><b>Si abonas ' + d.abono + ' cada mes:</b> acabarías en <b>' + d.abonoFin +
-           '</b>, son <b>' + d.abonoMenos + ' pagos menos</b>, y dejarías de pagar <b>' + d.abonoAhorro +
+           '</b>, terminas <b>' + d.elegido.antes + ' antes</b> (' + d.elegido.menosTxt + ' menos), y dejarías de pagar <b>' + d.abonoAhorro +
            '</b> de intereses y cargos.' +
            (d.cruceAb && d.cruceGana > 0
              ? ' Y llegarías a la mitad en <b>' + d.cruceAb + '</b> en vez de ' + d.cruce + '.'

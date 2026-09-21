@@ -275,7 +275,7 @@
     p.texto(x0, yl + 18, "hoy", {size: 7.5, color: TENUE});
     p.texto(xa, yl + 18, "abonando", {size: 7.5, align: "center", color: TENUE});
     p.texto(x1, yl + 18, "sin abonar", {size: 7.5, align: "right", color: TENUE});
-    p.texto((xa + x1) / 2, yl + 32, ganas, {size: 9.5, bold: true, align: "center", color: ORO});
+    p.texto(x1, yl + 32, ganas, {size: 9.5, bold: true, align: "right", color: ORO});
     return yl + 48;
   }
 
@@ -339,7 +339,7 @@
 
     y = seccion(p1, y, "Así vas hoy, sin cambiar nada");
     y = mosaico(p1, y, [
-      [d.pagos + " pagos", "te faltan, al ritmo de hoy — unos " + d.anios + " años"],
+      [d.tiempo, "te faltan, al ritmo de hoy: " + d.pagosTxt],
       [d.fechaFin, "terminarías de pagar, solo con tu descuento"],
       [d.costo, "pagarías de intereses, seguros y cuotas"],
       [d.patronal, "pone tu patrón cada mes, además de tu descuento"]
@@ -349,7 +349,7 @@
     y = fila(p1, y, "Tu crédito genera, cada día que pasa", d.porDia);
     y = fila(p1, y, "Lo que pagarías de intereses, repartido en el plazo", d.mensualizado + " al mes");
     y = fila(p1, y, "Lo que pondrá tu patrón en todo lo que te falta", d.patronalTotal);
-    y = fila(p1, y, "Veces que pagarás tu deuda actual", d.veces);
+    y = fila(p1, y, "Por cada $100 que debes hoy, pagarás además", d.porCien);
 
     pie(p1, "Habítalo Orienta · No es una institución financiera ni está afiliada al Infonavit.", 1, DE);
 
@@ -361,7 +361,8 @@
     y = seccion(p2, y, "Si abonas " + d.elegido.abono + " cada mes");
     y = tiempo(p2, y, d.tiempoFrac, d.hoyMes, d.elegido.fin, d.fechaFin, d.elegido.ganas);
     y = p2.parrafo(MARGEN, y, "Abonando " + d.elegido.abono + " al mes terminarías en " +
-        d.elegido.fin + ": son " + d.elegido.menos + " pagos menos y dejarías de pagar " +
+        d.elegido.fin + ": terminas " + d.elegido.antes + " antes (" + d.elegido.menosTxt +
+        " menos) y dejarías de pagar " +
         d.elegido.ahorro + " de intereses y cargos." +
         (d.cruceAb && d.cruceGana > 0
           ? (" Y el punto en que la mitad de lo que pagas ya baja tu deuda se adelanta de " +
@@ -372,7 +373,7 @@
 
     y = seccion(p2, y, "Otros montos, para que compares");
     y = tabla(p2, y, [["Si abonas al mes", 30, "left"], ["Terminas en", 22, "left"],
-                      ["Pagos", 14, "right"], ["Pagos menos", 16, "right"], ["Te ahorras", 18, "right"]],
+                      ["Te faltarían", 22, "right"], ["Terminas antes", 22, "right"], ["Te ahorras", 18, "right"]],
               d.escenarios, {resalta: d.escenarioElegido >= 0 ? [d.escenarioElegido] : [], alto: 17});
     y = p2.parrafo(MARGEN, y, "Cada renglón es una corrida completa de tu crédito con ese abono.",
         {size: 8.5, color: TENUE, max: ANCHO}) + 16;
@@ -409,7 +410,7 @@
     encabezado(p4, "Cómo comprobar estos números", d.folio, d.fecha);
 
     y = 116;
-    y = seccion(p4, y, "Tus siguientes pagos, uno por uno");
+    y = seccion(p4, y, "Tus siguientes pagos " + d.frecuencia + ", uno por uno");
     y = tabla(p4, y, [["Pago", 9, "left"], ["Fecha", 18, "left"], ["Días", 9, "right"],
                       ["Entra", 19, "right"], ["Comisiones", 16, "right"],
                       ["Intereses", 17, "right"], ["A capital", 16, "right"], ["Saldo", 20, "right"]],
