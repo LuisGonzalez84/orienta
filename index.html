@@ -184,6 +184,18 @@
   }
 
   /* ---- cobro ---- */
+  /* el hallazgo y la gráfica: lo que explica de un golpe a dónde se va el pago */
+  .hallazgo{padding:18px 20px 4px;}
+  .hallazgo .chico{font-size:15px;color:var(--ink);margin:0;}
+  .hallazgo .grande{font-family:var(--display);font-size:clamp(20px,6vw,27px);font-weight:700;
+    color:var(--ink);line-height:1.15;margin:2px 0 8px;}
+  .hallazgo .nota{font-size:13.5px;color:var(--ink-soft);margin:0;}
+  .grafica{padding:4px 20px 16px;}
+  .grafica h3{font-family:var(--body);font-size:12px;font-weight:700;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--gold);margin:10px 0 2px;}
+  .grafica .pieg{font-size:12.5px;color:var(--ink-faint);margin:0 0 10px;}
+  .grafica svg{display:block;width:100%;height:auto;}
+  .grafica .cierre{font-size:13.5px;color:var(--ink-soft);margin:8px 0 0;}
   .cobro{padding:18px 20px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:12px;background:var(--gold-soft);}
   .cobro .precio{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;}
   .cobro .monto{font-family:var(--display);font-size:32px;font-weight:700;color:var(--gold);line-height:1;}
@@ -405,6 +417,8 @@
 
   <div class="card">
     <h2>Tus números</h2>
+    <div class="hallazgo" id="hallazgo" hidden></div>
+    <div class="grafica" id="grafica" hidden></div>
     <div class="nums" id="nums"></div>
 
     <div class="cobro" id="cobro" hidden>
@@ -694,6 +708,86 @@
     return out;
   }
 
+  /* La misma escalera del PDF, en SVG. El viewBox es angosto a propósito:
+     así el texto conserva tamaño legible cuando la gráfica se encoge en un
+     celular. Los colores salen de las variables del tema, para que funcione
+     igual en claro y en oscuro. */
+  function svgEscalera(serie){
+    var A = serie.anios, P = serie.pcts, idx = serie.idx, n = A.length;
+    if(!n) return "";
+    var W = 400, H = 172, ejeW = 32, abajo = 38, arriba = 20;
+    var x0 = ejeW, anchoG = W - x0 - 2, base = H - abajo, alto = base - arriba;
+    var hueco = n > 22 ? 0.8 : 1.6, w = (anchoG - hueco*(n-1)) / n;
+    var o = ['<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Porcentaje de tu pago que se abona a capital, año por año">'];
+
+    [0,50,100].forEach(function(v){
+      var y = base - alto*v/100, med = (v === 50);
+      o.push('<line x1="'+x0+'" y1="'+y+'" x2="'+(W-2)+'" y2="'+y+'" stroke="'+
+             (med ? 'var(--gold)' : 'var(--rule-soft)')+'" stroke-width="'+(med?1:0.6)+'"/>');
+      o.push('<text x="'+(x0-5)+'" y="'+(y+3.5)+'" text-anchor="end" font-size="10.5" fill="'+
+             (med ? 'var(--gold)' : 'var(--ink-faint)')+'">'+v+'%</text>');
+    });
+
+    for(var i=0;i<n;i++){
+      var h = Math.max(1, alto*Math.min(100,P[i])/100), x = x0 + i*(w+hueco);
+      o.push('<rect x="'+x.toFixed(2)+'" y="'+(base-h).toFixed(2)+'" width="'+w.toFixed(2)+
+             '" height="'+h.toFixed(2)+'" fill="'+((idx>=0 && i>=idx) ? 'var(--gold)' : 'var(--ink-faint)')+
+             '" opacity="'+((idx>=0 && i>=idx) ? '0.95' : '0.55')+'"/>');
+    }
+
+    /* la referencia de la mitad, repintada encima de las barras */
+    var y50 = base - alto*0.5;
+    o.push('<line x1="'+x0+'" y1="'+y50+'" x2="'+(W-2)+'" y2="'+y50+'" stroke="var(--gold)" stroke-width="1"/>');
+    o.push('<line x1="'+x0+'" y1="'+base+'" x2="'+(W-2)+'" y2="'+base+'" stroke="var(--rule)" stroke-width="0.8"/>');
+
+    function pct(k, bold){
+      if(k < 0 || k >= n) return;
+      var hh = alto*Math.min(100,P[k])/100, cx = x0 + k*(w+hueco) + w/2;
+      o.push('<text x="'+cx.toFixed(2)+'" y="'+(base-hh-5).toFixed(2)+'" text-anchor="middle" font-size="11.5"'+
+             (bold ? ' font-weight="700"' : '')+' fill="'+((idx>=0 && k>=idx) ? 'var(--gold)' : 'var(--ink-soft)')+
+             '">'+Math.round(P[k])+'%</text>');
+    }
+    pct(0);
+    if(idx > 1 && idx < n-2) pct(idx, true);
+    pct(n-1);
+
+    o.push('<text x="'+x0+'" y="'+(base+15)+'" font-size="10.5" fill="var(--ink-faint)">'+A[0]+'</text>');
+    o.push('<text x="'+(W-2)+'" y="'+(base+15)+'" text-anchor="end" font-size="10.5" fill="var(--ink-faint)">'+A[n-1]+'</text>');
+    if(idx > 1 && idx < n-2){
+      var xc = x0 + idx*(w+hueco) + w/2;
+      o.push('<text x="'+xc.toFixed(2)+'" y="'+(base+15)+'" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--gold)">'+A[idx]+'</text>');
+      o.push('<text x="'+xc.toFixed(2)+'" y="'+(base+29)+'" text-anchor="middle" font-size="10.5" fill="var(--gold)">aquí llegas a la mitad</text>');
+    }
+    o.push('</svg>');
+    return o.join("");
+  }
+
+  function pintarHallazgo(v, C, base, p){
+    var doce = ventana(base.filas, addM(p.corte, 12));
+    if(!(doce.pago > 0)){ $("hallazgo").hidden = true; $("grafica").hidden = true; return; }
+    var pct = Math.round(doce.cap / doce.pago * 100);
+    var serie = serieCapital(base.filas);
+
+    $("hallazgo").innerHTML =
+      '<p class="chico">De cada $100 que entran a tu crédito este año,</p>' +
+      '<p class="grande">solo $' + pct + ' bajan tu deuda.</p>' +
+      '<p class="nota">Los otros $' + (100-pct) + ' son intereses, seguros y comisiones. ' +
+      'En los próximos 12 meses entrarán <b>' + money0(doce.pago) + '</b> a tu crédito y tu deuda bajará <b>' +
+      money0(doce.cap) + '</b>.</p>';
+    $("hallazgo").hidden = false;
+
+    $("grafica").innerHTML =
+      '<h3>Porcentaje de tu pago que se abona a capital, año por año</h3>' +
+      '<p class="pieg">Cada barra es un año. La altura es qué parte de lo que pagas ese año baja tu deuda; ' +
+      'el resto son intereses, seguros y comisiones.</p>' +
+      svgEscalera(serie) +
+      '<p class="cierre">' + (serie.cruce
+        ? '<b>Y esto no se queda así:</b> conforme baja tu deuda, cada año una parte mayor de lo que pagas ' +
+          'deja de ser interés. Para <b>' + serie.cruce + '</b> la mitad de lo que entre ya estará bajando tu deuda.'
+        : 'Conforme baja tu deuda, cada año una parte mayor de lo que pagas deja de ser interés.') + '</p>';
+    $("grafica").hidden = false;
+  }
+
   /* ================= estado y pintado ================= */
   var AGG = null;
   var MODO = "doc";   // "doc" = leído del estado de cuenta | "manual" = capturado a mano
@@ -815,11 +909,13 @@
         (MODO === "manual" ? "Se llenan solos en cuanto completes los números de arriba."
                            : "Se llenan solos en cuanto leamos tu documento.") + '</span></div>';
       $("simout").textContent = ""; $("cobro").hidden = true; $("simwrap").hidden = true;
+      $("hallazgo").hidden = true; $("grafica").hidden = true;
       return;
     }
     if(!$("c-obligatorio").checked){
       $("nums").innerHTML = '<div class="num" style="grid-column:1/-1;"><span>Tus números están listos. Marca la casilla del aviso de privacidad aquí arriba para verlos.</span></div>';
       $("simout").textContent = ""; $("cobro").hidden = true; $("simwrap").hidden = true;
+      $("hallazgo").hidden = true; $("grafica").hidden = true;
       return;
     }
     var p = {
@@ -829,6 +925,7 @@
       corte:v.corte, primerPago:addM(CTX.ultimoPago, CTX.periodicidad || 1), abono:0
     };
     var base = correr(p, true);
+    pintarHallazgo(v, CTX, base, p);
     var pagado = (PAGO === "aprobado");
     var L = pagado ? "" : " lock";
     var per = p.periodicidad || 1;
