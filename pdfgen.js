@@ -372,10 +372,11 @@
      d lleva TODO ya calculado por el motor. Ver datosPDF() en la página. */
   function diagnostico(d){
     var DE = 4, y, i;
+    var FOL = d.muestra ? "MUESTRA · CASO INVENTADO" : d.folio;
 
     /* ---------- 1. el hallazgo ---------- */
     var p1 = new Pagina();
-    encabezado(p1, "Diagnóstico de tu crédito Infonavit", d.folio, d.fecha);
+    encabezado(p1, "Diagnóstico de tu crédito Infonavit", FOL, d.fecha);
 
     y = 116;
     y = seccion(p1, y, "Lo primero que tienes que saber");
@@ -417,7 +418,7 @@
 
     /* ---------- 2. lo que puedes cambiar ---------- */
     var p2 = new Pagina();
-    encabezado(p2, "Lo que puedes cambiar", d.folio, d.fecha);
+    encabezado(p2, "Lo que puedes cambiar", FOL, d.fecha);
 
     y = 116;
     y = seccion(p2, y, "Si abonas " + d.elegido.abono + " cada mes");
@@ -456,7 +457,7 @@
 
     /* ---------- 3. cómo comprobar: pagos, predicción e insumos ---------- */
     var p3 = new Pagina();
-    encabezado(p3, "Cómo comprobar estos números", d.folio, d.fecha);
+    encabezado(p3, "Cómo comprobar estos números", FOL, d.fecha);
 
     y = 116;
     y = seccion(p3, y, "Tus siguientes pagos " + d.frecuencia + ", uno por uno");
@@ -493,7 +494,7 @@
 
     /* ---------- 4. avisos y constancia ---------- */
     var p4 = new Pagina();
-    encabezado(p4, "Lo que tienes que tomar en cuenta", d.folio, d.fecha);
+    encabezado(p4, "Lo que tienes que tomar en cuenta", FOL, d.fecha);
 
     y = 116;
     y = seccion(p4, y, "Antes de decidir");

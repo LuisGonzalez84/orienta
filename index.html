@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <meta name="description" content="Sube tu estado de cuenta del Infonavit y descubre en un minuto cuánto te falta realmente, cuánto pagas de intereses y en cuánto tiempo terminas. Habítalo Orienta.">
 <style>
   :root{ color-scheme: light; }
@@ -12,13 +12,11 @@
   body{ font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:#FAFAF8; }
   img{ max-width:100%; }
   [hidden]{ display:none !important; }
-  /* ---- Prueba con voluntarios ---- */
-  .prueba{padding:18px 20px;display:flex;flex-direction:column;gap:12px;background:var(--gold-soft);}
-  .prueba p{margin:0;color:var(--ink);font-size:15px;}
-  .prueba .chico{font-size:13.5px;color:var(--ink-soft);}
-  .prueba a.pagar{align-self:flex-start;}
 </style>
-<title>Sube tu estado de cuenta</title>
+<title>¿Cuánto te falta de tu crédito Infonavit? · Habítalo Orienta</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="¿Estás pagando una casa… o principalmente intereses?">
+<meta property="og:description" content="Sube tu estado de cuenta del Infonavit y ve gratis, en un minuto, cuánto te falta y en qué fecha terminas. Tu documento no sale de tu teléfono.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
@@ -262,9 +260,98 @@
   .doc .folio-doc{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);}
   .doc-pie{padding:14px 20px;border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:9px 12px;align-items:center;}
   .doc-msg{font-size:13.5px;color:var(--ok);}
+  /* ================= landing ================= */
+  .hero{background:var(--band);color:var(--band-ink);border-radius:5px;box-shadow:var(--shadow);
+    padding:28px 22px 24px;display:flex;flex-direction:column;gap:14px;}
+  .hero .eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#E0BC60;}
+  .hero h1{font-size:clamp(27px,7.6vw,38px);font-weight:700;line-height:1.14;letter-spacing:-.01em;}
+  .hero .hero-sub{font-size:18px;line-height:1.45;opacity:.9;}
+  a.cta{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:17.5px;
+    background:#E0BC60;color:#1B1405;border-radius:6px;padding:15px 20px;}
+  a.cta:hover{background:#F0CF77;}
+  .hero .precio-linea{font-size:14px;opacity:.75;text-align:center;}
+  .sellos{list-style:none;margin:2px 0 0;padding:12px 0 0;border-top:1px solid rgba(255,255,255,.14);
+    display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;opacity:.85;}
+  .hero .brand{font-size:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.14);margin-bottom:4px;}
+  .hero .brand em{color:#E0BC60;}
+  .hero-aviso{font-size:12.5px;opacity:.6;}
+  .sellos li::before{content:"✓ ";color:#E0BC60;font-weight:700;}
+
+  .landing .pad{gap:14px;padding:22px 20px;}
+  .landing h2.lh{font-size:clamp(21px,5.6vw,26px);font-weight:700;color:var(--ink);}
+  .kicker{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint);}
+  .landing p.txt{font-size:16.5px;color:var(--ink-soft);}
+  .landing p.txt b{color:var(--ink);}
+  .l-dato .chico{font-size:16px;color:var(--ink);}
+  .l-dato .grande{font-family:var(--display);font-size:clamp(26px,7.4vw,34px);font-weight:700;line-height:1.12;color:var(--ink);}
+  .l-dato .grande em{font-style:normal;color:var(--stop);}
+  .landing .grafica{padding:0;}
+  .landing .pie-caso{font-size:13px;color:var(--ink-faint);border-top:1px solid var(--rule-soft);padding-top:10px;}
+
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule-soft);border:1px solid var(--rule-soft);border-radius:4px;overflow:hidden;}
+  .tile{background:var(--paper);padding:14px 14px 13px;display:flex;flex-direction:column;gap:3px;}
+  .tile b{font-family:var(--display);font-size:clamp(18px,5vw,22px);font-weight:700;color:var(--ink);line-height:1.15;font-variant-numeric:tabular-nums;}
+  .tile span{font-size:13.5px;color:var(--ink-soft);line-height:1.35;}
+  .hojas{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .hojas li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start;font-size:15.5px;color:var(--ink-soft);line-height:1.45;}
+  .hojas li b{color:var(--ink);}
+  .hojas .n{font-family:var(--display);font-weight:700;font-size:15px;color:var(--band-ink);background:var(--band);
+    border-radius:99px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;}
+  .miniaturas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .miniaturas a{display:block;border:1px solid var(--rule);border-radius:3px;overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(20,36,63,.08);}
+  .miniaturas img{display:block;width:100%;height:auto;}
+  a.link-muestra{font-size:15px;font-weight:700;color:var(--gold);}
+  @media (max-width:460px){ .miniaturas{grid-template-columns:repeat(2,1fr);} }
+
+  .ganancia{background:var(--gold-soft);border-radius:5px;padding:16px 18px;display:flex;flex-direction:column;gap:2px;}
+  .ganancia .g1{font-family:var(--display);font-size:clamp(26px,7.4vw,34px);font-weight:700;color:var(--gold);line-height:1.12;}
+  .ganancia .g2{font-size:18px;color:var(--ink);}
+  .ganancia .g3{font-size:14px;color:var(--ink-soft);margin-top:4px;}
+  .costo-dia{border-left:3px solid var(--stop);padding:4px 0 4px 13px;font-size:16px;color:var(--ink-soft);}
+  .costo-dia b{color:var(--ink);}
+
+  .pasos{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px;counter-reset:paso;}
+  .pasos li{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;}
+  .pasos li::before{counter-increment:paso;content:counter(paso);font-family:var(--display);font-weight:700;font-size:18px;
+    color:#1B1405;background:#E0BC60;border-radius:99px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
+  .pasos b{display:block;font-size:16.5px;color:var(--ink);}
+  .pasos span{font-size:15px;color:var(--ink-soft);line-height:1.45;}
+  .video{position:relative;padding-top:56.25%;border-radius:5px;overflow:hidden;background:#000;}
+  .video.vertical{padding-top:0;aspect-ratio:9/16;max-height:78vh;margin:0 auto;width:min(100%,420px);}
+  .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .cta-oscuro{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:17px;
+    background:var(--band);color:var(--band-ink);border-radius:6px;padding:14px 20px;}
+  .cta-oscuro:hover{background:var(--gold);color:#1B1405;}
+
+  .razones{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;}
+  .razones div{display:flex;flex-direction:column;gap:3px;}
+  .razones b{font-size:16px;color:var(--ink);line-height:1.3;}
+  .razones span{font-size:14.5px;color:var(--ink-soft);line-height:1.45;}
+  @media (max-width:520px){ .razones{grid-template-columns:1fr;} }
+
+  .no-aplica{background:var(--stop-soft);border-radius:5px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;}
+  .no-aplica h2{font-family:var(--body);font-size:16.5px;font-weight:700;color:var(--stop);}
+  .no-aplica p{font-size:15px;color:var(--ink);line-height:1.5;}
+  .no-aplica a{color:var(--stop);font-weight:700;}
+
+  .faq details{border-top:1px solid var(--rule-soft);padding:12px 0 0;}
+  .faq details:first-of-type{border-top:0;padding-top:0;}
+  .faq summary{font-size:16px;color:var(--ink);font-weight:600;line-height:1.35;}
+  .faq details p{font-size:15px;color:var(--ink-soft);margin-top:8px;line-height:1.5;}
+
+  .separador{text-align:center;display:flex;flex-direction:column;gap:4px;padding:6px 0 0;}
+  .separador .kicker{color:var(--gold);}
+  .separador h2{font-size:clamp(22px,6vw,27px);font-weight:700;}
+
+  .flotante{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(27,46,79,.96);box-shadow:0 -4px 18px rgba(0,0,0,.18);transform:translateY(110%);transition:transform .25s;}
+  .flotante.on{transform:none;}
+  .flotante a{max-width:608px;margin:0 auto;padding:13px 18px;font-size:16.5px;}
+  @media (prefers-reduced-motion: reduce){ .flotante{transition:none;} }
+
   @media print{
     body{background:#fff;}
-    .topbar,.aviso-ejemplo,.card:not(#doc-card),.doc-pie,footer{display:none !important;}
+    .topbar,.aviso-ejemplo,.card:not(#doc-card),.doc-pie,footer,.hero,.separador,.flotante{display:none !important;}
     #doc-card{border:none;box-shadow:none;}
   }
 
@@ -284,6 +371,7 @@
   .consent .registro{font-size:12.5px;color:var(--ok);background:var(--ok-soft);border-radius:4px;padding:8px 11px;font-family:var(--mono);}
   .hueco{background:var(--gold-soft);color:var(--gold);font-family:var(--mono);font-size:.9em;padding:1px 5px;border-radius:3px;}
 
+  footer a{color:inherit;}
   footer{font-size:13px;color:var(--ink-faint);display:flex;flex-direction:column;gap:6px;}
   @media (max-width:460px){
     .q{grid-template-columns:1fr;}
@@ -294,10 +382,138 @@
 
 <div class="wrap">
 
-  <div class="topbar">
+  <div class="topbar" hidden>
     <span class="brand">Habítalo <em>Orienta</em></span>
     <span class="warn">Esta no es una página del Infonavit ni está afiliada a esa institución. Es la herramienta de Habítalo México para preparar tu diagnóstico.</span>
   </div>
+
+
+  <!-- ======================= LANDING ======================= -->
+  <section class="hero">
+    <span class="brand">Habítalo <em>Orienta</em></span>
+    <p class="eyebrow">Para quien paga un crédito Infonavit</p>
+    <h1 id="hero-titulo">¿Estás pagando una casa… o principalmente intereses?</h1>
+    <p class="hero-sub">Sube tu estado de cuenta y en un minuto ves, <b>gratis</b>, cuánto te falta de verdad y a dónde se va cada peso que te descuentan.</p>
+    <a class="cta" href="#empezar" data-cta="hero">Ver mi crédito gratis</a>
+    <p class="precio-linea">El diagnóstico completo cuesta $50 y lo pagas solo después de ver tu resultado.</p>
+    <ul class="sellos">
+      <li>Tu documento no sale de tu teléfono</li>
+      <li>Sin registrarte</li>
+      <li>Listo en un minuto</li>
+    </ul>
+    <p class="hero-aviso">No es una página del Infonavit ni está afiliada a esa institución. Es un servicio independiente de Habítalo México.</p>
+  </section>
+
+  <section class="card landing" id="l-caso">
+    <div class="pad">
+      <p class="kicker">Un caso ilustrativo</p>
+      <h2 class="lh" data-frase="casa" data-alterna="Lo que tu estado de cuenta no te dice">¿Estás pagando una casa… o principalmente intereses?</h2>
+      <div class="l-dato">
+        <p class="chico">De cada $100 que entran a este crédito este año,</p>
+        <p class="grande">solo <span id="l-pct">$19</span> bajan la deuda.</p>
+      </div>
+      <p class="txt">Los otros <b id="l-resto">$81</b> se van en intereses, seguros y comisiones. Tu estado de cuenta no lo dice así; tu diagnóstico sí, con tus propios números.</p>
+      <div class="grafica" id="l-grafica"></div>
+      <p class="txt" id="l-cruce"></p>
+      <p class="pie-caso" id="l-pie">Caso inventado: crédito de $1,048,630 al 10.45% anual, con descuento por nómina aplicado cada dos meses. Las cifras salen del mismo cálculo que usa tu diagnóstico.</p>
+    </div>
+  </section>
+
+  <section class="card landing" id="l-obtienes">
+    <div class="pad">
+      <p class="kicker">Lo que obtienes por $50</p>
+      <h2 class="lh" data-frase="fecha" data-alterna="Tu crédito, explicado en cuatro hojas">¿Sabes realmente cuándo será tu última mensualidad del Infonavit?</h2>
+      <p class="txt">Tu diagnóstico lo responde con tus propios pagos. En el caso ilustrativo, esto es lo que aparece:</p>
+      <div class="tiles" id="l-tiles"></div>
+      <ul class="hojas">
+        <li><span class="n">1</span><span><b>A dónde se va tu pago.</b> Cuánto de lo que pagas baja tu deuda, año por año, y en qué año la mitad de tu pago por fin va a capital.</span></li>
+        <li><span class="n">2</span><span><b>Lo que puedes cambiar.</b> Cuánto antes terminas y cuánto dejas de pagar si abonas, con una tabla de tres montos, y lo que te cuesta esperar un año.</span></li>
+        <li><span class="n">3</span><span><b>Cómo comprobarlo.</b> Tus siguientes pagos uno por uno y el saldo que deberías ver en tu próximo estado de cuenta.</span></li>
+        <li><span class="n">4</span><span><b>Lo que debes tomar en cuenta.</b> Los supuestos del cálculo, dicho claro, y la constancia de tu diagnóstico.</span></li>
+      </ul>
+      <div class="miniaturas">
+        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-1.jpg" alt="Hoja 1 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
+        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-2.jpg" alt="Hoja 2 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
+        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-3.jpg" alt="Hoja 3 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
+        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-4.jpg" alt="Hoja 4 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
+      </div>
+      <a class="link-muestra" href="diagnostico-muestra.pdf" target="_blank" rel="noopener">Ver el diagnóstico de muestra completo (PDF) →</a>
+    </div>
+  </section>
+
+  <section class="card landing" id="l-antes">
+    <div class="pad">
+      <p class="kicker">Lo que puedes cambiar</p>
+      <h2 class="lh" data-frase="antes" data-alterna="Lo que cambia si abonas">¿Y si pudieras dejar de pagar tu mensualidad antes de lo que imaginas?</h2>
+      <div class="ganancia">
+        <span class="g1" id="l-antes-t">3 años y 4 meses antes</span>
+        <span class="g2">y <b id="l-ahorro">$286,259</b> menos de intereses</span>
+        <span class="g3" id="l-antes-pie">con $1,000 extra al mes, en el caso ilustrativo.</span>
+      </div>
+      <p class="txt">El Infonavit acepta pagos adicionales sin comisión y se aplican a tu saldo. Tu diagnóstico te dice qué pasa con <b>tu</b> crédito si abonas, y cuánto te cuesta dejarlo para después.</p>
+      <p class="costo-dia" id="l-dia"></p>
+    </div>
+  </section>
+
+  <section class="card landing" id="l-como">
+    <div class="pad">
+      <p class="kicker">Cómo funciona</p>
+      <h2 class="lh">Cuatro pasos, desde tu celular</h2>
+      <div class="video" id="l-video" hidden></div>
+      <ol class="pasos">
+        <li><span><b>Descarga tu estado de cuenta</b>Entra a Mi Cuenta Infonavit y descarga tu estado de cuenta histórico en PDF. Súbelo tal como te lo dan, sin editarlo.</span></li>
+        <li><span><b>Súbelo aquí</b>Se lee dentro de tu teléfono o computadora. No capturas nada y no tienes que registrarte.</span></li>
+        <li><span><b>Ve tu resultado gratis</b>Cuánto te falta y a dónde se va tu pago, antes de pagar un peso.</span></li>
+        <li><span><b>Si te sirve, desbloquea tu diagnóstico</b>Pagas $50 con Mercado Pago y descargas tu diagnóstico en PDF al momento.</span></li>
+      </ol>
+      <a class="cta-oscuro" href="#empezar" data-cta="pasos">Empezar ahora, gratis</a>
+    </div>
+  </section>
+
+  <section class="card landing" id="l-confianza">
+    <div class="pad">
+      <p class="kicker">Por qué puedes confiar</p>
+      <div class="razones">
+        <div><b>Tu documento no sale de tu dispositivo.</b><span>Se lee ahí mismo. Compruébalo: ponte en modo avión y verás que funciona igual.</span></div>
+        <div><b>Cada número se puede comprobar.</b><span>Tu diagnóstico trae la cuenta completa de tu siguiente pago y el saldo que deberías ver en tu próximo estado de cuenta.</span></div>
+        <div><b>No te pedimos datos personales.</b><span>Ni nombre, ni NSS, ni teléfono. De tu documento solo se toman los números de tu crédito.</span></div>
+        <div><b>Pagas después de ver tu resultado.</b><span>Primero ves gratis cuánto te falta. El cobro aparece solo cuando tus números cuadran.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="no-aplica">
+    <h2>Para quién todavía no es</h2>
+    <p>Si tienes pagos atrasados, tu crédito está en prórroga o ya no tienes descuento por nómina, este diagnóstico todavía no aplica a tu caso: supone que tu descuento sigue igual. Escríbenos a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> y te orientamos.</p>
+  </section>
+
+  <section class="card landing faq" id="l-faq">
+    <div class="pad">
+      <p class="kicker">Preguntas frecuentes</p>
+      <details><summary>¿Es una página del Infonavit?</summary>
+        <p>No. Habítalo Orienta es un servicio independiente de Habítalo México, en Cancún. No estamos afiliados al Infonavit ni hablamos con él por ti.</p></details>
+      <details><summary>¿Qué pasa con mi estado de cuenta?</summary>
+        <p>Se lee dentro de tu teléfono o computadora y no se sube a ningún lado. Tu nombre, NSS, RFC, CURP y domicilio ni se leen ni se guardan: solo se toman saldos, tasa, pagos y fechas.</p></details>
+      <details><summary>¿Qué tan exacto es?</summary>
+        <p>Es una estimación calculada con tus propios pagos. Supone que tu descuento de nómina sigue igual. Para que no tengas que creernos, tu diagnóstico te dice qué saldo deberías ver en tu próximo estado de cuenta.</p></details>
+      <details><summary>¿Dónde consigo mi estado de cuenta?</summary>
+        <p>En Mi Cuenta Infonavit, con tu usuario. Descarga el estado de cuenta histórico en PDF y súbelo tal como te lo dan.</p></details>
+      <details><summary>¿Por qué dice «pagos bimestrales» si me descuentan en cada nómina?</summary>
+        <p>Tu patrón te descuenta en cada nómina y entrega el dinero al Infonavit cada dos meses. Por eso tus pagos se aplican de forma bimestral.</p></details>
+      <details><summary>¿Cómo pago y cuándo recibo mi diagnóstico?</summary>
+        <p>Con Mercado Pago: tarjeta de débito, de crédito o tu saldo. Al terminar regresas a la página y descargas tu diagnóstico en PDF al momento.</p></details>
+      <details><summary>¿Y si no se puede leer mi documento?</summary>
+        <p>No pagas nada: el botón de pago solo aparece cuando tus números cuadran. También puedes capturar a mano los ocho números de la primera hoja.</p></details>
+      <details><summary>¿Puedo abonar a mi crédito?</summary>
+        <p>Sí. El Infonavit acepta pagos adicionales sin comisión y se aplican a tu saldo. Tu diagnóstico calcula cuánto antes terminas con el monto que elijas.</p></details>
+    </div>
+  </section>
+
+  <div class="separador" id="empezar">
+    <p class="kicker">Empieza aquí · es gratis</p>
+    <h2>Tu crédito, en un minuto</h2>
+  </div>
+  <!-- ===================== fin LANDING ===================== -->
 
   <div class="aviso-ejemplo" id="aviso-ejemplo" hidden>
     <span><b>Estás viendo un caso de ejemplo.</b> Los números de abajo son de un crédito inventado — no son los tuyos.</span>
@@ -409,7 +625,7 @@
   <div class="card">
     <h2>Antes de ver tus números</h2>
     <div class="consent">
-      <p class="aviso"><strong>Aviso de privacidad.</strong> Alejandro Rodríguez Aznar, quien opera como <strong>Habítalo México</strong>, en Cancún, Quintana Roo, es responsable del tratamiento de tus datos. Tu estado de cuenta se lee dentro de tu dispositivo: tu nombre, NSS, RFC, CURP y domicilio no se leen ni se guardan. De tu crédito tomamos saldos, tasa, mensualidades, fechas y movimientos, y los usamos para calcular tu diagnóstico y entregártelo. Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos, gratis y sin costo, escribiendo a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a>. <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener" id="link-aviso">Consulta el aviso completo</a>.</p>
+      <p class="aviso"><strong>Aviso de privacidad.</strong> Alejandro Rodríguez Aznar, quien opera como <strong>Habítalo México</strong>, en Cancún, Quintana Roo, es responsable del tratamiento de tus datos. Tu estado de cuenta se lee dentro de tu dispositivo: tu nombre, NSS, RFC, CURP y domicilio no se leen ni se guardan. De tu crédito tomamos saldos, tasa, mensualidades, fechas y movimientos, y los usamos para calcular tu diagnóstico y entregártelo. Se guardan solo en esta pestaña mientras la tengas abierta, para que no los pierdas al pagar. Para cobrarte, a Mercado Pago solo le llega el folio de tu diagnóstico, nunca tus números. Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos, gratis y sin costo, escribiendo a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a>. <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener" id="link-aviso">Consulta el aviso completo</a>.</p>
       <label class="check"><input type="checkbox" id="c-obligatorio"> <span>He leído el aviso de privacidad y <strong>autorizo el tratamiento de mis datos financieros</strong> para calcular mi diagnóstico.</span></label>
       <label class="check"><input type="checkbox" id="c-opcional"> <span>Quiero recibir información de otros servicios de Habítalo. <em>(opcional — puedes dejarlo sin marcar y tu diagnóstico sale igual)</em></span></label>
       <p class="registro" id="registro" hidden></p>
@@ -428,7 +644,7 @@
         <span class="que">Tu diagnóstico completo: la fecha en que terminas, lo que pagarías de intereses, lo que aporta tu patrón y el simulador de abonos. Se descuenta si después contratas el Dictamen Orienta.</span>
       </div>
       <a class="pagar" id="btn-pagar" href="https://mpago.la/1TpaU2v" target="_blank" rel="noopener">Pagar $50 y ver mi diagnóstico</a>
-      <p class="sello">Pago seguro con Mercado Pago. No cobramos hasta que tus datos cuadran — y ya cuadraron.<br>
+      <p class="sello" id="sello-pago">Pago seguro con Mercado Pago. No cobramos hasta que tus datos cuadran — y ya cuadraron.<br>
         Si no se abre la pestaña, copia esta liga: <span class="liga">https://mpago.la/1TpaU2v</span></p>
       <div class="regreso">
         <label for="f-folio">¿Ya pagaste? Escribe el número de operación que te dio Mercado Pago</label>
@@ -467,21 +683,14 @@
     </div>
   </div>
 
-  <div class="card">
-    <h2>Esto es una prueba. Tu opinión es lo que estamos buscando</h2>
-    <div class="prueba">
-      <p>Estamos probando la herramienta con un grupo pequeño antes de abrirla al público. Si algo no cargó, si los números no cuadraron con tu estado de cuenta, o si simplemente no se entendió, cuéntanoslo.</p>
-      <p><strong>Lo que más nos sirve es lo que salió mal.</strong> Si tu documento no se pudo leer, ése es justo el caso que necesitamos conocer.</p>
-      <a class="pagar" id="btn-feedback" href="#" rel="noopener">Mandar mi comentario</a>
-      <p class="chico">Por favor no mandes capturas con tu nombre, NSS, RFC o CURP a la vista: no los necesitamos para nada.</p>
-    </div>
-  </div>
-
   <footer>
+    <div>Habítalo Orienta es un servicio de Habítalo México · Cancún, Quintana Roo · <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> · <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a></div>
     <div>El ejemplo cargado es un caso inventado; no corresponde a ningún acreditado real.</div>
     <div>Es una proyección con supuestos, no una cotización del Infonavit ni asesoría legal o fiscal. Supone que tu descuento de nómina sigue igual.</div>
   </footer>
 </div>
+
+<div class="flotante" id="flotante" aria-hidden="true"><a class="cta" href="#empezar" data-cta="flotante" tabindex="-1">Ver mi crédito gratis</a></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="pdfgen.js"></script>
@@ -489,6 +698,19 @@
 (function(){
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
+
+  /* ------------------------------------------------------------------
+     COBRO — lo único que se configura a mano
+
+     API_PAGOS: la dirección de tu verificador de pagos (el Worker de
+     Cloudflare). Mientras esté vacío, la página usa la liga fija de
+     Mercado Pago y NO puede comprobar que el pago existe.
+     No lances publicidad pagada con API_PAGOS vacío.
+     ------------------------------------------------------------------ */
+  var API_PAGOS = "";
+  var LIGA_PAGO = "https://mpago.la/1TpaU2v";
+  var VIDEO_TUTORIAL = "";   // liga de YouTube del tutorial; vacío = no se muestra
+
   function pdfjs(){
     // se consulta al momento de usarlo: el CDN puede tardar en llegar
     if(!window.pdfjsLib) return null;
@@ -1048,7 +1270,11 @@
       $("gate").className = "gate";
     }
     setModo("doc");
-    PAGO = "no"; FOLIO = null; REF_PAGO = null; pintarPago();
+    PAGO = "no"; FOLIO = null; REF_PAGO = null;
+    if(DESBLOQUEO && fuente !== "un documento de ejemplo"){
+      PAGO = "aprobado"; REF_PAGO = DESBLOQUEO; FOLIO = nuevoFolio(); DESBLOQUEO = null;
+    }
+    pintarPago();
     if(fuente !== "un documento de ejemplo"){ EJEMPLO = false; $("aviso-ejemplo").hidden = true; }
     $("doc-card").hidden = true;
     AGG = agregar(H.movs || []);
@@ -1256,7 +1482,7 @@
     var mesesAb = elegida.r.periodos || 1;
 
     return {
-      folio: FOLIO || "—",
+      folio: FOLIO || "—", muestra: EJEMPLO,
       fecha: fechaLarga(new Date()),
       motor: MOTOR_VERSION,
       hoyMes: mesAnio(v.corte),
@@ -1547,7 +1773,8 @@
           total:$("f-total").value, tasa:$("f-tasa").value, mcon:$("f-mcon").value,
           msin:$("f-msin").value, corte:$("f-corte").value, sueldo:$("f-sueldo").value
         },
-        modo:MODO, folio:FOLIO, pago:PAGO
+        modo:MODO, folio:FOLIO, pago:PAGO, ref:REF_PAGO,
+        agg:AGG, consent:CONSENT, abono:$("f-abono").value, ejemplo:EJEMPLO
       }));
     }catch(e){ /* navegador sin almacenamiento: el flujo sigue, solo no sobrevive al redirect */ }
   }
@@ -1566,47 +1793,169 @@
       $("btn-pdf").addEventListener("click", function(){ descargarPDF(this); });
     } else if(PAGO === "pendiente"){
       e.className = "pago-estado esperando";
-      e.innerHTML = "<div><strong>Tu pago en efectivo todavía no se acredita.</strong> Puede tardar unas horas. Déjanos tu correo y te avisamos en cuanto entre; no tienes que dejar esta página abierta.</div>" +
-                    '<div class="correo"><input id="f-correo" type="email" placeholder="tu@correo.com"><button class="link" id="btn-correo" type="button">Avísenme</button></div>' +
+      e.innerHTML = "<div><strong>Mercado Pago todavía está procesando tu pago.</strong> Suele tardar unos minutos. Cuando te llegue el comprobante, escribe aquí abajo tu número de operación y tu diagnóstico se abre.</div>" +
                     '<div class="folio">Folio ' + FOLIO + "</div>";
-      var b = $("btn-correo");
-      if(b) b.addEventListener("click", function(){
-        var c = $("f-correo").value.trim();
-        if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c)){ $("f-correo").classList.add("bad"); return; }
-        e.className = "pago-estado ok";
-        e.innerHTML = "<div><strong>Listo.</strong> Te escribimos a " + c + " en cuanto se acredite tu pago.</div>" +
-                      '<div class="folio">Folio ' + FOLIO + "</div>";
-      });
     } else {
       e.className = "pago-estado mal";
       e.innerHTML = "<div><strong>El pago no se completó.</strong> No se te cobró nada. Puedes intentar otra vez con otro método.</div>";
     }
   }
 
-  /* El cobro es por liga de Mercado Pago: la página no puede verificar el pago,
-     así que se pide el número de operación y queda como rastro para cotejarlo. */
-  $("btn-pagar").addEventListener("click", function(){
+  /* ===== cobro =====
+     Con API_PAGOS: el cobro se crea en el verificador, Mercado Pago regresa a esta
+     misma pestaña y el desbloqueo se confirma contra Mercado Pago. Del crédito no
+     viaja nada: solo el folio y el número de operación.
+     Sin API_PAGOS: liga fija y número de operación sin comprobar (solo para pruebas). */
+  var DESBLOQUEO = null;   // pago ya comprobado que espera a que se suba el documento
+  var API = API_PAGOS.replace(/\/+$/, "");
+
+  if(API){
+    $("btn-pagar").removeAttribute("target");
+    $("btn-pagar").href = "#";
+    $("sello-pago").innerHTML = "Pago seguro con Mercado Pago: tarjeta de débito, de crédito o tu saldo de Mercado Pago. " +
+      "Al terminar regresas a esta página y tu diagnóstico se abre solo.";
+  }
+
+  $("btn-pagar").addEventListener("click", function(e){
+    if(EJEMPLO){
+      e.preventDefault();
+      $("folio-msg").className = "hint err";
+      $("folio-msg").textContent = "Estás viendo el caso de ejemplo. Sube tu propio estado de cuenta para pagar tu diagnóstico.";
+      return;
+    }
+    FOLIO = FOLIO || nuevoFolio();
     guardarBorrador();
-    $("folio-msg").className = "hint";
-    $("folio-msg").textContent = "Cuando termines de pagar, regresa a esta pestaña y escribe aquí tu número de operación.";
+    if(!API){
+      $("folio-msg").className = "hint";
+      $("folio-msg").textContent = "Cuando termines de pagar, regresa a esta pestaña y escribe aquí tu número de operación.";
+      return;                                   // sigue la liga fija, en otra pestaña
+    }
+    e.preventDefault();
+    var b = this, txt = b.textContent;
+    b.textContent = "Abriendo Mercado Pago…";
+    fetch(API + "/pagar", {
+      method:"POST", headers:{"Content-Type":"application/json"}, cache:"no-store",
+      body: JSON.stringify({folio: FOLIO, volver: location.origin + location.pathname})
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if(d && d.ok && d.url) location.href = d.url;
+      else throw new Error("sin url");
+    }).catch(function(){
+      b.textContent = txt;
+      location.href = LIGA_PAGO;                // plan B: la liga fija; se desbloquea con el número de operación
+    });
   });
+
+  var MOTIVOS = {
+    pendiente:   "Mercado Pago todavía está procesando ese pago. Espera unos minutos y vuelve a intentarlo.",
+    no_aprobado: "Ese pago no fue aprobado, así que no se te cobró. Puedes intentarlo de nuevo.",
+    monto:       "Ese número de operación no corresponde al diagnóstico de $50. Revísalo en tu comprobante.",
+    vencido:     "Ese pago tiene más de 30 días. Escríbenos a contacto@habitalo.com.mx con tu número de operación y lo resolvemos.",
+    usado:       "Ese pago ya se usó varias veces. Si es un error, escríbenos a contacto@habitalo.com.mx con tu número de operación.",
+    no_existe:   "No encontramos ese número de operación. Cópialo tal como aparece en tu comprobante de Mercado Pago.",
+    numero:      "Escribe el número de operación completo: son solo números, sin espacios."
+  };
+
+  function comprobarPago(id){
+    return fetch(API + "/verificar?id=" + encodeURIComponent(id), {cache:"no-store"})
+      .then(function(r){ return r.json(); })
+      .catch(function(){ return {ok:false, motivo:"red"}; });
+  }
+
+  function desbloquear(ref){
+    REF_PAGO = ref;
+    FOLIO = FOLIO || nuevoFolio();
+    if(!ULTIMO){
+      DESBLOQUEO = ref;
+      estado("ok", "Tu pago está confirmado (operación " + ref + "). Sube otra vez tu estado de cuenta y tu diagnóstico se abre solo, sin volver a pagar.");
+      $("drop").scrollIntoView({behavior:"smooth", block:"center"});
+      return;
+    }
+    PAGO = "aprobado";
+    pintarPago();
+    calcular();
+    guardarBorrador();
+    $("pago-estado").scrollIntoView({behavior:"smooth", block:"center"});
+  }
 
   $("btn-confirmar").addEventListener("click", function(){
     var ref = $("f-folio").value.replace(/[^0-9A-Za-z-]/g, "");
+    var msg = $("folio-msg");
+    if(API) ref = ref.replace(/\D/g, "");
     if(ref.length < 6){
-      $("folio-msg").className = "hint err";
-      $("folio-msg").textContent = "Escribe el número de operación completo: Mercado Pago te lo da al terminar el pago, en el comprobante.";
+      msg.className = "hint err";
+      msg.textContent = "Escribe el número de operación completo: Mercado Pago te lo da al terminar el pago, en el comprobante.";
       $("f-folio").classList.add("bad");
       return;
     }
     $("f-folio").classList.remove("bad");
-    REF_PAGO = ref;
-    FOLIO = nuevoFolio();
-    PAGO = "aprobado";
+    if(!API){ desbloquear(ref); return; }
+    var b = this; b.disabled = true;
+    msg.className = "hint"; msg.textContent = "Comprobando tu pago con Mercado Pago…";
+    comprobarPago(ref).then(function(d){
+      b.disabled = false;
+      if(d && d.ok){ msg.textContent = ""; desbloquear(ref); return; }
+      msg.className = "hint err";
+      msg.textContent = MOTIVOS[d && d.motivo] ||
+        "No pudimos comprobar tu pago en este momento. Intenta en un minuto: tu pago no se pierde.";
+    });
+  });
+
+  /* ===== al volver de Mercado Pago, o al recargar la pestaña ===== */
+  function reviveAGG(a){
+    if(!a) return null;
+    if(a.ultimoPago) a.ultimoPago = new Date(a.ultimoPago);
+    if(a.usados) a.usados.forEach(function(u){ u.f = new Date(u.f); });
+    return a;
+  }
+
+  function restaurarBorrador(){
+    var b = null;
+    try{ b = JSON.parse(sessionStorage.getItem("orienta.borrador") || "null"); }catch(e){ b = null; }
+    if(!b || !b.campos) return false;
+    setModo(b.modo || "doc");
+    Object.keys(b.campos).forEach(function(k){ var el = $("f-" + k); if(el) el.value = b.campos[k] || ""; });
+    AGG = reviveAGG(b.agg);
+    FOLIO = b.folio || null;
+    EJEMPLO = !!b.ejemplo; $("aviso-ejemplo").hidden = !EJEMPLO;
+    if(b.abono) $("f-abono").value = b.abono;
+    if(b.consent){
+      CONSENT = b.consent;
+      $("c-obligatorio").checked = true;
+      $("c-opcional").checked = !!CONSENT.adicionales;
+      pintarRegistro();
+    }
+    if(b.pago === "aprobado"){ PAGO = "aprobado"; REF_PAGO = b.ref || null; }
     pintarPago();
     calcular();
-    $("pago-estado").scrollIntoView({behavior:"smooth", block:"center"});
-  });
+    return true;
+  }
+
+  function alVolver(){
+    var q = new URLSearchParams(location.search);
+    var id = (q.get("payment_id") || q.get("collection_id") || "").replace(/\D/g, "");
+    var st = q.get("status") || q.get("collection_status") || "";
+    var hay = restaurarBorrador();
+    if(!id && !st){
+      if(hay) estado("ok", "Recuperamos tus números de esta misma pestaña: no tienes que volver a subir tu documento.");
+      return;
+    }
+    try{ history.replaceState(null, "", location.pathname + "#empezar"); }catch(e){}
+    if(PAGO === "aprobado") return;
+    if(st === "approved" && id && API){
+      estado("work", "Comprobando tu pago con Mercado Pago…");
+      if(hay) $("pago-estado").scrollIntoView({block:"center"});
+      comprobarPago(id).then(function(d){
+        if(d && d.ok){ estado("ok", "Pago confirmado. ¡Gracias!"); desbloquear(id); }
+        else estado("bad", (MOTIVOS[d && d.motivo] || "No pudimos comprobar tu pago en este momento.") +
+                           " Si ya pagaste, escribe tu número de operación en el recuadro de pago.");
+      });
+    } else if(st === "rejected" || st === "null" || st === "failure"){
+      PAGO = "rechazado"; pintarPago(); PAGO = "no";
+      if(hay) $("pago-estado").scrollIntoView({block:"center"});
+    } else if(st === "pending" || st === "in_process"){
+      PAGO = "pendiente"; pintarPago(); PAGO = "no";
+    }
+  }
 
   /* ===== consentimiento: se registra cuándo y contra qué versión del aviso ===== */
   var AVISO_VERSION = "1.0";
@@ -1625,6 +1974,11 @@
     } else {
       CONSENT.adicionales = $("c-opcional").checked;
     }
+    pintarRegistro();
+    calcular();
+  }
+
+  function pintarRegistro(){
     var r = $("registro");
     if(CONSENT){
       r.hidden = false;
@@ -1634,7 +1988,6 @@
     } else {
       r.hidden = true;
     }
-    calcular();
   }
 
   $("c-obligatorio").addEventListener("change", marcarConsentimiento);
@@ -1654,26 +2007,33 @@
     if(e.target.closest("#campos")) calcular();
   });
 
-  /* ============ ejemplo precargado ============ */
-  function ejemplo(){
-    var mov = [], y = 2026;
-    var cuotas = [449.57,445.89,442.17,438.42,434.63,430.81];
-    for(var i=0;i<6;i++){
-      var mes = 2+i;
-      mov.push({fecha:new Date(y,mes-1,7), concepto:"8880 APORT. PATRONAL", monto:1900.00});
-      mov.push({fecha:new Date(y,mes-1,7), concepto:"8880 RETENC SALARIAL", monto:7775.98});
-      var ult = new Date(y,mes,0).getDate();
-      mov.push({fecha:new Date(y,mes-1,ult), concepto:"7011 SEGURO/COMISION", monto:cuotas[i]});
-      mov.push({fecha:new Date(y,mes-1,ult), concepto:"7011 SEGURO/COMISION", monto:143.60});
-      mov.push({fecha:new Date(y,mes-1,ult), concepto:"7011 SEGURO/COMISION", monto:11.13});
+  /* ============ ejemplo precargado ============
+     Crédito INVENTADO, bimestral y a mitad del camino temprano: es el mismo caso
+     que ilustra la parte de arriba de la página y el diagnóstico de muestra. */
+  function datosEjemplo(){
+    var mov = [];
+    var bim = [[2025,8],[2025,10],[2026,0],[2026,2],[2026,4],[2026,6]];      // sep, nov, ene, mar, may, jul
+    var patr = [2968.40, 2968.40, 3052.10, 3052.10, 3052.10, 3052.10];
+    bim.forEach(function(x, i){
+      mov.push({fecha:new Date(x[0],x[1],7), concepto:"8880 APORT. PATRONAL", monto:patr[i]});
+      mov.push({fecha:new Date(x[0],x[1],7), concepto:"8880 RETENC SALARIAL", monto:19300.00});
+    });
+    for(var k=0;k<12;k++){
+      var d = new Date(2025, 8+k+1, 0);                                      // último día de sep-2025 … ago-2026
+      mov.push({fecha:d, concepto:"7011 SEGURO/COMISION", monto:189.00});
+      mov.push({fecha:d, concepto:"7011 SEGURO/COMISION", monto:58.40});
     }
-    aplicar({
-      tasa:0.1045, capital:512340.55, interes:3569.31, comis:581.68, total:516491.54,
-      mcon:7761.68, msin:7618.08, corte:new Date(2026,7,1), tipoPago:"FIJO", fuera:null, movs:mov
-    }, "un documento de ejemplo");
+    return {
+      tasa:0.1045, capital:1048630.25, interes:13712.40, comis:482.10, total:1062824.75,
+      mcon:9650.00, msin:9461.00, corte:new Date(2026,8,1), tipoPago:"FIJO", fuera:null, movs:mov
+    };
+  }
+  function ejemplo(){
+    var H = datosEjemplo();
+    aplicar(H, "un documento de ejemplo");
     EJEMPLO = true;
     $("aviso-ejemplo").hidden = false;
-    estado("ok", "Ejemplo cargado: 30 movimientos de un crédito inventado. Sube tu propio documento para ver tus números.");
+    estado("ok", "Ejemplo cargado: " + H.movs.length + " movimientos de un crédito inventado. Sube tu propio documento para ver tus números.");
   }
   $("btn-demo").addEventListener("click", ejemplo);
 
@@ -1698,6 +2058,7 @@
     else { var s = $("status"); s.className = "status"; s.textContent = ""; }
   }
   $("btn-vaciar").addEventListener("click", function(){
+    try{ sessionStorage.removeItem("orienta.borrador"); }catch(e){}
     vaciar("Listo, la pantalla quedó en blanco. Sube tu estado de cuenta cuando quieras.");
   });
 
@@ -1715,35 +2076,104 @@
     $("campos").scrollIntoView({behavior:"smooth", block:"start"});
   });
 
-  /* ------------------------------------------------------------------
-     PRUEBA CON VOLUNTARIOS — a dónde llegan los comentarios
+  /* ===================== LANDING =====================
+     Todo lo que se muestra arriba sale del mismo motor, corrido sobre el caso
+     inventado de datosEjemplo(). Si cambia el motor, cambian estos números. */
+  var FRASES = {
+    casa:  "¿Estás pagando una casa… o principalmente intereses?",
+    fecha: "¿Sabes realmente cuándo será tu última mensualidad del Infonavit?",
+    antes: "¿Y si pudieras dejar de pagar tu mensualidad antes de lo que imaginas?"
+  };
+  var ABONO_ILUSTRATIVO = 1000;
 
-     Escribe tu WhatsApp entre las comillas de abajo: lada del país y
-     número, SOLO NÚMEROS, sin +, sin espacios y sin guiones.
-     México: 52 y luego los 10 dígitos.  Ejemplo: "529981234567"
-
-     Si lo dejas vacío, el botón manda un correo a contacto@habitalo.com.mx.
-     ------------------------------------------------------------------ */
-  var WHATSAPP = "529837007423";
-
-  function ligaComentario(){
-    var f = (typeof FOLIO !== "undefined" && FOLIO) ? " (folio " + FOLIO + ")" : "";
-    var t = "Hola, probé Habítalo Orienta" + f + " y les quiero contar: ";
-    var w = WHATSAPP.replace(/[^0-9]/g, "");
-    if(w.length >= 10){
-      return {u:"https://wa.me/" + w + "?text=" + encodeURIComponent(t), nueva:true};
-    }
-    return {u:"mailto:contacto@habitalo.com.mx?subject=" + encodeURIComponent("Prueba de Orienta" + f) +
-              "&body=" + encodeURIComponent(t), nueva:false};
+  function casoIlustrativo(){
+    var H = datosEjemplo(), A = agregar(H.movs), per = A.periodicidad || 1;
+    var fpp = Math.round((H.mcon - H.msin)*100)/100;
+    var p = {
+      saldo:H.capital, interes:H.interes, comis:H.comis, tasa:H.tasa,
+      cuotaPct:A.cuotaPct, fpp:fpp, seguro:A.seguro,
+      pago:A.retMes + A.apMes, periodicidad:per,
+      corte:H.corte, primerPago:addM(A.ultimoPago, per), abono:0
+    };
+    var base = correr(p, true);
+    var q = {}; for(var k in p) q[k] = p[k];
+    q.abono = ABONO_ILUSTRATIVO;
+    var r = correr(q, true);
+    var doce = ventana(base.filas, addM(p.corte, 12));
+    return {
+      H:H, p:p, base:base, r:r,
+      pct: Math.round(doce.cap / doce.pago * 100),
+      serie: serieCapital(base.filas),
+      antes: mesesEntre(r.fin, base.fin),
+      ahorro: (base.interes + base.cargos) - (r.interes + r.cargos),
+      porDia: H.capital * H.tasa / 360
+    };
   }
 
-  $("btn-feedback").addEventListener("click", function(e){
-    e.preventDefault();
-    var l = ligaComentario();
-    if(l.nueva) window.open(l.u, "_blank", "noopener"); else location.href = l.u;
-  });
+  function pintarLanding(){
+    var q = new URLSearchParams(location.search);
+    var v = (q.get("v") || q.get("utm_content") || "").toLowerCase();
+    var clave = FRASES[v] ? v : "casa";
+    $("hero-titulo").textContent = FRASES[clave];
+    document.querySelectorAll("[data-frase]").forEach(function(h){
+      h.textContent = (h.getAttribute("data-frase") === clave) ? h.getAttribute("data-alterna") : FRASES[h.getAttribute("data-frase")];
+    });
+
+    var c;
+    try{ c = casoIlustrativo(); }catch(e){ return; }      // si algo falla, se quedan los textos de respaldo
+    var b = c.base;
+    $("l-pct").textContent = "$" + c.pct;
+    $("l-resto").textContent = "$" + (100 - c.pct);
+    $("l-grafica").innerHTML =
+      '<h3>Porcentaje del pago que baja la deuda, año por año</h3>' +
+      '<p class="pieg">Cada barra es un año. Mientras más alta, más de lo que se paga ese año baja la deuda.</p>' +
+      svgEscalera(c.serie);
+    $("l-cruce").innerHTML = c.serie.cruce
+      ? "Y no se queda así: conforme baja la deuda, una parte mayor del pago va a capital. Pero en este caso, la mitad del pago no baja la deuda sino hasta <b>" + c.serie.cruce + "</b>."
+      : "";
+    $("l-pie").textContent = "Caso inventado: crédito de " + money0(c.H.capital) + " al " +
+      (c.H.tasa*100).toFixed(2) + "% anual, con descuento por nómina aplicado " + CADA[c.p.periodicidad] +
+      ". Las cifras salen del mismo cálculo que usa tu diagnóstico.";
+    $("l-tiles").innerHTML =
+      '<div class="tile"><b>' + mesAnio(b.fin) + '</b><span>fecha estimada en que termina de pagar</span></div>' +
+      '<div class="tile"><b>' + tiempoTxt(mesesEntre(c.p.corte, b.fin)) + '</b><span>lo que le falta, al ritmo de hoy</span></div>' +
+      '<div class="tile"><b>' + money0(b.interes + b.cargos) + '</b><span>pagará de intereses, seguros y cuotas en el camino</span></div>' +
+      '<div class="tile"><b>' + (c.serie.cruce || "—") + '</b><span>el año en que la mitad de su pago por fin baja la deuda</span></div>';
+    $("l-antes-t").textContent = tiempoTxt(c.antes) + " antes";
+    $("l-ahorro").textContent = money0(c.ahorro);
+    $("l-antes-pie").textContent = "con " + money0(ABONO_ILUSTRATIVO) + " extra al mes, en el caso ilustrativo.";
+    $("l-dia").innerHTML = "Mientras tanto, la deuda de este caso genera <b>" + money0(c.porDia) +
+      " de intereses cada día</b>. Esperar también cuesta.";
+  }
+
+  function videoTutorial(){
+    var u = VIDEO_TUTORIAL.trim(); if(!u) return;
+    var m = u.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([A-Za-z0-9_-]{6,})/);
+    if(!m) return;
+    var caja = $("l-video");
+    caja.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + m[1] +
+      '" title="Cómo funciona Habítalo Orienta" loading="lazy" allowfullscreen ' +
+      'allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"></iframe>';
+    caja.classList.toggle("vertical", /shorts\//.test(u));
+    caja.hidden = false;
+  }
+
+  /* botón flotante: aparece al bajar del primer botón y se va cuando ya estás en la herramienta */
+  function flotante(){
+    var f = $("flotante"), hero = document.querySelector(".hero"), meta = $("empezar");
+    if(!("IntersectionObserver" in window) || !f || !hero || !meta) return;
+    var heroVisto = true, herramienta = false;
+    function pinta(){ var on = !heroVisto && !herramienta; f.classList.toggle("on", on); f.setAttribute("aria-hidden", on ? "false" : "true"); f.querySelector("a").tabIndex = on ? 0 : -1; }
+    new IntersectionObserver(function(e){ heroVisto = e[0].isIntersecting; pinta(); }).observe(hero);
+    new IntersectionObserver(function(e){ herramienta = e[0].isIntersecting || e[0].boundingClientRect.top < 0; pinta(); }).observe(meta);
+  }
+
+  pintarLanding();
+  videoTutorial();
+  flotante();
 
   vaciar();
+  alVolver();
 })();
 </script>
 
