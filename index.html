@@ -263,17 +263,20 @@
   /* ================= landing ================= */
   .hero{background:var(--band);color:var(--band-ink);border-radius:5px;box-shadow:var(--shadow);
     padding:28px 22px 24px;display:flex;flex-direction:column;gap:14px;}
-  .hero .eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#E0BC60;}
+  .hero .eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#CFAE82;}
   .hero h1{font-size:clamp(27px,7.6vw,38px);font-weight:700;line-height:1.14;letter-spacing:-.01em;}
   .hero .hero-sub{font-size:18px;line-height:1.45;opacity:.9;}
   a.cta{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:17.5px;
-    background:#E0BC60;color:#1B1405;border-radius:6px;padding:15px 20px;}
-  a.cta:hover{background:#F0CF77;}
+    background:#CFAE82;color:#1B1405;border-radius:6px;padding:15px 20px;}
+  a.cta:hover{background:#DDBF96;}
   .hero .precio-linea{font-size:14px;opacity:.75;text-align:center;}
   .sellos{list-style:none;margin:2px 0 0;padding:12px 0 0;border-top:1px solid rgba(255,255,255,.14);
     display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;opacity:.85;}
-  .hero .brand{font-size:18px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.14);margin-bottom:4px;}
-  .hero .brand em{color:#E0BC60;}
+  .marca{display:flex;align-items:center;gap:16px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.14);margin-bottom:4px;}
+  .marca img{display:block;height:72px;width:auto;flex:none;}
+  .marca-linea{border-left:1px solid rgba(255,255,255,.22);padding-left:16px;display:flex;flex-direction:column;gap:2px;
+    font-family:var(--display);font-size:22px;font-weight:700;color:#CFAE82;line-height:1.1;}
+  .marca-linea small{font-family:var(--body);font-size:12.5px;font-weight:400;color:var(--band-ink);opacity:.75;line-height:1.3;}
   .hero-aviso{font-size:12.5px;opacity:.6;}
   /* fotos: la misma escena del anuncio, para que quien da clic reconozca dónde llegó */
   .hero .hero-foto{margin:0 -22px;}
@@ -284,7 +287,7 @@
   img[data-foto="casa"]{object-position:center 88%;}
   img[data-foto="fecha"]{object-position:center 28%;}
   img[data-foto="antes"]{object-position:center 60%;}
-  .sellos li::before{content:"✓ ";color:#E0BC60;font-weight:700;}
+  .sellos li::before{content:"✓ ";color:#CFAE82;font-weight:700;}
 
   .landing .pad{gap:14px;padding:22px 20px;}
   .landing h2.lh{font-size:clamp(21px,5.6vw,26px);font-weight:700;color:var(--ink);}
@@ -322,7 +325,7 @@
   .pasos{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px;counter-reset:paso;}
   .pasos li{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;}
   .pasos li::before{counter-increment:paso;content:counter(paso);font-family:var(--display);font-weight:700;font-size:18px;
-    color:#1B1405;background:#E0BC60;border-radius:99px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
+    color:#1B1405;background:#CFAE82;border-radius:99px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;}
   .pasos b{display:block;font-size:16.5px;color:var(--ink);}
   .pasos span{font-size:15px;color:var(--ink-soft);line-height:1.45;}
   .video{position:relative;padding-top:56.25%;border-radius:5px;overflow:hidden;background:#000;}
@@ -399,7 +402,10 @@
 
   <!-- ======================= LANDING ======================= -->
   <section class="hero">
-    <span class="brand">Habítalo <em>Orienta</em></span>
+    <div class="marca">
+      <img src="logo-habitalo.png" width="520" height="291" alt="Habítalo México">
+      <span class="marca-linea">Orienta<small>Diagnóstico de tu crédito Infonavit</small></span>
+    </div>
     <figure class="hero-foto"><img id="hero-foto" data-foto="casa" src="foto-casa.jpg" width="459" height="532"
       alt="Billetes arrugados cayendo en un bote de basura con la etiqueta «intereses»"></figure>
     <p class="eyebrow">Para quien paga un crédito Infonavit</p>
