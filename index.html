@@ -235,6 +235,14 @@
   .doc table{width:100%;border-collapse:collapse;font-size:13.5px;}
   .doc td{padding:5px 0;border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);}
   .doc td:last-child{text-align:right;font-family:var(--mono);color:var(--ink);font-weight:600;white-space:nowrap;}
+  /* las filas con varios datos sí se parten: si no, se salen en el celular */
+  .doc table.ancha td:last-child{white-space:normal;}
+  .doc table.ancha td{vertical-align:top;}
+  @media (max-width:520px){
+    .doc table.ancha td{display:block;width:100%;border-bottom:0;padding:2px 0;}
+    .doc table.ancha tr{display:block;border-bottom:1px solid var(--rule-soft);padding:5px 0;}
+    .doc table.ancha td:last-child{text-align:left;}
+  }
   .doc .sub{font-size:11.5px;color:var(--ink-faint);font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-top:4px;}
   .doc ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-soft);display:flex;flex-direction:column;gap:5px;}
   .doc ul li::marker{color:var(--gold);}
@@ -590,6 +598,12 @@
     A.patronal  = pagos.filter(function(p){ return /PATRONAL/.test(p.concepto) && p.fecha >= desde; })
                        .reduce(function(a,b){ return a+b.monto; }, 0);
     A.retMes = A.retencion/A.meses; A.apMes = A.patronal/A.meses; A.salario = A.apMes/0.05;
+    // qué pagos exactos se promediaron: va impreso en el documento para que se pueda cotejar
+    A.usados = usar.map(function(f){
+      var m = pagos.filter(function(q){ return /RETENC/.test(q.concepto) && +q.fecha === +f; })
+                   .reduce(function(x,y){ return x+y.monto; }, 0);
+      return {f:f, m:m};
+    });
     var cuotas = movs.filter(function(m){ return /7011/.test(m.concepto); });
     if(cuotas.length){
       var maxC = Math.max.apply(null, cuotas.map(function(c){ return +c.fecha; }));
@@ -605,21 +619,60 @@
   }
 
   /* ================= motor ================= */
-  function correr(p){
+  var MOTOR_VERSION = "1.4";
+
+  /* Corre el crédito periodo a periodo. Con detalle=true devuelve el calendario
+     completo, que es lo que alimenta las tablas y las gráficas del PDF.
+     abonoDesde permite empezar a abonar más tarde (para medir qué cuesta esperar). */
+  function correr(p, detalle){
     var s=p.saldo, i=p.interes, c=p.comis, dp=p.corte, ti=0, tc=0, fin=null;
+    var filas = detalle ? [] : null;
+    var per = p.periodicidad || 1, desde = p.abonoDesde || 0;
     for(var n=1;n<=700;n++){
-      if(s+i+c<=0) return {periodos:n-1, fin:fin, interes:ti, cargos:tc};
+      if(s+i+c<=0) return {periodos:n-1, fin:fin, interes:ti, cargos:tc, filas:filas};
       var d = n===1 ? p.primerPago : addM(p.primerPago, n-1);
       var f = d360(dp,d), t = mk(d)-mk(dp);
       var j = s*p.tasa/360*f, k = t*(s*p.cuotaPct/12 + p.fpp + p.seguro);
-      var per = p.periodicidad || 1;
-      var L = ((n-1) % per === 0) ? (p.pago + (p.abono||0)) * per : 0;
+      var extra = ((n-1) >= desde) ? (p.abono||0) : 0;
+      var L = ((n-1) % per === 0) ? (p.pago + extra) * per : 0;
       var mm = Math.min(L, c+k), nn = Math.min(L-mm, i+j), oo = Math.min(L-mm-nn, s);
       ti += nn; tc += mm;
+      var s0 = s;
       s = Math.round((s-oo)*100)/100; i = Math.round((i+j-nn)*100)/100; c = Math.round((c+k-mm)*100)/100;
+      if(detalle) filas.push({n:n, d:d, dias:f, ini:s0, pago:L, com:mm, int:nn, cap:oo, fin:s});
       fin = d; dp = d;
     }
-    return {periodos:700, fin:fin, interes:ti, cargos:tc};
+    return {periodos:700, fin:fin, interes:ti, cargos:tc, filas:filas};
+  }
+
+  /* ---- agregados que solo se usan para el documento ---- */
+  function ventana(filas, hasta){
+    var a = {pago:0, ic:0, cap:0, n:0};
+    for(var x=0; x<filas.length; x++){
+      var r = filas[x];
+      if(r.d > hasta) break;
+      a.pago += r.pago; a.ic += r.int + r.com; a.cap += r.cap; a.n++;
+    }
+    return a;
+  }
+
+  function porAnio(filas, maxFilas){
+    var m = {}, orden = [];
+    for(var x=0; x<filas.length; x++){
+      var r = filas[x], a = r.d.getFullYear();
+      if(!m[a]){ m[a] = {ini:r.ini, pago:0, ic:0, cap:0, fin:r.fin}; orden.push(a); }
+      m[a].pago += r.pago; m[a].ic += r.int + r.com; m[a].cap += r.cap; m[a].fin = r.fin;
+    }
+    var paso = Math.ceil(orden.length / (maxFilas || 16)), out = [];
+    for(var q=0; q<orden.length; q+=paso){
+      var blo = orden.slice(q, q+paso), g = {ini:m[blo[0]].ini, pago:0, ic:0, cap:0, fin:0};
+      for(var w=0; w<blo.length; w++){
+        g.pago += m[blo[w]].pago; g.ic += m[blo[w]].ic; g.cap += m[blo[w]].cap; g.fin = m[blo[w]].fin;
+      }
+      out.push([blo.length>1 ? (blo[0]+"–"+blo[blo.length-1]) : String(blo[0]),
+                money0(g.ini), money0(g.pago), money0(g.ic), money0(g.cap), money0(g.fin)]);
+    }
+    return out;
   }
 
   /* ================= estado y pintado ================= */
@@ -756,7 +809,7 @@
       pago:CTX.retMes + CTX.apMes, periodicidad:CTX.periodicidad || 1,
       corte:v.corte, primerPago:addM(CTX.ultimoPago, CTX.periodicidad || 1), abono:0
     };
-    var base = correr(p);
+    var base = correr(p, true);
     var pagado = (PAGO === "aprobado");
     var L = pagado ? "" : " lock";
     var per = p.periodicidad || 1;
@@ -932,15 +985,94 @@
   var MESES_L = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto",
                  "septiembre","octubre","noviembre","diciembre"];
   function fechaLarga(d){ return d.getDate() + " de " + MESES_L[d.getMonth()] + " de " + d.getFullYear(); }
+  var MES_C = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  function fechaCorta(d){ return d.getDate() + " " + MES_C[d.getMonth()] + " " + d.getFullYear(); }
 
   function datosPDF(){
     if(!ULTIMO || !window.OrientaPDF) return null;
-    var v = ULTIMO.v, C = ULTIMO.CTX, base = ULTIMO.base;
-    var ab = nm($("f-abono").value), con = null;
-    if(isFinite(ab) && ab > 0){
-      var q = {}; for(var k in ULTIMO.p) q[k] = ULTIMO.p[k];
-      q.abono = ab; con = correr(q);
+    var v = ULTIMO.v, C = ULTIMO.CTX, base = ULTIMO.base, p = ULTIMO.p;
+    var per = p.periodicidad || 1;
+    var pagosDe = function(r){ return Math.ceil(r.periodos / per); };
+    var costoDe = function(r){ return r.interes + r.cargos; };
+    var costoBase = costoDe(base);
+
+    /* --- abono elegido; si no hay, se propone uno del tamaño del descuento --- */
+    var ab = nm($("f-abono").value);
+    if(!isFinite(ab) || ab <= 0) ab = Math.max(100, Math.round(C.retMes * 0.10 / 100) * 100);
+
+    function corrida(monto, desde){
+      var q = {}; for(var k in p) q[k] = p[k];
+      q.abono = monto; q.abonoDesde = desde || 0;
+      return correr(q, true);
     }
+    function resumen(monto){
+      var r = corrida(monto);
+      return {abono: money0(monto), monto: monto, r: r,
+              fin: r.fin ? mesAnio(r.fin) : "—",
+              pagos: pagosDe(r),
+              menos: pagosDe(base) - pagosDe(r),
+              ahorro: money0(costoBase - costoDe(r))};
+    }
+
+    var elegida = resumen(ab);
+    var montos = [Math.max(100, Math.round(ab/2/100)*100), ab, Math.round(ab*2/100)*100]
+                   .filter(function(x,i,a){ return a.indexOf(x) === i; })
+                   .sort(function(x,y){ return x-y; });
+    var escen = [], idx = -1;
+    for(var e=0; e<montos.length; e++){
+      var R = resumen(montos[e]);
+      if(montos[e] === ab) idx = e;
+      escen.push([R.abono, R.fin, String(R.pagos), R.menos > 0 ? "-" + R.menos : "sin cambio", R.ahorro]);
+    }
+
+    /* --- qué cuesta esperar un año para empezar a abonar --- */
+    var tarde = corrida(ab, 12);
+    var pierde = costoDe(tarde) - costoDe(elegida.r);
+
+    /* --- titular: los próximos 12 meses --- */
+    var doce = ventana(base.filas, addM(p.corte, 12));
+    var pctCap = doce.pago > 0 ? Math.round(doce.cap / doce.pago * 100) : 0;
+
+    /* --- las primeras ocho aplicaciones reales --- */
+    var prim = [], k2 = 0;
+    for(var x=0; x<base.filas.length && prim.length < 8; x++){
+      var r = base.filas[x];
+      if(r.pago <= 0) continue;
+      k2++;
+      prim.push([String(k2), fechaCorta(r.d), String(r.dias), money0(r.pago),
+                 money0(r.com), money0(r.int), money0(r.cap), money0(r.fin)]);
+    }
+
+    /* --- la cuenta del primer pago, con sus números --- */
+    var f1 = null;
+    for(var x2=0; x2<base.filas.length; x2++){ if(base.filas[x2].pago > 0){ f1 = base.filas[x2]; break; } }
+    var cuenta = "—", prediccion = "—";
+    if(f1){
+      var devengado = v.capital * v.tasa / 360 * f1.dias;
+      cuenta = "Interés del periodo = saldo × tasa ÷ 360 × días = " + money(v.capital) + " × " +
+               (v.tasa*100).toFixed(2) + "% ÷ 360 × " + f1.dias + " = " + money(devengado) + ". " +
+               "A eso se le suma el interés que ya traías acumulado (" + money(v.interes) + "). " +
+               "De los " + money(f1.pago) + " que entran, " + money(f1.com) + " van a comisiones, " +
+               money(f1.int) + " a intereses, y los " + money(f1.cap) + " que sobran bajan tu deuda.";
+      prediccion = "Después de tu pago del " + fechaLarga(f1.d) + ", tu saldo de capital debe quedar " +
+                   "en " + money(f1.fin) + ". Cuando te llegue tu siguiente estado de cuenta, compáralo. " +
+                   "Si no coincide, algo cambió en tu crédito: escríbenos y lo revisamos.";
+    }
+
+    /* --- los movimientos que sostienen la proyección --- */
+    var movs = [];
+    if(C.manual){
+      movs.push(["Días del último pago al corte", C.dias + " días"]);
+      movs.push(["Sueldo que declaraste", money0(C.salario)]);
+    } else {
+      (C.usados || []).forEach(function(u, q2){
+        movs.push(["Pago " + (q2+1) + " · " + fechaLarga(u.f), money(u.m)]);
+      });
+      movs.push(["Promedio mensual de esos pagos", money(C.retMes)]);
+      movs.push(["Aportación patronal mensual promedio", money(C.apMes)]);
+      movs.push(["Frecuencia detectada", C.periodicidad === 1 ? "cada mes" : "cada " + C.periodicidad + " meses"]);
+    }
+
     var cap = [
       ["Saldo de capital", money(v.capital)],
       ["Saldo de interés", money(v.interes)],
@@ -967,21 +1099,89 @@
     ded.push(["Seguro de daños", money(C.seguro)]);
     ded.push(["Cuota de administración", C.cuotaPct ? "sí la paga" : "está exento"]);
 
-    var per = ULTIMO.p.periodicidad || 1;
+    var mesesBase = base.periodos || 1;
+    var mesesAb = elegida.r.periodos || 1;
+
     return {
       folio: FOLIO || "—",
       fecha: fechaLarga(new Date()),
-      pagos: Math.ceil(base.periodos/per),
+      motor: MOTOR_VERSION,
+      hoyMes: mesAnio(v.corte),
+
+      /* titular */
+      pctCapital: String(pctCap),
+      pctInteres: String(100 - pctCap),
+      doce: {entra: money0(doce.pago), capital: money0(doce.cap), interes: money0(doce.ic)},
+
+      /* barra */
+      barraFrac: v.capital / (v.capital + costoBase),
+      capitalPend: money0(v.capital),
+      barraNota: "De aquí a " + (base.fin ? mesAnio(base.fin) : "el final") + " vas a entregar " +
+                 money0(v.capital + costoBase) + " en total: " + money0(v.capital) +
+                 " es la deuda que traes hoy y " + money0(costoBase) +
+                 " son intereses, seguros y comisiones.",
+
+      /* los cuatro de siempre */
+      pagos: pagosDe(base),
       anios: (base.periodos/12).toFixed(1),
       fechaFin: base.fin ? mesAnio(base.fin) : "—",
-      costo: money0(base.interes + base.cargos),
+      costo: money0(costoBase),
       patronal: money0(C.apMes),
-      abono: money0(ab),
-      abonoFin: con && con.fin ? mesAnio(con.fin) : "—",
-      abonoMenos: con ? (Math.ceil(base.periodos/per) - Math.ceil(con.periodos/per)) : 0,
-      abonoAhorro: con ? money0((base.interes+base.cargos)-(con.interes+con.cargos)) : "—",
+
+      /* anclajes */
+      porDia: money(v.capital * v.tasa / 360) + " de intereses",
+      mensualizado: money0(costoBase / mesesBase),
+      patronalTotal: money0(C.apMes * mesesBase),
+      veces: (costoBase / v.capital).toFixed(2) + " veces",
+
+      /* escenarios */
+      elegido: {abono: elegida.abono, fin: elegida.fin, pagos: String(elegida.pagos),
+                menos: String(elegida.menos), ahorro: elegida.ahorro,
+                ganas: elegida.menos > 0
+                  ? ("te ahorras " + ((base.periodos - mesesAb)/12).toFixed(1) + " años y " + elegida.ahorro)
+                  : "—"},
+      escenarios: escen,
+      escenarioElegido: idx,
+      tiempoFrac: mesesAb / mesesBase,
+      esperar: pierde > 0
+        ? ("Si empiezas a abonar hoy te ahorras " + elegida.ahorro + ". Si esperas un año para " +
+           "empezar, ese ahorro baja a " + money0(costoBase - costoDe(tarde)) + ": esperar te cuesta " +
+           money0(pierde) + ".")
+        : "Empezar cuanto antes es lo que más mueve tu plazo: el interés se calcula sobre el saldo que traes cada día.",
+
+      /* tablas */
+      anual: porAnio(base.filas, 18),
+      anualAb: porAnio(elegida.r.filas, 18),
+      primeros: prim,
+
+      /* comprobación */
+      cuenta: cuenta,
+      prediccion: prediccion,
+      movimientos: movs,
       capturado: cap,
       deducido: ded,
+
+      acciones: [
+        "Los pagos adicionales al Infonavit no tienen comisión y se aplican a tu saldo; lo que hacen es acortar el plazo, no bajar tu descuento mensual.",
+        "Puedes abonar por transferencia (SPEI), en ventanilla bancaria o en tiendas autorizadas, siempre con tu número de crédito.",
+        "Revisa tu siguiente estado de cuenta para confirmar que el abono se reflejó en el saldo de capital.",
+        "Cuando tu saldo haya bajado bastante respecto al monto original, pregunta en Mi Cuenta Infonavit si te aplica algún descuento por liquidación anticipada."
+      ],
+      avisos: [
+        "Esto es una proyección, no una cotización del Infonavit. Para liquidar, refinanciar o cualquier trámite, la cifra que manda es la que el Infonavit te dé por escrito.",
+        "Supone que tu descuento de nómina sigue igual y que conservas tu relación laboral. Si pierdes el empleo o cambia tu salario, los números cambian.",
+        "Supone que tus pagos se siguen aplicando con la misma frecuencia que hasta hoy.",
+        "El seguro de daños y la cuota de administración se actualizan de vez en cuando; aquí se proyectan con el valor de hoy.",
+        "Los intereses que ya traías acumulados se cubren antes que el capital. Por eso tu primer pago baja tu deuda menos de lo que esperarías.",
+        "El abono no baja tu descuento mensual: lo que hace es acortar el plazo."
+      ],
+
+      /* compatibilidad con la vista en pantalla */
+      abono: elegida.abono,
+      abonoFin: elegida.fin,
+      abonoMenos: elegida.menos,
+      abonoAhorro: elegida.ahorro,
+
       avisoVersion: AVISO_VERSION,
       consentido: CONSENT ? new Date(CONSENT.fecha).toLocaleString("es-MX") : "—"
     };
@@ -991,6 +1191,9 @@
      No necesita permisos ni descargas: siempre funciona. */
   function textoPlano(d){
     var l = ["DIAGNÓSTICO HABÍTALO ORIENTA · folio " + d.folio + " · " + d.fecha, "",
+             "De cada $100 que entran a tu crédito, solo $" + d.pctCapital + " bajan tu deuda.",
+             "Los otros $" + d.pctInteres + " son intereses, seguros y comisiones.",
+             "En los próximos 12 meses entrarán " + d.doce.entra + " y tu deuda bajará " + d.doce.capital + ".", "",
              "Te faltan " + d.pagos + " pagos (unos " + d.anios + " años).",
              "Terminarías de pagar en " + d.fechaFin + ".",
              "Pagarías " + d.costo + " de intereses, seguros y cuotas.",
@@ -1001,13 +1204,18 @@
     d.capturado.forEach(function(f){ l.push("  " + f[0] + ": " + f[1]); });
     l.push("", "DEDUCIDO DE TUS MOVIMIENTOS");
     d.deducido.forEach(function(f){ l.push("  " + f[0] + ": " + f[1]); });
-    l.push("", "Es una proyección con supuestos, no una cotización del Infonavit",
-           "ni asesoría legal o fiscal.");
+    l.push("", "TUS SIGUIENTES PAGOS");
+    d.primeros.forEach(function(f){
+      l.push("  " + f[1] + " · entra " + f[3] + " · intereses " + f[5] + " · a capital " + f[6] + " · saldo " + f[7]);
+    });
+    l.push("", "CÓMO COMPROBARLO", "  " + d.prediccion, "",
+           "Es una proyección con supuestos, no una cotización del Infonavit",
+           "ni asesoría legal o fiscal. Motor de cálculo versión " + d.motor + ".");
     return l.join("\n");
   }
 
-  function filasHTML(pares){
-    return "<table><tbody>" + pares.map(function(f){
+  function filasHTML(pares, clase){
+    return "<table" + (clase ? ' class="' + clase + '"' : "") + "><tbody>" + pares.map(function(f){
       return "<tr><td>" + f[0] + "</td><td>" + f[1] + "</td></tr>";
     }).join("") + "</tbody></table>";
   }
@@ -1015,7 +1223,11 @@
   function pintarDocumento(){
     var d = datosPDF();
     if(!d) return false;
-    var h = '<h3>Así vas hoy, sin cambiar nada</h3><div class="grande">' +
+    var h = '<div class="caja"><b style="font-size:17px">De cada $100 que entran a tu crédito, solo $' +
+      d.pctCapital + ' bajan tu deuda.</b><br>Los otros $' + d.pctInteres +
+      ' son intereses, seguros y comisiones. En los próximos 12 meses entrarán <b>' + d.doce.entra +
+      '</b> a tu crédito y tu deuda bajará <b>' + d.doce.capital + '</b>.</div>' +
+      '<h3>Así vas hoy, sin cambiar nada</h3><div class="grande">' +
       '<div><b>' + d.pagos + ' pagos</b><span>te faltan, unos ' + d.anios + ' años</span></div>' +
       '<div><b>' + d.fechaFin + '</b><span>terminarías de pagar</span></div>' +
       '<div><b>' + d.costo + '</b><span>pagarías de intereses, seguros y cuotas</span></div>' +
@@ -1025,16 +1237,23 @@
            '</b>, son <b>' + d.abonoMenos + ' pagos menos</b>, y dejarías de pagar <b>' + d.abonoAhorro +
            '</b> de intereses y cargos.</div>';
     }
+    h += '<h3>Lo que cambiaría si abonas</h3>' + filasHTML(d.escenarios.map(function(f){
+           return [f[0] + " al mes", "termina " + f[1] + " · " + f[4] + " menos de intereses"]; }), "ancha");
+    h += '<h3>Tus siguientes pagos</h3>' +
+         '<div class="sub">De cada pago, esto es lo que baja tu deuda</div>' +
+         filasHTML(d.primeros.map(function(f){
+           return [f[1] + " — entra " + f[3], "intereses " + f[5] + " · a capital " + f[6]]; }), "ancha");
+    h += '<div class="caja">' + d.prediccion + '</div>';
     h += '<h3>De dónde salen estos números</h3>' +
          '<div class="sub">Lo que dice tu estado de cuenta</div>' + filasHTML(d.capturado) +
          '<div class="sub">Lo que dedujimos de tus movimientos</div>' + filasHTML(d.deducido);
     h += '<h3>Antes de decidir</h3><ul>' +
          '<li>Es una proyección, no una cotización del Infonavit. Para cualquier trámite manda la cifra que el Infonavit te dé por escrito.</li>' +
          '<li>Supone que tu descuento de nómina sigue igual y que conservas tu relación laboral.</li>' +
-         '<li>Al hacer un abono, pide expresamente que se aplique a capital.</li>' +
+         '<li>Los intereses que ya traías acumulados se cubren antes que el capital.</li>' +
          '<li>No es asesoría legal ni fiscal, ni recomendación de inversión.</li></ul>' +
          '<div class="folio-doc">Folio ' + d.folio + ' · ' + d.fecha +
-         ' · aviso de privacidad versión ' + d.avisoVersion + '</div>';
+         ' · motor ' + d.motor + ' · aviso de privacidad versión ' + d.avisoVersion + '</div>';
     $("doc-vista").innerHTML = h;
     $("doc-card").hidden = false;
     return true;
