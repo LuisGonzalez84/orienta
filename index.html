@@ -755,7 +755,7 @@
   <div class="card">
     <h2>Antes de ver tus números</h2>
     <div class="consent">
-      <p class="aviso"><strong>Aviso de privacidad.</strong> Alejandro Rodríguez Aznar, quien opera como <strong>Habítalo México</strong>, en Cancún, Quintana Roo, es responsable del tratamiento de tus datos. Tu estado de cuenta se lee dentro de tu dispositivo: tu nombre, NSS, RFC, CURP y domicilio no se usan, no se guardan y no se envían. De tu crédito tomamos saldos, tasa, mensualidades, fechas y movimientos, y los usamos para calcular tu diagnóstico y entregártelo. Se guardan solo en esta pestaña mientras la tengas abierta, para que no los pierdas al pagar. Para cobrarte y comprobar tu pago solo viajan el folio de tu diagnóstico y tu número de operación, nunca tus números. Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos, gratis y sin costo, escribiendo a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a>. <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener" id="link-aviso">Consulta el aviso completo</a>.</p>
+      <p class="aviso"><strong>Aviso de privacidad.</strong> Alejandro Rodríguez Aznar, quien opera como <strong>Habítalo México</strong>, en Cancún, Quintana Roo, es responsable del tratamiento de tus datos. Tu estado de cuenta se lee dentro de tu dispositivo: tu nombre, NSS, RFC, CURP y domicilio no se usan, no se guardan y no se envían. De tu crédito tomamos saldos, tasa, mensualidades, fechas y movimientos, y los usamos para calcular tu diagnóstico y entregártelo. Se guardan solo en esta pestaña mientras la tengas abierta, para que no los pierdas al pagar. Para cobrarte y comprobar tu pago solo viajan el folio de tu diagnóstico y tu número de operación, nunca tus números. Para saber cómo va el servicio llevamos una cuenta de cuánta gente llega y cuánta llega hasta el final: son contadores, sin cookies y sin nada que permita identificarte. Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos, gratis y sin costo, escribiendo a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a>. <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener" id="link-aviso">Consulta el aviso completo</a>.</p>
       <label class="check"><input type="checkbox" id="c-obligatorio"> <span>He leído el aviso de privacidad y <strong>autorizo el tratamiento de mis datos financieros</strong> para calcular mi diagnóstico.</span></label>
       <p class="registro" id="registro" hidden></p>
     </div>
@@ -863,6 +863,34 @@
   var API_PAGOS = "https://orienta-pagos.mich-gonzalez84.workers.dev";
   var LIGA_PAGO = "https://mpago.la/1TpaU2v";
   var VIDEO_TUTORIAL = "";   // liga de YouTube del tutorial; vacío = no se muestra
+
+  /* ------------------------------------------------------------------
+     CUENTA SIMPLE — cuántos llegan y hasta dónde llegan.
+     No es análisis de nadie: le suma uno a un contador en el mismo
+     verificador. No usa cookies, no guarda dirección IP ni navegador, y
+     de tu crédito no viaja absolutamente nada. Cada paso se cuenta una
+     sola vez por pestaña. Si falla, la página sigue igual.
+     ------------------------------------------------------------------ */
+  var VARIANTE = (function(){
+    var q = new URLSearchParams(location.search);
+    var v = (q.get("v") || q.get("utm_content") || "").toLowerCase();
+    return (v === "casa" || v === "fecha" || v === "antes") ? v : "casa";
+  })();
+  function contar(paso){
+    try{
+      var k = "orienta-paso-" + paso;
+      if(sessionStorage.getItem(k)) return;
+      sessionStorage.setItem(k, "1");
+    }catch(e){}
+    try{
+      if(!API_PAGOS) return;
+      fetch(API_PAGOS.replace(/\/+$/, "") + "/paso", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        cache:"no-store", keepalive:true,
+        body: JSON.stringify({paso: paso, v: VARIANTE})
+      }).catch(function(){});
+    }catch(e){}
+  }
 
   /* El lector se prepara al abrir la página, no al subir el archivo: así la
      lectura ya no necesita internet y la prueba del modo avión funciona. */
@@ -1416,6 +1444,7 @@
     $("simwrap").hidden = !abierto;
     $("descarga").hidden = !pagado;         // el PDF solo con pago comprobado
     ULTIMO = {v:v, CTX:CTX, base:base, p:p, fpp:fpp};
+    if(!EJEMPLO) contar("numeros");
     pintaFlotante();
     guardarBorrador();
     if(abierto){ pintarModo(); configurarMeta(p, base); }
@@ -1514,7 +1543,7 @@
       PAGO = "aprobado"; REF_PAGO = DESBLOQUEO; FOLIO = nuevoFolio(); DESBLOQUEO = null;
     }
     pintarPago();
-    if(fuente !== "un documento de ejemplo"){ EJEMPLO = false; $("aviso-ejemplo").hidden = true; $("pie-ejemplo").hidden = true; }
+    if(fuente !== "un documento de ejemplo"){ EJEMPLO = false; $("aviso-ejemplo").hidden = true; $("pie-ejemplo").hidden = true; contar("documento"); }
     $("doc-card").hidden = true;
     AGG = agregar(H.movs || []);
     pintarCampos(H);
@@ -2085,7 +2114,7 @@
     b.textContent = "Abriendo Mercado Pago…";
     fetch(API + "/pagar", {
       method:"POST", headers:{"Content-Type":"application/json"}, cache:"no-store",
-      body: JSON.stringify({folio: FOLIO, volver: location.origin + location.pathname})
+      body: JSON.stringify({folio: FOLIO, volver: location.origin + location.pathname, v: VARIANTE})
     }).then(function(r){ return r.json(); }).then(function(d){
       if(d && d.ok && d.url) location.href = d.url;
       else throw new Error("sin url");
@@ -2106,7 +2135,7 @@
   };
 
   function comprobarPago(id){
-    return fetch(API + "/verificar?id=" + encodeURIComponent(id), {cache:"no-store"})
+    return fetch(API + "/verificar?id=" + encodeURIComponent(id) + "&v=" + VARIANTE, {cache:"no-store"})
       .then(function(r){ return r.json(); })
       .catch(function(){ return {ok:false, motivo:"red"}; });
   }
@@ -2463,6 +2492,7 @@
   pintarLanding();
   videoTutorial();
   flotante();
+  contar("visita");
 
   vaciar();
   alVolver();
