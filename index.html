@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, follow">
-<meta name="description" content="Sube tu estado de cuenta del Infonavit y ve gratis cuánto te falta y a dónde se va tu pago. Diagnóstico completo con simulador de abonos: $50. Habítalo Orienta.">
+<meta name="description" content="Sube tu estado de cuenta del Infonavit y ve gratis a dónde se va cada peso que te descuentan. Diagnóstico completo, con fecha estimada de término y simulador de abonos: $50. Habítalo Orienta.">
 <style>
   :root{ color-scheme: light; }
   *{ box-sizing: border-box; }
@@ -16,7 +16,7 @@
 <title>¿Cuánto te falta de tu crédito Infonavit? · Habítalo Orienta</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="¿Estás pagando una casa… o principalmente intereses?">
-<meta property="og:description" content="Sube tu estado de cuenta del Infonavit y ve gratis cuánto te falta y a dónde se va tu pago. Tu documento no sale de tu teléfono.">
+<meta property="og:description" content="Sube tu estado de cuenta del Infonavit y ve gratis a dónde se va cada peso que te descuentan. Tu documento no sale de tu teléfono.">
 <!-- La imagen al compartir necesita la dirección completa: cámbiala si la página se muda a habitalo.com.mx -->
 <meta property="og:image" content="https://luisgonzalez84.github.io/orienta/compartir.jpg">
 <meta property="og:image:width" content="1200">
@@ -154,6 +154,9 @@
   .num span{font-size:13.5px;color:var(--ink-soft);line-height:1.35;}
   .sim{padding:16px 20px;border-top:1px solid var(--rule);display:flex;flex-direction:column;gap:10px;}
   .sim label{font-size:16px;font-weight:600;}
+  .sim .sim-tit{font-family:var(--display);font-size:19px;font-weight:700;color:var(--ink);margin:0;}
+  .sim .sim-guia{font-size:14px;color:var(--ink-soft);margin:-4px 0 2px;line-height:1.45;}
+  .descarga{padding:4px 20px 18px;display:flex;flex-direction:column;gap:9px;}
   .sim .fld{display:flex;align-items:center;gap:6px;max-width:190px;}
   input[type="range"]{
     -webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;
@@ -195,6 +198,14 @@
   .num.lock::after{
     content:"🔒";position:absolute;top:14px;right:16px;font-size:14px;opacity:.6;
   }
+  /* la gráfica se deja ver, pero no se deja leer */
+  #grafica .lienzo{position:relative;}
+  #grafica.lock .lienzo svg{filter:blur(6px);user-select:none;pointer-events:none;}
+  #grafica.lock .lienzo::after{
+    content:"🔒";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    font-size:26px;opacity:.55;
+  }
+  #grafica.lock .cierre{color:var(--ink-faint);}
 
   /* ---- cobro ---- */
   /* el hallazgo y la gráfica: lo que explica de un golpe a dónde se va el pago */
@@ -220,6 +231,8 @@
     display:block;text-align:center;text-decoration:none;
   }
   a.pagar:hover{background:var(--gold);color:#1B1405;}
+  .cobro .espera{margin:0;font-size:13px;color:var(--ink-soft);text-align:center;line-height:1.5;}
+  .cobro .espera b{color:var(--ink);}
   .cobro .sello{font-size:12.5px;color:var(--ink-faint);text-align:center;line-height:1.5;}
   .cobro .liga{font-family:var(--mono);font-size:12px;color:var(--ink-soft);user-select:all;}
   .regreso{border-top:1px solid rgba(154,111,21,.28);padding-top:12px;display:flex;flex-direction:column;gap:8px;}
@@ -295,6 +308,8 @@
   .marca-linea small{font-family:var(--body);font-size:12.5px;font-weight:400;color:var(--band-ink);opacity:.75;line-height:1.3;}
   .hero-aviso{font-size:12.5px;opacity:.6;}
   /* fotos: la misma escena del anuncio, para que quien da clic reconozca dónde llegó */
+  .hero-cuerpo{display:flex;flex-direction:column;gap:14px;}
+  .hero-texto{display:flex;flex-direction:column;gap:14px;}
   .hero .hero-foto{margin:0 -22px;}
   .hero .hero-foto img{display:block;width:100%;height:auto;aspect-ratio:5/2;object-fit:cover;}
   @media (min-width:520px){ .hero .hero-foto img{aspect-ratio:2/1;} }
@@ -386,6 +401,46 @@
   .flotante a{max-width:608px;margin:0 auto;padding:13px 18px;font-size:16.5px;}
   @media (prefers-reduced-motion: reduce){ .flotante{transition:none;} }
 
+  /* ---- pantallas anchas: la venta se ensancha, la herramienta no ----
+     En computadora el ancho de 640px se veía como una tira angosta. Aquí la
+     página crece a 900px, la portada se parte en dos columnas y las tarjetas
+     donde se captura y se leen números se quedan angostas, que es donde se
+     lee mejor. */
+  @media (min-width:900px){
+    .wrap{max-width:900px;padding-block:30px 72px;gap:22px;}
+
+    /* la herramienta, el pie y los avisos se quedan en columna angosta */
+    .wrap > .card:not(.landing),
+    .wrap > .topbar,
+    .wrap > .aviso-ejemplo,
+    .wrap > .separador,
+    .wrap > footer{width:100%;max-width:660px;margin-inline:auto;}
+
+    /* portada a dos columnas: texto a la izquierda, foto a la derecha */
+    .hero{padding:32px 34px 28px;}
+    .hero-cuerpo{display:grid;grid-template-columns:1.05fr .95fr;column-gap:30px;align-items:center;}
+    .hero-texto{order:1;gap:15px;}
+    .hero .hero-foto{order:2;margin:0;border-radius:4px;overflow:hidden;}
+    .hero .hero-foto img{aspect-ratio:4/5;}   /* el encuadre fino lo pone cada variante */
+    .hero h1{font-size:40px;}
+    .hero .sellos{gap:6px 26px;}
+
+    /* las secciones con foto: la imagen al lado del texto, no encima. Va en flex
+       para que, cuando la foto se oculta (la del anuncio no se repite abajo),
+       el texto ocupe la tarjeta completa. */
+    #l-caso, #l-obtienes, #l-antes{display:flex;align-items:stretch;}
+    #l-caso .foto, #l-obtienes .foto, #l-antes .foto{flex:0 0 38%;margin:0;}
+    #l-caso .pad, #l-obtienes .pad, #l-antes .pad{flex:1 1 auto;min-width:0;}
+    #l-caso .foto img, #l-obtienes .foto img, #l-antes .foto img{
+      height:100%;width:100%;aspect-ratio:auto;object-fit:cover;}
+
+    /* renglones de texto que no se vuelvan larguísimos */
+    .landing .pad{padding:26px 32px;}
+    .landing p.txt, .landing .pie-caso, .hojas li, .faq details p, .faq summary,
+    .razones span, .no-aplica p{max-width:66ch;}
+    .miniaturas{gap:12px;}
+  }
+
   @media print{
     body{background:#fff;}
     .topbar,.aviso-ejemplo,.card:not(#doc-card),.doc-pie,footer,.hero,.separador,.flotante{display:none !important;}
@@ -431,14 +486,18 @@
       <img src="logo-habitalo.png" width="520" height="291" alt="Habítalo México">
       <span class="marca-linea">Orienta<small>Diagnóstico de tu crédito Infonavit</small></span>
     </div>
-    <figure class="hero-foto"><img id="hero-foto" data-foto="casa" src="foto-casa.jpg" width="459" height="532"
-      alt="Billetes arrugados cayendo en un bote de basura con la etiqueta «intereses»"></figure>
-    <p class="eyebrow">Para quien paga un crédito Infonavit</p>
-    <h1 id="hero-titulo">¿Estás pagando una casa… o principalmente intereses?</h1>
-    <p class="hero-sub">Sube tu estado de cuenta y en un minuto ves, <b>gratis</b>, cuánto te falta de verdad y a dónde se va cada peso que te descuentan.</p>
-    <a class="cta" href="#empezar" data-cta="hero">Ver mi crédito gratis</a>
-    <a class="cta-ejemplo" href="#empezar" id="hero-ejemplo">o mira primero un ejemplo, sin subir nada</a>
-    <p class="precio-linea">El diagnóstico completo cuesta $50 y lo pagas solo después de ver tu resultado.</p>
+    <div class="hero-cuerpo">
+      <figure class="hero-foto"><img id="hero-foto" data-foto="casa" src="foto-casa.jpg" width="459" height="532"
+        alt="Billetes arrugados cayendo en un bote de basura con la etiqueta «intereses»"></figure>
+      <div class="hero-texto">
+        <p class="eyebrow">Para quien paga un crédito Infonavit</p>
+        <h1 id="hero-titulo">¿Estás pagando una casa… o principalmente intereses?</h1>
+        <p class="hero-sub">Sube tu estado de cuenta y en un minuto ves, <b>gratis</b>, a dónde se va cada peso que te descuentan. El diagnóstico completo cuesta $50.</p>
+        <a class="cta" href="#empezar" data-cta="hero">Hazlo ya, es gratis</a>
+        <a class="cta-ejemplo" href="#empezar" id="hero-ejemplo">o mira primero un ejemplo, sin subir nada</a>
+        <p class="precio-linea">El diagnóstico completo cuesta $50 y lo pagas solo después de ver tu resultado.</p>
+      </div>
+    </div>
     <ul class="sellos">
       <li>Tu documento no sale de tu teléfono</li>
       <li>Sin registrarte</li>
@@ -482,9 +541,9 @@
         <div class="o-gratis">
           <p class="o-tit">Gratis, al subir tu documento</p>
           <ul>
-            <li>Cuánto de lo que pagas este año baja tu deuda</li>
-            <li>La gráfica de cómo cambia, año por año</li>
-            <li>Cuánto tiempo te falta, al ritmo de hoy</li>
+            <li>De cada $100 que entran a tu crédito este año, cuántos bajan tu deuda</li>
+            <li>Cuánto va a entrar en los próximos 12 meses y cuánto bajará tu deuda</li>
+            <li>La comprobación de que tus números cuadran, antes de pagar nada</li>
           </ul>
         </div>
         <div class="o-pago">
@@ -493,7 +552,8 @@
             <li><b>Simulador:</b> cuánto abonar para terminar en los años que tú elijas</li>
             <li>Tres escenarios de abono, con fecha y ahorro de cada uno</li>
             <li>Lo que te cuesta esperar un año para empezar</li>
-            <li>Fecha estimada de término y total de intereses y cargos</li>
+            <li>Cuánto tiempo te falta, fecha estimada de término y total de intereses y cargos</li>
+            <li>Tu gráfica año por año, con el año en que la mitad de tu pago ya baja tu deuda</li>
             <li>Tus siguientes pagos uno por uno y una predicción para comprobarlo</li>
             <li>El PDF de 4 hojas, para guardarlo o compartirlo</li>
           </ul>
@@ -533,10 +593,10 @@
       <ol class="pasos">
         <li><span><b>Descarga tu estado de cuenta</b>Entra a Mi Cuenta Infonavit y descarga tu estado de cuenta histórico en PDF. Súbelo tal como te lo dan, sin editarlo.</span></li>
         <li><span><b>Súbelo aquí</b>Se lee dentro de tu teléfono o computadora. No capturas nada y no tienes que registrarte.</span></li>
-        <li><span><b>Ve tu resultado gratis</b>Cuánto te falta y a dónde se va tu pago, antes de pagar un peso.</span></li>
+        <li><span><b>Ve gratis a dónde se va tu pago</b>De cada $100 que entran a tu crédito, cuántos bajan tu deuda. Antes de pagar un peso.</span></li>
         <li><span><b>Si te sirve, desbloquea tu diagnóstico</b>Pagas $50 con Mercado Pago y descargas tu diagnóstico en PDF al momento.</span></li>
       </ol>
-      <a class="cta-oscuro" href="#empezar" data-cta="pasos">Empezar ahora, gratis</a>
+      <a class="cta-oscuro" href="#empezar" data-cta="pasos">Hazlo ya, es gratis</a>
     </div>
   </section>
 
@@ -547,7 +607,7 @@
         <div><b>Tu documento no sale de tu dispositivo.</b><span>Se lee ahí mismo. Compruébalo: con la página abierta, ponte en modo avión y verás que funciona igual.</span></div>
         <div><b>Cada número se puede comprobar.</b><span>Tu diagnóstico trae la cuenta completa de tu siguiente pago y el saldo que deberías ver en tu próximo estado de cuenta.</span></div>
         <div><b>No te pedimos datos personales.</b><span>Ni nombre, ni NSS, ni teléfono. De tu documento solo se toman los números de tu crédito.</span></div>
-        <div><b>Pagas después de ver tu resultado.</b><span>Primero ves gratis cuánto te falta. El cobro aparece solo cuando tus números cuadran.</span></div>
+        <div><b>Pagas después de ver que tus números cuadran.</b><span>Primero lees gratis a dónde se va tu pago, con tus propias cifras. El cobro aparece solo cuando el cálculo ya salió.</span></div>
       </div>
     </div>
   </section>
@@ -710,9 +770,10 @@
     <div class="cobro" id="cobro" hidden>
       <div class="precio">
         <span class="monto">$50</span>
-        <span class="que">Tu diagnóstico completo: la fecha estimada en que terminas y lo que pagarías de intereses y cargos, el simulador para elegir en cuántos años terminar, tres escenarios de abono, lo que te cuesta esperar y un PDF de 4 hojas que puedes comprobar.</span>
+        <span class="que">Tu diagnóstico completo: cuánto tiempo te falta y la fecha estimada en que terminas, lo que pagarías de intereses y cargos, tu gráfica año por año, el simulador para elegir en cuántos años terminar, tres escenarios de abono, lo que te cuesta esperar y un PDF de 4 hojas que puedes comprobar.</span>
       </div>
       <a class="pagar" id="btn-pagar" href="https://mpago.la/1TpaU2v" target="_blank" rel="noopener">Pagar $50 y ver mi diagnóstico</a>
+      <p class="espera" id="espera-pago" hidden>Al terminar de pagar, Mercado Pago te regresa aquí solo, en unos segundos. Si tarda, usa el botón <b>“Volver al sitio”</b>.</p>
       <p class="sello" id="sello-pago">Pago seguro con Mercado Pago. No cobramos hasta que tus datos cuadran — y ya cuadraron.<br>
         Si no se abre la pestaña, copia esta liga: <span class="liga">https://mpago.la/1TpaU2v</span></p>
       <div class="regreso">
@@ -728,6 +789,8 @@
     <div class="pago-estado" id="pago-estado" hidden></div>
 
     <div class="sim" id="simwrap" hidden>
+      <p class="sim-tit">Primero elige tu meta</p>
+      <p class="sim-guia">Con lo que elijas aquí se arma tu diagnóstico: los escenarios, la fecha en que terminarías y el PDF.</p>
       <div class="modo">
         <div class="campo">
           <label for="f-frec">¿Cómo puedes abonar?</label>
@@ -756,6 +819,11 @@
       </div>
       <p class="simout" id="simout"></p>
     </div>
+
+    <div class="descarga" id="descarga" hidden>
+      <button class="descargar" id="btn-pdf" type="button">Ya con mi meta: descargar mi diagnóstico (PDF)</button>
+      <p class="pdf-msg" id="pdf-msg" hidden></p>
+    </div>
   </div>
 
   <div class="card" id="doc-card" hidden>
@@ -770,12 +838,12 @@
 
   <footer>
     <div>Habítalo Orienta es un servicio de Habítalo México · Cancún, Quintana Roo · <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> · <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a></div>
-    <div>El ejemplo cargado es un caso inventado; no corresponde a ningún acreditado real.</div>
+    <div id="pie-ejemplo" hidden>El ejemplo cargado es un caso inventado; no corresponde a ningún acreditado real.</div>
     <div>Es una proyección con supuestos, no una cotización del Infonavit ni asesoría legal o fiscal. Supone que tu descuento de nómina sigue igual.</div>
   </footer>
 </div>
 
-<div class="flotante" id="flotante" aria-hidden="true"><a class="cta" href="#empezar" data-cta="flotante" tabindex="-1">Ver mi crédito gratis</a></div>
+<div class="flotante" id="flotante" aria-hidden="true"><a class="cta" href="#empezar" data-cta="flotante" tabindex="-1">Hazlo ya, es gratis</a></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="pdfgen.js"></script>
@@ -1108,7 +1176,7 @@
      así el texto conserva tamaño legible cuando la gráfica se encoge en un
      celular. Los colores salen de las variables del tema, para que funcione
      igual en claro y en oscuro. */
-  function svgEscalera(serie){
+  function svgEscalera(serie, mudo){
     var A = serie.anios, P = serie.pcts, idx = serie.idx, n = A.length;
     if(!n) return "";
     var W = 400, H = 172, ejeW = 32, abajo = 38, arriba = 20;
@@ -1143,22 +1211,24 @@
              (bold ? ' font-weight="700"' : '')+' fill="'+((idx>=0 && k>=idx) ? 'var(--gold)' : 'var(--ink-soft)')+
              '">'+Math.round(P[k])+'%</text>');
     }
-    pct(0);
-    if(idx > 1 && idx < n-2) pct(idx, true);
-    pct(n-1);
+    if(!mudo){
+      pct(0);
+      if(idx > 1 && idx < n-2) pct(idx, true);
+      pct(n-1);
 
-    o.push('<text x="'+x0+'" y="'+(base+15)+'" font-size="10.5" fill="var(--ink-faint)">'+A[0]+'</text>');
-    o.push('<text x="'+(W-2)+'" y="'+(base+15)+'" text-anchor="end" font-size="10.5" fill="var(--ink-faint)">'+A[n-1]+'</text>');
-    if(idx > 1 && idx < n-2){
-      var xc = x0 + idx*(w+hueco) + w/2;
-      o.push('<text x="'+xc.toFixed(2)+'" y="'+(base+15)+'" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--gold)">'+A[idx]+'</text>');
-      o.push('<text x="'+xc.toFixed(2)+'" y="'+(base+29)+'" text-anchor="middle" font-size="10.5" fill="var(--gold)">aquí llegas a la mitad</text>');
+      o.push('<text x="'+x0+'" y="'+(base+15)+'" font-size="10.5" fill="var(--ink-faint)">'+A[0]+'</text>');
+      o.push('<text x="'+(W-2)+'" y="'+(base+15)+'" text-anchor="end" font-size="10.5" fill="var(--ink-faint)">'+A[n-1]+'</text>');
+      if(idx > 1 && idx < n-2){
+        var xc = x0 + idx*(w+hueco) + w/2;
+        o.push('<text x="'+xc.toFixed(2)+'" y="'+(base+15)+'" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--gold)">'+A[idx]+'</text>');
+        o.push('<text x="'+xc.toFixed(2)+'" y="'+(base+29)+'" text-anchor="middle" font-size="10.5" fill="var(--gold)">aquí llegas a la mitad</text>');
+      }
     }
     o.push('</svg>');
     return o.join("");
   }
 
-  function pintarHallazgo(v, C, base, p){
+  function pintarHallazgo(v, C, base, p, pagado){
     var doce = ventana(base.filas, addM(p.corte, 12));
     if(!(doce.pago > 0)){ $("hallazgo").hidden = true; $("grafica").hidden = true; return; }
     var pct = Math.round(doce.cap / doce.pago * 100);
@@ -1172,15 +1242,19 @@
       money0(doce.cap) + '</b>.</p>';
     $("hallazgo").hidden = false;
 
+    $("grafica").className = "grafica" + (pagado ? "" : " lock");
     $("grafica").innerHTML =
       '<h3>Porcentaje de tu pago que se abona a capital, año por año</h3>' +
       '<p class="pieg">Cada barra es un año. La altura es qué parte de lo que pagas ese año baja tu deuda; ' +
       'el resto son intereses, seguros y comisiones.</p>' +
-      svgEscalera(serie) +
-      '<p class="cierre">' + (serie.cruce
-        ? '<b>Y esto no se queda así:</b> conforme baja tu deuda, cada año una parte mayor de lo que pagas ' +
-          'deja de ser interés. Para <b>' + serie.cruce + '</b> la mitad de lo que entre ya estará bajando tu deuda.'
-        : 'Conforme baja tu deuda, cada año una parte mayor de lo que pagas deja de ser interés.') + '</p>';
+      '<div class="lienzo">' + svgEscalera(serie, !pagado) + '</div>' +
+      '<p class="cierre">' + (!pagado
+        ? 'Tu gráfica completa, con el año en que la mitad de lo que pagas ya estará bajando tu deuda, ' +
+          'va en tu diagnóstico.'
+        : (serie.cruce
+          ? '<b>Y esto no se queda así:</b> conforme baja tu deuda, cada año una parte mayor de lo que pagas ' +
+            'deja de ser interés. Para <b>' + serie.cruce + '</b> la mitad de lo que entre ya estará bajando tu deuda.'
+          : 'Conforme baja tu deuda, cada año una parte mayor de lo que pagas deja de ser interés.')) + '</p>';
     $("grafica").hidden = false;
   }
 
@@ -1304,13 +1378,13 @@
       $("nums").innerHTML = '<div class="num" style="grid-column:1/-1;"><span>' +
         (MODO === "manual" ? "Se llenan solos en cuanto completes los números de arriba."
                            : "Se llenan solos en cuanto leamos tu documento.") + '</span></div>';
-      $("simout").textContent = ""; $("cobro").hidden = true; $("simwrap").hidden = true;
+      $("simout").textContent = ""; $("cobro").hidden = true; $("simwrap").hidden = true; $("descarga").hidden = true;
       $("hallazgo").hidden = true; $("grafica").hidden = true;
       return;
     }
     if(!$("c-obligatorio").checked && !EJEMPLO){          // el caso inventado no trae datos de nadie
       $("nums").innerHTML = '<div class="num" style="grid-column:1/-1;"><span>Tus números están listos. Marca la casilla del aviso de privacidad aquí arriba para verlos.</span></div>';
-      $("simout").textContent = ""; $("cobro").hidden = true; $("simwrap").hidden = true;
+      $("simout").textContent = ""; $("cobro").hidden = true; $("simwrap").hidden = true; $("descarga").hidden = true;
       $("hallazgo").hidden = true; $("grafica").hidden = true;
       return;
     }
@@ -1323,22 +1397,28 @@
       abonoDesde:(ABONO.desde = ABONO.desde || abonoDesdeDefault(v.corte))
     };
     var base = correr(p, true);
-    pintarHallazgo(v, CTX, base, p);
     var pagado = (PAGO === "aprobado");
-    var L = pagado ? "" : " lock";
+    var abierto = pagado || EJEMPLO;        // el caso inventado se muestra completo: es la demostración
+    pintarHallazgo(v, CTX, base, p, abierto);
+    var L = abierto ? "" : " lock";
     var per = p.periodicidad || 1;
     var nPagos = base.pagos;
+    /* Bloqueado no es solo borroso: el número real ni siquiera se escribe en la
+       página, para que no se pueda leer en el código fuente. */
+    var val = function(t){ return abierto ? t : String(t).replace(/\S/g, "\u2022"); };
     $("nums").innerHTML =
-      '<div class="num"><b>'+(base.fin ? tiempoTxt(mesesEntre(p.corte, base.fin)) : "—")+'</b><span>te faltan, al ritmo de hoy: '+pagosTxt(nPagos, per)+'</span></div>' +
-      '<div class="num'+L+'"><b>'+(base.fin?mesAnio(base.fin):"—")+'</b><span>terminarías de pagar</span></div>' +
-      '<div class="num'+L+'"><b>'+money0(base.interes+base.cargos)+'</b><span>pagarías de intereses, seguros y cuotas en el camino</span></div>' +
-      '<div class="num'+L+'"><b>'+money0(CTX.apMes)+'</b><span>pone tu patrón cada mes, además de tu descuento</span></div>' +
+      '<div class="num'+L+'"><b>'+val(base.fin ? tiempoTxt(mesesEntre(p.corte, base.fin)) : "—")+'</b><span>te faltan, al ritmo de hoy'+(abierto ? ": "+pagosTxt(nPagos, per) : "")+'</span></div>' +
+      '<div class="num'+L+'"><b>'+val(base.fin?mesAnio(base.fin):"—")+'</b><span>terminarías de pagar</span></div>' +
+      '<div class="num'+L+'"><b>'+val(money0(base.interes+base.cargos))+'</b><span>pagarías de intereses, seguros y cuotas en el camino</span></div>' +
+      '<div class="num'+L+'"><b>'+val(money0(CTX.apMes))+'</b><span>pone tu patrón cada mes, además de tu descuento</span></div>' +
       '<p class="nota-frec">'+aclaraFrecuencia(per)+'</p>';
-    $("cobro").hidden = pagado;
-    $("simwrap").hidden = !pagado;
+    $("cobro").hidden = pagado;             // en el ejemplo el precio sigue a la vista
+    $("simwrap").hidden = !abierto;
+    $("descarga").hidden = !pagado;         // el PDF solo con pago comprobado
     ULTIMO = {v:v, CTX:CTX, base:base, p:p, fpp:fpp};
+    pintaFlotante();
     guardarBorrador();
-    if(pagado){ pintarModo(); configurarMeta(p, base); }
+    if(abierto){ pintarModo(); configurarMeta(p, base); }
   }
 
   /* ===== la pregunta al revés: ¿cuánto abonar para terminar en X años? =====
@@ -1434,7 +1514,7 @@
       PAGO = "aprobado"; REF_PAGO = DESBLOQUEO; FOLIO = nuevoFolio(); DESBLOQUEO = null;
     }
     pintarPago();
-    if(fuente !== "un documento de ejemplo"){ EJEMPLO = false; $("aviso-ejemplo").hidden = true; }
+    if(fuente !== "un documento de ejemplo"){ EJEMPLO = false; $("aviso-ejemplo").hidden = true; $("pie-ejemplo").hidden = true; }
     $("doc-card").hidden = true;
     AGG = agregar(H.movs || []);
     pintarCampos(H);
@@ -1956,12 +2036,9 @@
     e.hidden = false;
     if(PAGO === "aprobado"){
       e.className = "pago-estado ok";
-      e.innerHTML = "<div><strong>Pago recibido.</strong> Tu diagnóstico completo está abajo, ya con el simulador de abonos.</div>" +
-                    '<button class="descargar" id="btn-pdf" type="button">Descargar mi diagnóstico (PDF)</button>' +
-                    '<p class="pdf-msg" id="pdf-msg" hidden></p>' +
+      e.innerHTML = "<div><strong>Pago recibido.</strong> Elige aquí abajo tu meta de abono y descarga tu diagnóstico con ese escenario.</div>" +
                     '<div class="folio">Folio ' + FOLIO +
                     (REF_PAGO ? " · pago " + REF_PAGO : "") + "</div>";
-      $("btn-pdf").addEventListener("click", function(){ descargarPDF(this); });
     } else if(PAGO === "pendiente"){
       e.className = "pago-estado esperando";
       e.innerHTML = "<div><strong>Mercado Pago todavía está procesando tu pago.</strong> Suele tardar unos minutos. Cuando te llegue el comprobante, escribe aquí abajo tu número de operación y tu diagnóstico se abre.</div>" +
@@ -1983,6 +2060,7 @@
   if(API){
     $("btn-pagar").removeAttribute("target");
     $("btn-pagar").href = "#";
+    $("espera-pago").hidden = false;
     $("faq-pago").textContent = "Con Mercado Pago: tarjeta de débito, de crédito o tu saldo. Al terminar regresas a la página, tu pago se comprueba solo y descargas tu diagnóstico en PDF al momento. Si no regresaste, escribe tu número de operación en «¿Ya pagaste?».";
     $("sello-pago").innerHTML = "Pago seguro con Mercado Pago: tarjeta de débito, de crédito o tu saldo de Mercado Pago. " +
       "Al terminar regresas a esta página y tu diagnóstico se abre solo.";
@@ -2088,7 +2166,7 @@
     Object.keys(b.campos).forEach(function(k){ var el = $("f-" + k); if(el) el.value = b.campos[k] || ""; });
     AGG = reviveAGG(b.agg);
     FOLIO = b.folio || null;
-    EJEMPLO = !!b.ejemplo; $("aviso-ejemplo").hidden = !EJEMPLO;
+    EJEMPLO = !!b.ejemplo; $("aviso-ejemplo").hidden = $("pie-ejemplo").hidden = !EJEMPLO;
     if(b.abono) $("f-abono").value = b.abono;
     if(b.abonoFrec) ABONO.frec = b.abonoFrec;
     if(b.abonoDesde) ABONO.desde = parseISO(b.abonoDesde);
@@ -2230,15 +2308,16 @@
     EJEMPLO = true;
     aplicar(H, "un documento de ejemplo");
     EJEMPLO = true;
-    $("aviso-ejemplo").hidden = false;
+    $("aviso-ejemplo").hidden = $("pie-ejemplo").hidden = false;
     estado("ok", "Ejemplo cargado: " + H.movs.length + " movimientos de un crédito inventado. Sube tu propio documento para ver tus números.");
   }
+  $("btn-pdf").addEventListener("click", function(){ descargarPDF(this); });
   $("btn-demo").addEventListener("click", ejemplo);
 
   /* arranca en blanco: nadie debe ver números que no son suyos */
   function vaciar(mensaje){
     EJEMPLO = false;
-    $("aviso-ejemplo").hidden = true;
+    $("aviso-ejemplo").hidden = $("pie-ejemplo").hidden = true;
     AGG = null; ULTIMO = null; META_MAX = null; ABONO.desde = null;
     PAGO = "no"; FOLIO = null; REF_PAGO = null; $("f-folio").value = ""; $("folio-msg").textContent = "";
     setModo("doc");
@@ -2362,12 +2441,15 @@
     caja.hidden = false;
   }
 
-  /* botón flotante: aparece al bajar del primer botón y se va cuando ya estás en la herramienta */
+  /* botón flotante: aparece al bajar del primer botón y se va cuando ya estás en la
+     herramienta o cuando ya tienes tus números en pantalla */
+  var pintaFlotante = function(){};
   function flotante(){
     var f = $("flotante"), hero = document.querySelector(".hero"), meta = $("empezar");
     if(!("IntersectionObserver" in window) || !f || !hero || !meta) return;
     var heroVisto = true, herramienta = false;
-    function pinta(){ var on = !heroVisto && !herramienta; f.classList.toggle("on", on); f.setAttribute("aria-hidden", on ? "false" : "true"); f.querySelector("a").tabIndex = on ? 0 : -1; }
+    function pinta(){ var on = !heroVisto && !herramienta && !ULTIMO; f.classList.toggle("on", on); f.setAttribute("aria-hidden", on ? "false" : "true"); f.querySelector("a").tabIndex = on ? 0 : -1; }
+    pintaFlotante = pinta;
     new IntersectionObserver(function(e){ heroVisto = e[0].isIntersecting; pinta(); }).observe(hero);
     new IntersectionObserver(function(e){ herramienta = e[0].isIntersecting || e[0].boundingClientRect.top < 0; pinta(); }).observe(meta);
   }
