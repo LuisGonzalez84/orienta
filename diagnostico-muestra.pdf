@@ -18,7 +18,7 @@ stream
 BT /F2 16 Tf 0.950 0.960 0.980 rg 54.00 756.00 Td (HAB\315TALO ORIENTA) Tj ET
 BT /F1 10.5 Tf 0.740 0.790 0.860 rg 54.00 736.00 Td (Diagn\363stico de tu cr\351dito Infonavit) Tj ET
 BT /F1 9 Tf 0.860 0.670 0.290 rg 425.98 756.00 Td (MUESTRA \267 CASO INVENTADO) Tj ET
-BT /F1 9 Tf 0.740 0.790 0.860 rg 453.44 740.00 Td (21 de septiembre de 2026) Tj ET
+BT /F1 9 Tf 0.740 0.790 0.860 rg 453.44 740.00 Td (23 de septiembre de 2026) Tj ET
 BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 676.00 Td (LO PRIMERO QUE TIENES QUE SABER) Tj ET
 0.7 w 0.840 0.860 0.900 RG 54.00 669.00 m 558.00 669.00 l S
 BT /F1 15 Tf 0.078 0.141 0.247 rg 54.00 640.00 Td (De cada $100 que entran a tu cr\351dito este a\361o,) Tj ET
@@ -74,7 +74,7 @@ BT /F1 7 Tf 0.541 0.584 0.659 rg 57.10 505.68 Td (100%) Tj ET
 0.878 0.737 0.376 rg 453.33 444.68 24.67 43.34 re f
 0.878 0.737 0.376 rg 480.00 444.68 24.67 48.07 re f
 0.878 0.737 0.376 rg 506.67 444.68 24.67 53.32 re f
-0.878 0.737 0.376 rg 533.33 444.67 24.67 57.14 re f
+0.878 0.737 0.376 rg 533.33 444.68 24.67 57.14 re f
 0.9 w 0.450 0.330 0.090 RG 80.00 476.68 m 558.00 476.68 l S
 0.9 w 0.720 0.760 0.820 RG 80.00 444.68 m 558.00 444.68 l S
 BT /F1 7.5 Tf 0.329 0.380 0.478 rg 84.83 463.04 Td (22%) Tj ET
@@ -132,12 +132,12 @@ BT /F1 9 Tf 0.329 0.380 0.478 rg 422.22 397.63 Td (m\341s) Tj ET
 BT /F1 9 Tf 0.329 0.380 0.478 rg 441.72 397.63 Td (r\341pido.) Tj ET
 BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 370.57 Td (LO QUE TE FALTA PAGAR, REPARTIDO) Tj ET
 0.7 w 0.840 0.860 0.900 RG 54.00 363.57 m 558.00 363.57 l S
-0.106 0.180 0.310 rg 54.00 312.57 227.76 34.00 re f
-0.800 0.830 0.880 rg 281.76 312.57 276.24 34.00 re f
+0.106 0.180 0.310 rg 54.00 312.57 229.17 34.00 re f
+0.800 0.830 0.880 rg 283.17 312.57 274.83 34.00 re f
 BT /F2 11 Tf 1.000 1.000 1.000 rg 63.00 331.57 Td ($1,048,630) Tj ET
 BT /F1 7.5 Tf 0.800 0.840 0.900 rg 63.00 319.57 Td (lo que debes de capital) Tj ET
-BT /F2 11 Tf 0.078 0.141 0.247 rg 290.76 331.57 Td ($1,271,800) Tj ET
-BT /F1 7.5 Tf 0.329 0.380 0.478 rg 290.76 319.57 Td (intereses, seguros y comisiones) Tj ET
+BT /F2 11 Tf 0.078 0.141 0.247 rg 292.17 331.57 Td ($1,257,605) Tj ET
+BT /F1 7.5 Tf 0.329 0.380 0.478 rg 292.17 319.57 Td (intereses, seguros y comisiones) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 54.00 300.57 Td (De) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 67.23 300.57 Td (aqu\355) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 85.65 300.57 Td (a) Tj ET
@@ -146,7 +146,7 @@ BT /F1 8.5 Tf 0.541 0.584 0.659 rg 146.11 300.57 Td (2043) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 167.38 300.57 Td (vas) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 182.97 300.57 Td (a) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 190.06 300.57 Td (entregar) Tj ET
-BT /F2 8.5 Tf 0.078 0.141 0.247 rg 224.08 300.57 Td ($2,320,430) Tj ET
+BT /F2 8.5 Tf 0.078 0.141 0.247 rg 224.08 300.57 Td ($2,306,235) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 268.97 300.57 Td (en) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 280.79 300.57 Td (total:) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 301.58 300.57 Td ($1,048,630) Tj ET
@@ -157,7 +157,7 @@ BT /F1 8.5 Tf 0.541 0.584 0.659 rg 392.78 300.57 Td (que) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 409.33 300.57 Td (traes) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 430.58 300.57 Td (hoy) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 446.65 300.57 Td (y) Tj ET
-BT /F1 8.5 Tf 0.541 0.584 0.659 rg 453.26 300.57 Td ($1,271,800) Tj ET
+BT /F1 8.5 Tf 0.541 0.584 0.659 rg 453.26 300.57 Td ($1,257,605) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 498.16 300.57 Td (son) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 514.22 300.57 Td (intereses,) Tj ET
 BT /F1 8.5 Tf 0.541 0.584 0.659 rg 54.00 288.25 Td (seguros) Tj ET
@@ -177,7 +177,7 @@ BT /F1 7.5 Tf 0.329 0.380 0.478 rg 193.50 200.92 Td (terminar\355as de pagar, so
 BT /F1 7.5 Tf 0.329 0.380 0.478 rg 193.50 191.42 Td (con tu descuento) Tj ET
 0.960 0.968 0.980 rg 311.00 181.92 118.50 56.00 re f
 0.106 0.180 0.310 rg 311.00 181.92 2.50 56.00 re f
-BT /F2 15 Tf 0.078 0.141 0.247 rg 322.00 214.92 Td ($1,271,800) Tj ET
+BT /F2 15 Tf 0.078 0.141 0.247 rg 322.00 214.92 Td ($1,257,605) Tj ET
 BT /F1 7.5 Tf 0.329 0.380 0.478 rg 322.00 200.92 Td (pagar\355as de intereses,) Tj ET
 BT /F1 7.5 Tf 0.329 0.380 0.478 rg 322.00 191.42 Td (seguros y cuotas) Tj ET
 0.960 0.968 0.980 rg 439.50 181.92 118.50 56.00 re f
@@ -193,13 +193,13 @@ BT /F1 9.5 Tf 0.329 0.380 0.478 rg 54.00 105.27 Td (Tu cr\351dito genera, cada d
 BT /F2 9.5 Tf 0.078 0.141 0.247 rg 465.58 105.27 Td ($304.39 de intereses) Tj ET
 0.5 w 0.918 0.929 0.949 RG 54.00 100.27 m 558.00 100.27 l S
 BT /F1 9.5 Tf 0.329 0.380 0.478 rg 54.00 88.27 Td (Lo que pagar\355as de intereses, repartido en el plazo) Tj ET
-BT /F2 9.5 Tf 0.078 0.141 0.247 rg 496.73 88.27 Td ($6,144 al mes) Tj ET
+BT /F2 9.5 Tf 0.078 0.141 0.247 rg 496.73 88.27 Td ($6,105 al mes) Tj ET
 0.5 w 0.918 0.929 0.949 RG 54.00 83.27 m 558.00 83.27 l S
 BT /F1 9.5 Tf 0.329 0.380 0.478 rg 54.00 71.27 Td (Lo que pondr\341 tu patr\363n en todo lo que te falta) Tj ET
-BT /F2 9.5 Tf 0.078 0.141 0.247 rg 518.38 71.27 Td ($315,892) Tj ET
+BT /F2 9.5 Tf 0.078 0.141 0.247 rg 518.38 71.27 Td ($314,366) Tj ET
 0.5 w 0.918 0.929 0.949 RG 54.00 66.27 m 558.00 66.27 l S
 BT /F1 9.5 Tf 0.329 0.380 0.478 rg 54.00 54.27 Td (Por cada $100 que debes hoy, pagar\341s adem\341s) Tj ET
-BT /F2 9.5 Tf 0.078 0.141 0.247 rg 437.07 54.27 Td ($121 de intereses y cargos) Tj ET
+BT /F2 9.5 Tf 0.078 0.141 0.247 rg 437.07 54.27 Td ($120 de intereses y cargos) Tj ET
 0.5 w 0.918 0.929 0.949 RG 54.00 49.27 m 558.00 49.27 l S
 BT /F1 8 Tf 0.541 0.584 0.659 rg 54.00 34.00 Td (Hab\355talo Orienta \267 No es una instituci\363n financiera ni est\341 afiliada al Infonavit.) Tj ET
 BT /F1 8 Tf 0.541 0.584 0.659 rg 508.63 34.00 Td (P\341gina 1 de 4) Tj ET
@@ -209,13 +209,13 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 12 0 R >> >> /Contents 7 0 R >>
 endobj
 7 0 obj
-<< /Length 9866 >>
+<< /Length 11071 >>
 stream
 0.106 0.180 0.310 rg 0.00 708.00 612.00 84.00 re f
 BT /F2 16 Tf 0.950 0.960 0.980 rg 54.00 756.00 Td (HAB\315TALO ORIENTA) Tj ET
 BT /F1 10.5 Tf 0.740 0.790 0.860 rg 54.00 736.00 Td (Lo que puedes cambiar) Tj ET
 BT /F1 9 Tf 0.860 0.670 0.290 rg 425.98 756.00 Td (MUESTRA \267 CASO INVENTADO) Tj ET
-BT /F1 9 Tf 0.740 0.790 0.860 rg 453.44 740.00 Td (21 de septiembre de 2026) Tj ET
+BT /F1 9 Tf 0.740 0.790 0.860 rg 453.44 740.00 Td (23 de septiembre de 2026) Tj ET
 BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 676.00 Td (SI ABONAS $1,000 CADA MES) Tj ET
 0.7 w 0.840 0.860 0.900 RG 54.00 669.00 m 558.00 669.00 l S
 BT /F2 21 Tf 0.604 0.439 0.121 rg 54.00 640.00 Td (Terminas 3 a\361os y 4 meses antes) Tj ET
@@ -223,7 +223,7 @@ BT /F1 13 Tf 0.078 0.141 0.247 rg 54.00 618.00 Td (y) Tj ET
 BT /F1 13 Tf 0.078 0.141 0.247 rg 64.11 618.00 Td (dejas) Tj ET
 BT /F1 13 Tf 0.078 0.141 0.247 rg 98.80 618.00 Td (de) Tj ET
 BT /F1 13 Tf 0.078 0.141 0.247 rg 116.87 618.00 Td (pagar) Tj ET
-BT /F2 13 Tf 0.078 0.141 0.247 rg 153.72 618.00 Td ($286,259) Tj ET
+BT /F2 13 Tf 0.078 0.141 0.247 rg 153.72 618.00 Td ($279,893) Tj ET
 BT /F1 13 Tf 0.078 0.141 0.247 rg 211.55 618.00 Td (de) Tj ET
 BT /F1 13 Tf 0.078 0.141 0.247 rg 229.62 618.00 Td (intereses) Tj ET
 BT /F1 13 Tf 0.078 0.141 0.247 rg 285.97 618.00 Td (y) Tj ET
@@ -234,120 +234,134 @@ BT /F1 13 Tf 0.078 0.141 0.247 rg 296.09 618.00 Td (cargos.) Tj ET
 0.604 0.439 0.121 rg 453.30 559.15 3.00 12.00 re f
 0.106 0.180 0.310 rg 552.50 559.15 3.00 12.00 re f
 BT /F2 8 Tf 0.106 0.180 0.310 rg 58.00 577.15 Td (SEPTIEMBRE 2026) Tj ET
-BT /F2 8 Tf 0.604 0.439 0.121 rg 433.01 577.15 Td (JULIO 2040) Tj ET
 BT /F2 8 Tf 0.106 0.180 0.310 rg 485.54 577.15 Td (NOVIEMBRE 2043) Tj ET
+BT /F2 8 Tf 0.604 0.439 0.121 rg 433.01 577.15 Td (JULIO 2040) Tj ET
 BT /F1 7.5 Tf 0.541 0.584 0.659 rg 58.00 547.15 Td (hoy) Tj ET
 BT /F1 7.5 Tf 0.541 0.584 0.659 rg 438.12 547.15 Td (abonando) Tj ET
 BT /F1 7.5 Tf 0.541 0.584 0.659 rg 518.98 547.15 Td (sin abonar) Tj ET
 BT /F2 9.5 Tf 0.604 0.439 0.121 rg 554.00 533.15 Td () Tj ET
 BT /F1 10 Tf 0.078 0.141 0.247 rg 54.00 531.15 Td (Abonando) Tj ET
 BT /F1 10 Tf 0.078 0.141 0.247 rg 102.37 531.15 Td ($1,000) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 135.73 531.15 Td (al) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 146.29 531.15 Td (mes) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 167.96 531.15 Td (terminar\355as) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 220.19 531.15 Td (en) Tj ET
-BT /F2 10 Tf 0.078 0.141 0.247 rg 234.09 531.15 Td (JULIO) Tj ET
-BT /F2 10 Tf 0.078 0.141 0.247 rg 266.32 531.15 Td (2040) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 291.34 531.15 Td (en) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 305.24 531.15 Td (vez) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 323.58 531.15 Td (de) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 337.48 531.15 Td (NOVIEMBRE) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 400.27 531.15 Td (2043) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 425.29 531.15 Td (\(20) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 442.52 531.15 Td (pagos) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 472.54 531.15 Td (bimestrales) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 54.00 516.65 Td (menos\).) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 92.90 516.65 Td (Y) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 102.35 516.65 Td (el) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 112.91 516.65 Td (punto) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 140.71 516.65 Td (en) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 154.61 516.65 Td (que) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 174.07 516.65 Td (la) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 184.63 516.65 Td (mitad) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 211.86 516.65 Td (de) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 225.76 516.65 Td (lo) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 236.32 516.65 Td (que) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 255.78 516.65 Td (pagas) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 285.80 516.65 Td (ya) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 299.14 516.65 Td (baja) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 320.82 516.65 Td (tu) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 331.94 516.65 Td (deuda) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 362.52 516.65 Td (se) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 375.86 516.65 Td (adelanta) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 417.00 516.65 Td (de) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 430.90 516.65 Td (2038) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 455.92 516.65 Td (a) Tj ET
-BT /F2 10 Tf 0.604 0.439 0.121 rg 464.26 516.65 Td (2034) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 486.50 516.65 Td (:) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 492.06 516.65 Td (4) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 500.40 516.65 Td (a\361os) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 524.86 516.65 Td (antes.) Tj ET
-BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 484.15 Td (OTROS MONTOS, PARA QUE COMPARES) Tj ET
-0.7 w 0.840 0.860 0.900 RG 54.00 477.15 m 558.00 477.15 l S
-BT /F2 7.5 Tf 0.541 0.584 0.659 rg 54.00 460.15 Td (Si abonas al mes) Tj ET
-BT /F2 7.5 Tf 0.541 0.584 0.659 rg 186.63 460.15 Td (Terminas en) Tj ET
-BT /F2 7.5 Tf 0.541 0.584 0.659 rg 341.15 460.15 Td (Te faltar\355an) Tj ET
-BT /F2 7.5 Tf 0.541 0.584 0.659 rg 423.40 460.15 Td (Terminas antes) Tj ET
-BT /F2 7.5 Tf 0.541 0.584 0.659 rg 519.65 460.15 Td (Te ahorras) Tj ET
-0.8 w 0.800 0.830 0.880 RG 54.00 455.15 m 558.00 455.15 l S
-BT /F2 8.5 Tf 0.078 0.141 0.247 rg 54.00 445.15 Td ($500) Tj ET
-BT /F1 8.5 Tf 0.329 0.380 0.478 rg 186.63 445.15 Td (ENERO 2042) Tj ET
-BT /F1 8.5 Tf 0.329 0.380 0.478 rg 309.82 445.15 Td (15 a\361os y 4 meses) Tj ET
-BT /F1 8.5 Tf 0.329 0.380 0.478 rg 411.33 445.15 Td (1 a\361o y 10 meses) Tj ET
-BT /F1 8.5 Tf 0.329 0.380 0.478 rg 522.56 445.15 Td ($163,681) Tj ET
-0.973 0.945 0.871 rg 50.00 420.15 512.00 17.00 re f
-BT /F2 8.5 Tf 0.078 0.141 0.247 rg 54.00 428.15 Td ($1,000) Tj ET
-BT /F2 8.5 Tf 0.078 0.141 0.247 rg 186.63 428.15 Td (JULIO 2040) Tj ET
-BT /F2 8.5 Tf 0.078 0.141 0.247 rg 301.78 428.15 Td (13 a\361os y 10 meses) Tj ET
-BT /F2 8.5 Tf 0.078 0.141 0.247 rg 408.49 428.15 Td (3 a\361os y 4 meses) Tj ET
-BT /F2 8.5 Tf 0.078 0.141 0.247 rg 522.56 428.15 Td ($286,259) Tj ET
-BT /F2 8.5 Tf 0.078 0.141 0.247 rg 54.00 411.15 Td ($2,000) Tj ET
-BT /F1 8.5 Tf 0.329 0.380 0.478 rg 186.63 411.15 Td (MAYO 2038) Tj ET
-BT /F1 8.5 Tf 0.329 0.380 0.478 rg 309.82 411.15 Td (11 a\361os y 8 meses) Tj ET
-BT /F1 8.5 Tf 0.329 0.380 0.478 rg 411.81 411.15 Td (5 a\361os y 6 meses) Tj ET
-BT /F1 8.5 Tf 0.329 0.380 0.478 rg 522.56 411.15 Td ($459,577) Tj ET
-0.8 w 0.800 0.830 0.880 RG 54.00 403.15 m 558.00 403.15 l S
-BT /F1 8.5 Tf 0.541 0.584 0.659 rg 54.00 388.15 Td (Cada rengl\363n es una corrida completa de tu cr\351dito con ese abono.) Tj ET
-BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 359.82 Td (LO QUE CUESTA ESPERAR) Tj ET
-0.7 w 0.840 0.860 0.900 RG 54.00 352.82 m 558.00 352.82 l S
-0.973 0.945 0.871 rg 54.00 289.82 504.00 58.00 re f
-BT /F1 10 Tf 0.078 0.141 0.247 rg 66.00 335.82 Td (Si) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 77.67 335.82 Td (empiezas) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 123.24 335.82 Td (a) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 131.58 335.82 Td (abonar) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 165.49 335.82 Td (hoy) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 184.39 335.82 Td (te) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 195.51 335.82 Td (ahorras) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 232.19 335.82 Td ($286,259.) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 279.45 335.82 Td (Si) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 291.12 335.82 Td (esperas) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 329.47 335.82 Td (un) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 343.37 335.82 Td (a\361o) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 362.83 335.82 Td (para) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 385.62 335.82 Td (empezar,) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 430.08 335.82 Td (ese) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 448.98 335.82 Td (ahorro) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 480.66 335.82 Td (baja) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 502.34 335.82 Td (a) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 66.00 321.32 Td ($248,194:) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 113.26 321.32 Td (esperar) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 149.94 321.32 Td (te) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 161.06 321.32 Td (cuesta) Tj ET
-BT /F2 10 Tf 0.078 0.141 0.247 rg 193.30 321.32 Td ($38,065) Tj ET
-BT /F1 10 Tf 0.078 0.141 0.247 rg 229.44 321.32 Td (.) Tj ET
-BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 280.82 Td (QU\311 S\315 PUEDES HACER) Tj ET
-0.7 w 0.840 0.860 0.900 RG 54.00 273.83 m 558.00 273.83 l S
-BT /F1 9.5 Tf 0.604 0.439 0.121 rg 58.00 256.83 Td (\225) Tj ET
-BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 256.83 Td (Los pagos adicionales al Infonavit no tienen comisi\363n y se aplican a tu saldo; lo que hacen es acortar el plazo, no) Tj ET
-BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 243.53 Td (bajar tu descuento mensual.) Tj ET
-BT /F1 9.5 Tf 0.604 0.439 0.121 rg 58.00 224.23 Td (\225) Tj ET
-BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 224.23 Td (Puedes abonar por transferencia \(SPEI\), en ventanilla bancaria o en tiendas autorizadas, siempre con tu n\372mero) Tj ET
-BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 210.93 Td (de cr\351dito.) Tj ET
-BT /F1 9.5 Tf 0.604 0.439 0.121 rg 58.00 191.63 Td (\225) Tj ET
-BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 191.63 Td (Revisa tu siguiente estado de cuenta para confirmar que el abono se reflej\363 en el saldo de capital.) Tj ET
-BT /F1 9.5 Tf 0.604 0.439 0.121 rg 58.00 172.33 Td (\225) Tj ET
-BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 172.33 Td (Cuando tu saldo haya bajado bastante respecto al monto original, pregunta en Mi Cuenta Infonavit si te aplica alg\372n) Tj ET
-BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 159.03 Td (descuento por liquidaci\363n anticipada.) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 135.73 531.15 Td (cada) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 160.19 531.15 Td (mes) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 181.86 531.15 Td (a) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 190.20 531.15 Td (partir) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 215.76 531.15 Td (del) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 231.88 531.15 Td (1) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 240.22 531.15 Td (de) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 254.12 531.15 Td (octubre) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 290.25 531.15 Td (de) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 304.15 531.15 Td (2026) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 329.17 531.15 Td (terminar\355as) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 381.40 531.15 Td (en) Tj ET
+BT /F2 10 Tf 0.078 0.141 0.247 rg 395.30 531.15 Td (JULIO) Tj ET
+BT /F2 10 Tf 0.078 0.141 0.247 rg 427.53 531.15 Td (2040) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 452.55 531.15 Td (en) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 466.45 531.15 Td (vez) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 484.79 531.15 Td (de) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 54.00 516.65 Td (NOVIEMBRE) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 116.79 516.65 Td (2043) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 141.81 516.65 Td (\(20) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 159.04 516.65 Td (pagos) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 189.06 516.65 Td (bimestrales) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 242.96 516.65 Td (menos\).) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 281.86 516.65 Td (Y) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 291.31 516.65 Td (el) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 301.87 516.65 Td (punto) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 329.67 516.65 Td (en) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 343.57 516.65 Td (que) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 363.03 516.65 Td (la) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 373.59 516.65 Td (mitad) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 400.82 516.65 Td (de) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 414.72 516.65 Td (lo) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 425.28 516.65 Td (que) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 444.74 516.65 Td (pagas) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 474.76 516.65 Td (ya) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 488.10 516.65 Td (baja) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 509.78 516.65 Td (tu) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 520.90 516.65 Td (deuda) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 54.00 502.15 Td (se) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 67.34 502.15 Td (adelanta) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 108.48 502.15 Td (de) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 122.38 502.15 Td (2038) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 147.40 502.15 Td (a) Tj ET
+BT /F2 10 Tf 0.604 0.439 0.121 rg 155.74 502.15 Td (2034) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 177.98 502.15 Td (:) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 183.54 502.15 Td (4) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 191.88 502.15 Td (a\361os) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 216.34 502.15 Td (antes.) Tj ET
+BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 469.65 Td (OTROS MONTOS, PARA QUE COMPARES) Tj ET
+0.7 w 0.840 0.860 0.900 RG 54.00 462.65 m 558.00 462.65 l S
+BT /F2 7.5 Tf 0.541 0.584 0.659 rg 54.00 445.65 Td (Si abonas cada mes) Tj ET
+BT /F2 7.5 Tf 0.541 0.584 0.659 rg 186.63 445.65 Td (Terminas en) Tj ET
+BT /F2 7.5 Tf 0.541 0.584 0.659 rg 341.15 445.65 Td (Te faltar\355an) Tj ET
+BT /F2 7.5 Tf 0.541 0.584 0.659 rg 423.40 445.65 Td (Terminas antes) Tj ET
+BT /F2 7.5 Tf 0.541 0.584 0.659 rg 519.65 445.65 Td (Te ahorras) Tj ET
+0.8 w 0.800 0.830 0.880 RG 54.00 440.65 m 558.00 440.65 l S
+BT /F2 8.5 Tf 0.078 0.141 0.247 rg 54.00 430.65 Td ($500) Tj ET
+BT /F1 8.5 Tf 0.329 0.380 0.478 rg 186.63 430.65 Td (ENERO 2042) Tj ET
+BT /F1 8.5 Tf 0.329 0.380 0.478 rg 309.82 430.65 Td (15 a\361os y 4 meses) Tj ET
+BT /F1 8.5 Tf 0.329 0.380 0.478 rg 411.33 430.65 Td (1 a\361o y 10 meses) Tj ET
+BT /F1 8.5 Tf 0.329 0.380 0.478 rg 522.56 430.65 Td ($159,787) Tj ET
+0.973 0.945 0.871 rg 50.00 405.65 512.00 17.00 re f
+BT /F2 8.5 Tf 0.078 0.141 0.247 rg 54.00 413.65 Td ($1,000) Tj ET
+BT /F2 8.5 Tf 0.078 0.141 0.247 rg 186.63 413.65 Td (JULIO 2040) Tj ET
+BT /F2 8.5 Tf 0.078 0.141 0.247 rg 301.78 413.65 Td (13 a\361os y 10 meses) Tj ET
+BT /F2 8.5 Tf 0.078 0.141 0.247 rg 408.49 413.65 Td (3 a\361os y 4 meses) Tj ET
+BT /F2 8.5 Tf 0.078 0.141 0.247 rg 522.56 413.65 Td ($279,893) Tj ET
+BT /F2 8.5 Tf 0.078 0.141 0.247 rg 54.00 396.65 Td ($2,000) Tj ET
+BT /F1 8.5 Tf 0.329 0.380 0.478 rg 186.63 396.65 Td (JULIO 2038) Tj ET
+BT /F1 8.5 Tf 0.329 0.380 0.478 rg 305.09 396.65 Td (11 a\361os y 10 meses) Tj ET
+BT /F1 8.5 Tf 0.329 0.380 0.478 rg 411.81 396.65 Td (5 a\361os y 4 meses) Tj ET
+BT /F1 8.5 Tf 0.329 0.380 0.478 rg 522.56 396.65 Td ($449,751) Tj ET
+0.8 w 0.800 0.830 0.880 RG 54.00 388.65 m 558.00 388.65 l S
+BT /F1 8.5 Tf 0.541 0.584 0.659 rg 54.00 373.65 Td (Cada rengl\363n es una corrida completa de tu cr\351dito con ese abono.) Tj ET
+BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 345.32 Td (LO QUE CUESTA ESPERAR) Tj ET
+0.7 w 0.840 0.860 0.900 RG 54.00 338.32 m 558.00 338.32 l S
+0.973 0.945 0.871 rg 54.00 275.32 504.00 58.00 re f
+BT /F1 10 Tf 0.078 0.141 0.247 rg 66.00 321.32 Td (Si) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 77.67 321.32 Td (empiezas) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 123.24 321.32 Td (a) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 131.58 321.32 Td (abonar) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 165.49 321.32 Td (hoy) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 184.39 321.32 Td (te) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 195.51 321.32 Td (ahorras) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 232.19 321.32 Td ($279,893.) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 279.45 321.32 Td (Si) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 291.12 321.32 Td (esperas) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 329.47 321.32 Td (un) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 343.37 321.32 Td (a\361o) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 362.83 321.32 Td (para) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 385.62 321.32 Td (empezar,) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 430.08 321.32 Td (ese) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 448.98 321.32 Td (ahorro) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 480.66 321.32 Td (baja) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 502.34 321.32 Td (a) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 66.00 306.82 Td ($242,387:) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 113.26 306.82 Td (esperar) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 149.94 306.82 Td (te) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 161.06 306.82 Td (cuesta) Tj ET
+BT /F2 10 Tf 0.078 0.141 0.247 rg 193.30 306.82 Td ($37,505) Tj ET
+BT /F1 10 Tf 0.078 0.141 0.247 rg 229.44 306.82 Td (.) Tj ET
+BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 266.33 Td (QU\311 S\315 PUEDES HACER) Tj ET
+0.7 w 0.840 0.860 0.900 RG 54.00 259.33 m 558.00 259.33 l S
+BT /F1 9.5 Tf 0.604 0.439 0.121 rg 58.00 242.33 Td (\225) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 242.33 Td (Los pagos adicionales al Infonavit no tienen comisi\363n y se aplican a tu saldo; lo que hacen es acortar el plazo, no) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 229.03 Td (bajar tu descuento mensual.) Tj ET
+BT /F1 9.5 Tf 0.604 0.439 0.121 rg 58.00 209.73 Td (\225) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 209.73 Td (No esperes a juntar mucho: el inter\351s se calcula sobre tu saldo cada d\355a, as\355 que un abono chico ya empieza a) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 196.43 Td (trabajar desde el d\355a que entra.) Tj ET
+BT /F1 9.5 Tf 0.604 0.439 0.121 rg 58.00 177.13 Td (\225) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 177.13 Td (Con la misma cantidad al a\361o, abonar de una sola vez al principio rinde un poco m\341s que repartirla poco a poco. Si) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 163.83 Td (juntar te cuesta, es mejor abonar seguido que no abonar.) Tj ET
+BT /F1 9.5 Tf 0.604 0.439 0.121 rg 58.00 144.52 Td (\225) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 144.52 Td (Puedes abonar por transferencia \(SPEI\), en ventanilla bancaria o en tiendas autorizadas, siempre con tu n\372mero) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 131.23 Td (de cr\351dito.) Tj ET
+BT /F1 9.5 Tf 0.604 0.439 0.121 rg 58.00 111.92 Td (\225) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 111.92 Td (Revisa tu siguiente estado de cuenta para confirmar que el abono se reflej\363 en el saldo de capital.) Tj ET
+BT /F1 9.5 Tf 0.604 0.439 0.121 rg 58.00 92.63 Td (\225) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 92.63 Td (Cuando tu saldo haya bajado bastante respecto al monto original, pregunta en Mi Cuenta Infonavit si te aplica alg\372n) Tj ET
+BT /F1 9.5 Tf 0.329 0.380 0.478 rg 70.00 79.33 Td (descuento por liquidaci\363n anticipada.) Tj ET
 BT /F1 8 Tf 0.541 0.584 0.659 rg 54.00 34.00 Td (Hab\355talo Orienta \267 Proyecci\363n con supuestos, no una cotizaci\363n del Infonavit.) Tj ET
 BT /F1 8 Tf 0.541 0.584 0.659 rg 508.63 34.00 Td (P\341gina 2 de 4) Tj ET
 endstream
@@ -356,13 +370,13 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 12 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 12690 >>
+<< /Length 12685 >>
 stream
 0.106 0.180 0.310 rg 0.00 708.00 612.00 84.00 re f
 BT /F2 16 Tf 0.950 0.960 0.980 rg 54.00 756.00 Td (HAB\315TALO ORIENTA) Tj ET
 BT /F1 10.5 Tf 0.740 0.790 0.860 rg 54.00 736.00 Td (C\363mo comprobar estos n\372meros) Tj ET
 BT /F1 9 Tf 0.860 0.670 0.290 rg 425.98 756.00 Td (MUESTRA \267 CASO INVENTADO) Tj ET
-BT /F1 9 Tf 0.740 0.790 0.860 rg 453.44 740.00 Td (21 de septiembre de 2026) Tj ET
+BT /F1 9 Tf 0.740 0.790 0.860 rg 453.44 740.00 Td (23 de septiembre de 2026) Tj ET
 BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 676.00 Td (TUS SIGUIENTES PAGOS BIMESTRALES, UNO POR UNO) Tj ET
 0.7 w 0.840 0.860 0.900 RG 54.00 669.00 m 558.00 669.00 l S
 BT /F2 7.5 Tf 0.541 0.584 0.659 rg 54.00 652.00 Td (Pago) Tj ET
@@ -385,7 +399,7 @@ BT /F1 8 Tf 0.329 0.380 0.478 rg 517.97 637.00 Td ($1,042,299) Tj ET
 0.976 0.980 0.988 rg 50.00 619.00 512.00 13.50 re f
 BT /F2 8 Tf 0.078 0.141 0.247 rg 54.00 623.50 Td (2) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 90.58 623.50 Td (7 nov 2026) Tj ET
-BT /F1 8 Tf 0.329 0.380 0.478 rg 191.43 623.50 Td (30) Tj ET
+BT /F1 8 Tf 0.329 0.380 0.478 rg 195.87 623.50 Td (7) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 248.64 623.50 Td ($22,352) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 324.79 623.50 Td ($495) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 382.77 623.50 Td ($18,153) Tj ET
@@ -393,7 +407,7 @@ BT /F1 8 Tf 0.329 0.380 0.478 rg 452.25 623.50 Td ($3,704) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 517.97 623.50 Td ($1,038,595) Tj ET
 BT /F2 8 Tf 0.078 0.141 0.247 rg 54.00 610.00 Td (3) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 90.58 610.00 Td (7 ene 2027) Tj ET
-BT /F1 8 Tf 0.329 0.380 0.478 rg 191.43 610.00 Td (30) Tj ET
+BT /F1 8 Tf 0.329 0.380 0.478 rg 195.87 610.00 Td (7) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 248.64 610.00 Td ($22,352) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 324.79 610.00 Td ($495) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 382.77 610.00 Td ($18,089) Tj ET
@@ -402,7 +416,7 @@ BT /F1 8 Tf 0.329 0.380 0.478 rg 517.97 610.00 Td ($1,034,827) Tj ET
 0.976 0.980 0.988 rg 50.00 592.00 512.00 13.50 re f
 BT /F2 8 Tf 0.078 0.141 0.247 rg 54.00 596.50 Td (4) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 90.58 596.50 Td (7 mar 2027) Tj ET
-BT /F1 8 Tf 0.329 0.380 0.478 rg 191.43 596.50 Td (30) Tj ET
+BT /F1 8 Tf 0.329 0.380 0.478 rg 195.87 596.50 Td (9) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 248.64 596.50 Td ($22,352) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 324.79 596.50 Td ($495) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 382.77 596.50 Td ($18,023) Tj ET
@@ -410,7 +424,7 @@ BT /F1 8 Tf 0.329 0.380 0.478 rg 452.25 596.50 Td ($3,834) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 517.97 596.50 Td ($1,030,993) Tj ET
 BT /F2 8 Tf 0.078 0.141 0.247 rg 54.00 583.00 Td (5) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 90.58 583.00 Td (7 may 2027) Tj ET
-BT /F1 8 Tf 0.329 0.380 0.478 rg 191.43 583.00 Td (30) Tj ET
+BT /F1 8 Tf 0.329 0.380 0.478 rg 195.87 583.00 Td (7) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 248.64 583.00 Td ($22,352) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 324.79 583.00 Td ($495) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 382.77 583.00 Td ($17,956) Tj ET
@@ -419,7 +433,7 @@ BT /F1 8 Tf 0.329 0.380 0.478 rg 517.97 583.00 Td ($1,027,092) Tj ET
 0.976 0.980 0.988 rg 50.00 565.00 512.00 13.50 re f
 BT /F2 8 Tf 0.078 0.141 0.247 rg 54.00 569.50 Td (6) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 90.58 569.50 Td (7 jul 2027) Tj ET
-BT /F1 8 Tf 0.329 0.380 0.478 rg 191.43 569.50 Td (30) Tj ET
+BT /F1 8 Tf 0.329 0.380 0.478 rg 195.87 569.50 Td (7) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 248.64 569.50 Td ($22,352) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 324.79 569.50 Td ($495) Tj ET
 BT /F1 8 Tf 0.329 0.380 0.478 rg 382.77 569.50 Td ($17,889) Tj ET
@@ -549,7 +563,7 @@ stream
 BT /F2 16 Tf 0.950 0.960 0.980 rg 54.00 756.00 Td (HAB\315TALO ORIENTA) Tj ET
 BT /F1 10.5 Tf 0.740 0.790 0.860 rg 54.00 736.00 Td (Lo que tienes que tomar en cuenta) Tj ET
 BT /F1 9 Tf 0.860 0.670 0.290 rg 425.98 756.00 Td (MUESTRA \267 CASO INVENTADO) Tj ET
-BT /F1 9 Tf 0.740 0.790 0.860 rg 453.44 740.00 Td (21 de septiembre de 2026) Tj ET
+BT /F1 9 Tf 0.740 0.790 0.860 rg 453.44 740.00 Td (23 de septiembre de 2026) Tj ET
 BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 676.00 Td (ANTES DE DECIDIR) Tj ET
 0.7 w 0.840 0.860 0.900 RG 54.00 669.00 m 558.00 669.00 l S
 BT /F1 9 Tf 0.604 0.439 0.121 rg 58.00 652.00 Td (\225) Tj ET
@@ -582,10 +596,10 @@ BT /F1 9 Tf 0.329 0.380 0.478 rg 66.00 383.15 Td (tu nombre, NSS, RFC, CURP y do
 BT /F2 8.5 Tf 0.329 0.380 0.478 rg 54.00 348.10 Td (CONSTANCIA) Tj ET
 0.7 w 0.840 0.860 0.900 RG 54.00 341.10 m 558.00 341.10 l S
 BT /F1 9.5 Tf 0.329 0.380 0.478 rg 54.00 324.10 Td (Folio) Tj ET
-BT /F2 9.5 Tf 0.078 0.141 0.247 rg 462.96 324.10 Td (ORI-20260921-05C4R) Tj ET
+BT /F2 9.5 Tf 0.078 0.141 0.247 rg 459.81 324.10 Td (ORI-20260923-RABPZ) Tj ET
 0.5 w 0.918 0.929 0.949 RG 54.00 319.10 m 558.00 319.10 l S
 BT /F1 9.5 Tf 0.329 0.380 0.478 rg 54.00 307.10 Td (Fecha de emisi\363n) Tj ET
-BT /F2 9.5 Tf 0.078 0.141 0.247 rg 442.89 307.10 Td (21 de septiembre de 2026) Tj ET
+BT /F2 9.5 Tf 0.078 0.141 0.247 rg 442.89 307.10 Td (23 de septiembre de 2026) Tj ET
 0.5 w 0.918 0.929 0.949 RG 54.00 302.10 m 558.00 302.10 l S
 BT /F1 9.5 Tf 0.329 0.380 0.478 rg 54.00 290.10 Td (Versi\363n del motor de c\341lculo) Tj ET
 BT /F2 9.5 Tf 0.078 0.141 0.247 rg 544.79 290.10 Td (1.4) Tj ET
@@ -594,7 +608,7 @@ BT /F1 9.5 Tf 0.329 0.380 0.478 rg 54.00 273.10 Td (Versi\363n del aviso de priv
 BT /F2 9.5 Tf 0.078 0.141 0.247 rg 544.79 273.10 Td (1.0) Tj ET
 0.5 w 0.918 0.929 0.949 RG 54.00 268.10 m 558.00 268.10 l S
 BT /F1 9.5 Tf 0.329 0.380 0.478 rg 54.00 256.10 Td (Consentimiento registrado) Tj ET
-BT /F2 9.5 Tf 0.078 0.141 0.247 rg 455.55 256.10 Td (21/9/2026, 5:40:15 p.m.) Tj ET
+BT /F2 9.5 Tf 0.078 0.141 0.247 rg 455.55 256.10 Td (23/9/2026, 3:34:27 p.m.) Tj ET
 0.5 w 0.918 0.929 0.949 RG 54.00 251.10 m 558.00 251.10 l S
 BT /F1 8 Tf 0.541 0.584 0.659 rg 54.00 34.00 Td (Hab\355talo Orienta \267 No es una instituci\363n financiera ni est\341 afiliada al Infonavit.) Tj ET
 BT /F1 8 Tf 0.541 0.584 0.659 rg 508.63 34.00 Td (P\341gina 4 de 4) Tj ET
@@ -613,13 +627,13 @@ xref
 0000000368 00000 n 
 0000013308 00000 n 
 0000013445 00000 n 
-0000023363 00000 n 
-0000023500 00000 n 
-0000036243 00000 n 
-0000036382 00000 n 
-0000041289 00000 n 
+0000024569 00000 n 
+0000024706 00000 n 
+0000037444 00000 n 
+0000037583 00000 n 
+0000042490 00000 n 
 trailer
 << /Size 13 /Root 1 0 R >>
 startxref
-41392
+42593
 %%EOF

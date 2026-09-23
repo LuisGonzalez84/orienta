@@ -174,6 +174,13 @@
   .meta-out b{font-family:var(--display);font-size:22px;font-weight:700;color:var(--gold);white-space:nowrap;}
   .meta-out span{font-size:15.5px;color:var(--ink-soft);flex:1;min-width:180px;}
   .meta-out span strong{color:var(--ink);font-weight:700;}
+  .sim .modo{display:flex;flex-wrap:wrap;gap:12px 18px;}
+  .sim .modo .campo{display:flex;flex-direction:column;gap:4px;}
+  .sim .modo label{font-size:14px;font-weight:600;color:var(--ink-soft);}
+  .sim select{font:inherit;font-size:16px;color:var(--ink);background:var(--field);
+    border:1.5px solid var(--field-edge);border-radius:4px;padding:7px 9px;}
+  .sim .modo input[type="date"]{width:auto;}
+  .nota-modo{font-size:13.5px;color:var(--ink-soft);margin:0;}
   .sim .manual{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;
     border-top:1px solid var(--rule-soft);padding-top:13px;}
   .sim .manual label{font-size:14.5px;font-weight:400;color:var(--ink-soft);}
@@ -721,6 +728,22 @@
     <div class="pago-estado" id="pago-estado" hidden></div>
 
     <div class="sim" id="simwrap" hidden>
+      <div class="modo">
+        <div class="campo">
+          <label for="f-frec">¿Cómo puedes abonar?</label>
+          <select id="f-frec">
+            <option value="semanal">Cada semana</option>
+            <option value="mensual" selected>Cada mes</option>
+            <option value="anual">Una vez al año</option>
+            <option value="unico">Un solo pago</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="f-desde">A partir del</label>
+          <input type="date" id="f-desde">
+        </div>
+      </div>
+      <p class="nota-modo" id="nota-modo">Aunque sea poco, cada abono baja tu deuda desde el día que entra.</p>
       <label for="f-meta">¿En cuántos años quieres terminar de pagar?</label>
       <input type="range" id="f-meta" min="1" max="30" step="0.5" value="5">
       <div class="meta-out">
@@ -728,7 +751,7 @@
         <span id="meta-abono">—</span>
       </div>
       <div class="manual">
-        <label for="f-abono">O dinos lo que puedes abonar al mes</label>
+        <label for="f-abono" id="lbl-abono">O dinos cuánto puedes abonar cada mes</label>
         <span class="fld"><span class="pre">$</span><input id="f-abono" inputmode="decimal" value="3,000"></span>
       </div>
       <p class="simout" id="simout"></p>
@@ -959,25 +982,77 @@
   /* Corre el crédito periodo a periodo. Con detalle=true devuelve el calendario
      completo, que es lo que alimenta las tablas y las gráficas del PDF.
      abonoDesde permite empezar a abonar más tarde (para medir qué cuesta esperar). */
-  function correr(p, detalle){
-    var s=p.saldo, i=p.interes, c=p.comis, dp=p.corte, ti=0, tc=0, fin=null;
-    var filas = detalle ? [] : null;
-    var per = p.periodicidad || 1, desde = p.abonoDesde || 0;
-    for(var n=1;n<=700;n++){
-      if(s+i+c<=0) return {periodos:n-1, fin:fin, interes:ti, cargos:tc, filas:filas};
-      var d = n===1 ? p.primerPago : addM(p.primerPago, n-1);
-      var f = d360(dp,d), t = mk(d)-mk(dp);
-      var j = s*p.tasa/360*f, k = t*(s*p.cuotaPct/12 + p.fpp + p.seguro);
-      var extra = ((n-1) >= desde) ? (p.abono||0) : 0;
-      var L = ((n-1) % per === 0) ? (p.pago + extra) * per : 0;
-      var mm = Math.min(L, c+k), nn = Math.min(L-mm, i+j), oo = Math.min(L-mm-nn, s);
-      ti += nn; tc += mm;
-      var s0 = s;
-      s = Math.round((s-oo)*100)/100; i = Math.round((i+j-nn)*100)/100; c = Math.round((c+k-mm)*100)/100;
-      if(detalle) filas.push({n:n, d:d, dias:f, ini:s0, pago:L, com:mm, int:nn, cap:oo, fin:s});
-      fin = d; dp = d;
+  /* ===== motor por eventos =====
+     Réplica del libro Tabla_amortización_INFONAVIT_22.09.26 (hoja Motor_Eventos):
+     una línea de tiempo con los cierres de mes, los pagos del patrón y los abonos,
+     ordenados por fecha. Entre evento y evento corre el interés diario 30/360 sobre
+     el capital; en cada evento se aplica la cascada comisiones → intereses → capital.
+     Así la FECHA del abono importa y se pueden modelar abonos semanales, mensuales,
+     anuales o un solo pago. Verificado contra el libro al centavo. */
+
+  var FRECUENCIAS = {
+    semanal: {tipo:"dias",  paso:7,  alMes:"cada semana", texto:"cada semana", porAnio:365/7},
+    mensual: {tipo:"meses", paso:1,  alMes:"al mes",      texto:"cada mes",    porAnio:12},
+    anual:   {tipo:"meses", paso:12, alMes:"al año",      texto:"cada año",    porAnio:1},
+    unico:   {tipo:"unico", paso:0,  alMes:"una sola vez",texto:"en un solo pago", porAnio:0}
+  };
+  function frec(k){ return FRECUENCIAS[k] || FRECUENCIAS.mensual; }
+  function eom(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0); }
+  function masDias(d, n){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()+n); }
+
+  /* Construye la lista de eventos ordenada por fecha.
+     En una misma fecha: primero el cierre de mes, luego el pago del patrón, luego el abono. */
+  function eventos(p, horizonte){
+    var ev = [], d;
+    for(d = eom(p.corte); d <= horizonte; d = eom(addM(d, 1))) ev.push({d:d, t:1, m:0});
+    for(d = p.primerPago; d <= horizonte; d = addM(d, p.periodicidad || 1))
+      ev.push({d:d, t:2, m:p.pago * (p.periodicidad || 1)});
+    var ab = p.abono || 0, F = frec(p.abonoFrec), desde = p.abonoDesde;
+    if(ab > 0 && desde){
+      if(F.tipo === "unico"){
+        if(desde <= horizonte) ev.push({d:desde, t:3, m:ab});
+      } else {
+        var k = 0; d = desde;
+        while(d <= horizonte){
+          ev.push({d:d, t:3, m:ab}); k++;
+          d = (F.tipo === "dias") ? masDias(desde, F.paso*k) : addM(desde, F.paso*k);
+        }
+      }
     }
-    return {periodos:700, fin:fin, interes:ti, cargos:tc, filas:filas};
+    ev.sort(function(a,b){ return (a.d - b.d) || (a.t - b.t); });
+    return ev;
+  }
+
+  function correr(p, detalle){
+    var horizonte = addM(p.corte, 361);
+    var ev = eventos(p, horizonte);
+    var s = p.saldo, i = p.interes, c = p.comis, dp = p.corte;
+    var ti = 0, tc = 0, fin = null, pagos = 0, nAb = 0, abonado = 0;
+    var filas = detalle ? [] : null;
+    for(var x = 0; x < ev.length; x++){
+      if(s + i + c <= 0) break;
+      var e = ev[x], f = d360(dp, e.d);
+      var j = s * p.tasa / 360 * f;                                     // interés devengado
+      var k = (e.t === 1) ? (s * p.cuotaPct / 12 + p.fpp + p.seguro) : 0; // cuotas del mes
+      var L = e.m;
+      var mm = Math.min(L, c + k), nn = Math.min(L - mm, i + j), oo = Math.min(L - mm - nn, s);
+      ti += j; tc += k;
+      var s0 = s;
+      s = Math.round((s - oo) * 100) / 100;
+      i = i + j - nn;
+      c = c + k - mm;
+      if(L > 0){
+        fin = e.d;
+        if(e.t === 2) pagos++;
+        else { nAb++; abonado += mm + nn + oo; }
+      }
+      if(detalle) filas.push({n:x+1, d:e.d, t:e.t, dias:f, ini:s0, pago:L,
+                              com:mm, int:nn, cap:oo, fin:s});
+      dp = e.d;
+    }
+    var meses = fin ? mesesEntre(p.corte, fin) : 0;
+    return {periodos: meses, meses: meses, pagos: pagos, fin: fin,
+            interes: ti, cargos: tc, filas: filas, abonado: abonado, nAbonos: nAb};
   }
 
   /* ---- agregados que solo se usan para el documento ---- */
@@ -1243,14 +1318,16 @@
       saldo:v.capital, interes:v.interes, comis:v.comis, tasa:v.tasa,
       cuotaPct:CTX.cuotaPct, fpp:fpp, seguro:CTX.seguro,
       pago:CTX.retMes + CTX.apMes, periodicidad:CTX.periodicidad || 1,
-      corte:v.corte, primerPago:addM(CTX.ultimoPago, CTX.periodicidad || 1), abono:0
+      corte:v.corte, primerPago:addM(CTX.ultimoPago, CTX.periodicidad || 1),
+      abono:0, abonoFrec:ABONO.frec,
+      abonoDesde:(ABONO.desde = ABONO.desde || abonoDesdeDefault(v.corte))
     };
     var base = correr(p, true);
     pintarHallazgo(v, CTX, base, p);
     var pagado = (PAGO === "aprobado");
     var L = pagado ? "" : " lock";
     var per = p.periodicidad || 1;
-    var nPagos = Math.ceil(base.periodos / per);
+    var nPagos = base.pagos;
     $("nums").innerHTML =
       '<div class="num"><b>'+(base.fin ? tiempoTxt(mesesEntre(p.corte, base.fin)) : "—")+'</b><span>te faltan, al ritmo de hoy: '+pagosTxt(nPagos, per)+'</span></div>' +
       '<div class="num'+L+'"><b>'+(base.fin?mesAnio(base.fin):"—")+'</b><span>terminarías de pagar</span></div>' +
@@ -1261,12 +1338,20 @@
     $("simwrap").hidden = !pagado;
     ULTIMO = {v:v, CTX:CTX, base:base, p:p, fpp:fpp};
     guardarBorrador();
-    if(pagado) configurarMeta(p, base);
+    if(pagado){ pintarModo(); configurarMeta(p, base); }
   }
 
   /* ===== la pregunta al revés: ¿cuánto abonar para terminar en X años? =====
      El libro lo interpola sobre seis puntos; aquí se busca el abono exacto. */
   var META_MAX = null;
+  var ABONO = {frec:"mensual", desde:null};      // modalidad elegida en el simulador
+
+  function abonoDesdeDefault(corte){
+    var hoy = new Date(), d = addM(corte, 1);
+    if(d <= hoy) d = addM(new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()), 1);
+    return d;
+  }
+  function textoFrec(k){ return frec(k).texto; }
 
   function abonoParaMeta(p, meta){
     function plazo(ab){
@@ -1307,7 +1392,7 @@
       $("simout").textContent = "";
       return;
     } else {
-      $("meta-abono").innerHTML = "necesitas abonar <strong>" + money0(ab) + "</strong> al mes.";
+      $("meta-abono").innerHTML = "necesitas abonar <strong>" + money0(ab) + "</strong> " + frec(ABONO.frec).alMes + ".";
       $("f-abono").value = Math.round(ab).toLocaleString("es-MX");
     }
     simular(p, base);
@@ -1317,15 +1402,17 @@
     var ab = nm($("f-abono").value);
     if(!isFinite(ab) || ab <= 0){ $("simout").textContent = "Escribe un monto para ver cuánto se acorta."; return; }
     var q = {}; for(var k in p) q[k] = p[k];
-    q.abono = ab;
+    q.abono = ab; q.abonoFrec = ABONO.frec; q.abonoDesde = ABONO.desde;
     var con = correr(q);
     var pr = p.periodicidad || 1;
-    var menos = Math.ceil(base.periodos/pr) - Math.ceil(con.periodos/pr);
+    var menos = base.pagos - con.pagos;
     var antes = (con.fin && base.fin) ? mesesEntre(con.fin, base.fin) : 0;
-    $("simout").innerHTML = "Abonando <b>"+money0(ab)+"</b> al mes acabarías en <b>"+
-      (con.fin?mesAnio(con.fin):"—")+"</b>: terminas <b>"+tiempoTxt(antes)+" antes</b> ("+pagosTxt(menos, pr)+
-      " menos) y dejarías de pagar <b>"+
-      money0((base.interes+base.cargos)-(con.interes+con.cargos))+"</b> de intereses y cargos.";
+    var F = frec(ABONO.frec);
+    $("simout").innerHTML = "Abonando <b>"+money0(ab)+"</b> "+F.texto+(F.tipo==="unico" ? " el <b>" : " desde el <b>")+fechaCorta(ABONO.desde)+
+      "</b> acabarías en <b>"+(con.fin?mesAnio(con.fin):"—")+"</b>: terminas <b>"+tiempoTxt(antes)+" antes</b> ("+
+      pagosTxt(menos, pr)+" menos) y dejarías de pagar <b>"+
+      money0((base.interes+base.cargos)-(con.interes+con.cargos))+"</b> en intereses y cargos." +
+      (F.porAnio ? " Son " + money0(ab*F.porAnio) + " al año." : "");
   }
 
   function estado(clase, texto){
@@ -1436,7 +1523,8 @@
     if(!ULTIMO || !window.OrientaPDF) return null;
     var v = ULTIMO.v, C = ULTIMO.CTX, base = ULTIMO.base, p = ULTIMO.p;
     var per = p.periodicidad || 1;
-    var pagosDe = function(r){ return Math.ceil(r.periodos / per); };
+    var pagosDe = function(r){ return r.pagos; };
+    var F = frec(ABONO.frec);
     var costoDe = function(r){ return r.interes + r.cargos; };
     var costoBase = costoDe(base);
 
@@ -1446,7 +1534,8 @@
 
     function corrida(monto, desde){
       var q = {}; for(var k in p) q[k] = p[k];
-      q.abono = monto; q.abonoDesde = desde || 0;
+      q.abono = monto; q.abonoFrec = ABONO.frec;
+      q.abonoDesde = desde || ABONO.desde;
       return correr(q, true);
     }
     function resumen(monto){
@@ -1473,7 +1562,7 @@
     }
 
     /* --- qué cuesta esperar un año para empezar a abonar --- */
-    var tarde = corrida(ab, 12);
+    var tarde = corrida(ab, addM(ABONO.desde, 12));
     var pierde = costoDe(tarde) - costoDe(elegida.r);
 
     /* --- titular: los próximos 12 meses --- */
@@ -1488,7 +1577,7 @@
     var prim = [], k2 = 0;
     for(var x=0; x<base.filas.length && prim.length < 8; x++){
       var r = base.filas[x];
-      if(r.pago <= 0) continue;
+      if(r.pago <= 0 || r.t !== 2) continue;
       k2++;
       prim.push([String(k2), fechaCorta(r.d), String(r.dias), money0(r.pago),
                  money0(r.com), money0(r.int), money0(r.cap), money0(r.fin)]);
@@ -1496,7 +1585,7 @@
 
     /* --- la cuenta del primer pago, con sus números --- */
     var f1 = null;
-    for(var x2=0; x2<base.filas.length; x2++){ if(base.filas[x2].pago > 0){ f1 = base.filas[x2]; break; } }
+    for(var x2=0; x2<base.filas.length; x2++){ if(base.filas[x2].pago > 0 && base.filas[x2].t === 2){ f1 = base.filas[x2]; break; } }
     var cuenta = "—", prediccion = "—";
     if(f1){
       var devengado = v.capital * v.tasa / 360 * f1.dias;
@@ -1610,6 +1699,13 @@
                 ganas: elegida.antes > 0
                   ? ("terminas " + tiempoTxt(elegida.antes) + " antes y te ahorras " + elegida.ahorro)
                   : "—"},
+      modalidad: F.texto,
+      modalidadUnica: F.tipo === "unico",
+      modalidadTitulo: (F.tipo === "unico"
+        ? ("Si abonas " + elegida.abono + " en un solo pago")
+        : ("Si abonas " + elegida.abono + " " + F.texto)),
+      abonoDesde: fechaLarga(ABONO.desde),
+      alAnio: F.porAnio ? money0(elegida.monto * F.porAnio) : null,
       escenarios: escen,
       escenarioElegido: idx,
       tiempoFrac: mesesAb / mesesBase,
@@ -1633,6 +1729,8 @@
 
       acciones: [
         "Los pagos adicionales al Infonavit no tienen comisión y se aplican a tu saldo; lo que hacen es acortar el plazo, no bajar tu descuento mensual.",
+        "No esperes a juntar mucho: el interés se calcula sobre tu saldo cada día, así que un abono chico ya empieza a trabajar desde el día que entra.",
+        "Con la misma cantidad al año, abonar de una sola vez al principio rinde un poco más que repartirla poco a poco. Si juntar te cuesta, es mejor abonar seguido que no abonar.",
         "Puedes abonar por transferencia (SPEI), en ventanilla bancaria o en tiendas autorizadas, siempre con tu número de crédito.",
         "Revisa tu siguiente estado de cuenta para confirmar que el abono se reflejó en el saldo de capital.",
         "Cuando tu saldo haya bajado bastante respecto al monto original, pregunta en Mi Cuenta Infonavit si te aplica algún descuento por liquidación anticipada."
@@ -1846,7 +1944,8 @@
           msin:$("f-msin").value, corte:$("f-corte").value, sueldo:$("f-sueldo").value
         },
         modo:MODO, folio:FOLIO, pago:PAGO, ref:REF_PAGO,
-        agg:AGG, consent:CONSENT, abono:$("f-abono").value, ejemplo:EJEMPLO
+        agg:AGG, consent:CONSENT, abono:$("f-abono").value, ejemplo:EJEMPLO,
+        abonoFrec:ABONO.frec, abonoDesde:ABONO.desde ? iso(ABONO.desde) : null
       }));
     }catch(e){ /* navegador sin almacenamiento: el flujo sigue, solo no sobrevive al redirect */ }
   }
@@ -1991,6 +2090,8 @@
     FOLIO = b.folio || null;
     EJEMPLO = !!b.ejemplo; $("aviso-ejemplo").hidden = !EJEMPLO;
     if(b.abono) $("f-abono").value = b.abono;
+    if(b.abonoFrec) ABONO.frec = b.abonoFrec;
+    if(b.abonoDesde) ABONO.desde = parseISO(b.abonoDesde);
     if(b.consent){
       CONSENT = b.consent;
       $("c-obligatorio").checked = true;
@@ -2065,6 +2166,31 @@
   $("c-obligatorio").addEventListener("change", marcarConsentimiento);
 
 
+  function pintarModo(){
+    var F = frec(ABONO.frec);
+    $("lbl-abono").textContent = "O dinos cuánto puedes abonar " + F.texto;
+    $("nota-modo").textContent = F.tipo === "unico"
+      ? "Un solo pago, en la fecha que elijas: baja tu deuda desde ese día."
+      : "Aunque sea poco, cada abono baja tu deuda desde el día que entra: " + F.texto + " cuenta.";
+    if(ABONO.desde) $("f-desde").value = iso(ABONO.desde);
+    $("f-frec").value = ABONO.frec;
+  }
+  function cambioModo(){
+    ABONO.frec = $("f-frec").value;
+    var d = parseISO($("f-desde").value);
+    if(d && ULTIMO && d > ULTIMO.v.corte) ABONO.desde = d;
+    else if(ULTIMO) ABONO.desde = abonoDesdeDefault(ULTIMO.v.corte);
+    pintarModo();
+    if(ULTIMO && !$("simwrap").hidden){
+      ULTIMO.p.abonoFrec = ABONO.frec; ULTIMO.p.abonoDesde = ABONO.desde;
+      metaRender(ULTIMO.p, ULTIMO.base);
+      simular(ULTIMO.p, ULTIMO.base);
+      guardarBorrador();
+    }
+  }
+  $("f-frec").addEventListener("change", cambioModo);
+  $("f-desde").addEventListener("change", cambioModo);
+
   $("f-meta").addEventListener("input", function(){
     if(ULTIMO && !$("simwrap").hidden) metaRender(ULTIMO.p, ULTIMO.base);
   });
@@ -2113,7 +2239,7 @@
   function vaciar(mensaje){
     EJEMPLO = false;
     $("aviso-ejemplo").hidden = true;
-    AGG = null; ULTIMO = null; META_MAX = null;
+    AGG = null; ULTIMO = null; META_MAX = null; ABONO.desde = null;
     PAGO = "no"; FOLIO = null; REF_PAGO = null; $("f-folio").value = ""; $("folio-msg").textContent = "";
     setModo("doc");
     ["f-capital","f-interes","f-comis","f-total","f-tasa","f-mcon","f-msin","f-corte","f-sueldo"].forEach(function(id){ $(id).value = ""; });
@@ -2169,7 +2295,7 @@
     };
     var base = correr(p, true);
     var q = {}; for(var k in p) q[k] = p[k];
-    q.abono = ABONO_ILUSTRATIVO;
+    q.abono = ABONO_ILUSTRATIVO; q.abonoFrec = "mensual"; q.abonoDesde = addM(H.corte, 1);
     var r = correr(q, true);
     var doce = ventana(base.filas, addM(p.corte, 12));
     return {

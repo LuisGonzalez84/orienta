@@ -330,14 +330,18 @@
     [[x0, hoy], [xa, fAb], [x1, fFin]].forEach(function(m, i){
       p.caja(m[0] - 1.5, yl - 6, 3, 12, i === 1 ? ORO : NAVY);
     });
+    /* si las dos fechas del final quedan encimadas, la de "abonando" baja un renglón */
+    var anchoAb = ancho(fAb, 8, true), anchoFin = ancho(fFin, 8, true);
+    var choca = (xa + anchoAb / 2) > (x1 - anchoFin - 6);
     p.texto(x0, yl - 12, hoy, {size: 8, bold: true, color: NAVY});
-    p.texto(xa, yl - 12, fAb, {size: 8, bold: true, align: "center", color: ORO});
     p.texto(x1, yl - 12, fFin, {size: 8, bold: true, align: "right", color: NAVY});
+    p.texto(choca ? Math.min(xa, x1 - anchoFin - 6) : xa, yl + (choca ? 30 : -12), fAb,
+            {size: 8, bold: true, align: choca ? "right" : "center", color: ORO});
     p.texto(x0, yl + 18, "hoy", {size: 7.5, color: TENUE});
-    p.texto(xa, yl + 18, "abonando", {size: 7.5, align: "center", color: TENUE});
+    if(!choca) p.texto(xa, yl + 18, "abonando", {size: 7.5, align: "center", color: TENUE});
     p.texto(x1, yl + 18, "sin abonar", {size: 7.5, align: "right", color: TENUE});
     p.texto(x1, yl + 32, ganas, {size: 9.5, bold: true, align: "right", color: ORO});
-    return yl + 48;
+    return yl + (choca ? 56 : 48);
   }
 
   /* tabla genérica: cols = [[titulo, ancho, alineación]] */
@@ -421,7 +425,7 @@
     encabezado(p2, "Lo que puedes cambiar", FOL, d.fecha);
 
     y = 116;
-    y = seccion(p2, y, "Si abonas " + d.elegido.abono + " cada mes");
+    y = seccion(p2, y, d.modalidadTitulo || ("Si abonas " + d.elegido.abono + " cada mes"));
     if (d.elegido.menos > 0){
       p2.texto(MARGEN, y + 12, "Terminas " + d.elegido.antes + " antes", {size: 21, bold: true, color: ORO});
       y = parrafoRico(p2, MARGEN, y + 34, "y dejas de pagar **" + d.elegido.ahorro + "** de intereses y cargos.",
@@ -430,7 +434,8 @@
     /* el titular de arriba ya dice cuánto antes y cuánto ahorras: no se repite */
     y = tiempo(p2, y, d.tiempoFrac, d.hoyMes, d.elegido.fin, d.fechaFin,
                d.elegido.menos > 0 ? "" : d.elegido.ganas) - (d.elegido.menos > 0 ? 14 : 0);
-    y = parrafoRico(p2, MARGEN, y, "Abonando " + d.elegido.abono + " al mes terminarías en **" +
+    y = parrafoRico(p2, MARGEN, y, "Abonando " + d.elegido.abono + " " + (d.modalidad || "cada mes") +
+        (d.modalidadUnica ? " el " : " a partir del ") + (d.abonoDesde || "próximo mes") + " terminarías en **" +
         d.elegido.fin + "** en vez de " + d.fechaFin + " (" + d.elegido.menosTxt + " menos)." +
         (d.cruceAb && d.cruceGana > 0
           ? (" Y el punto en que la mitad de lo que pagas ya baja tu deuda se adelanta de " +
@@ -440,7 +445,7 @@
         {size: 10, color: TINTA, max: ANCHO}) + 18;
 
     y = seccion(p2, y, "Otros montos, para que compares");
-    y = tabla(p2, y, [["Si abonas al mes", 30, "left"], ["Terminas en", 22, "left"],
+    y = tabla(p2, y, [["Si abonas " + (d.modalidad || "cada mes"), 30, "left"], ["Terminas en", 22, "left"],
                       ["Te faltarían", 22, "right"], ["Terminas antes", 22, "right"], ["Te ahorras", 18, "right"]],
               d.escenarios, {resalta: d.escenarioElegido >= 0 ? [d.escenarioElegido] : [], alto: 17});
     y = p2.parrafo(MARGEN, y, "Cada renglón es una corrida completa de tu crédito con ese abono.",
