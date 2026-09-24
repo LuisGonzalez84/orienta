@@ -358,6 +358,15 @@
   a.link-muestra{font-size:15px;font-weight:700;color:var(--gold);}
   @media (max-width:460px){ .miniaturas{grid-template-columns:repeat(2,1fr);} }
 
+  /* aviso al volver de pagar en otra pestaña: va arriba de todo */
+  .aviso-pago{background:var(--ok-soft);color:var(--ok);border:2px solid var(--ok);border-radius:6px;
+    padding:16px 18px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow);}
+  .aviso-pago .ap-tit{font-size:18px;font-weight:700;margin:0;}
+  .aviso-pago p{margin:0;font-size:15.5px;line-height:1.45;color:var(--ink);}
+  .aviso-pago a.ap-btn{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:16.5px;
+    background:var(--ok);color:#fff;border-radius:6px;padding:13px 18px;margin-top:4px;}
+  @media (min-width:900px){ .wrap > .aviso-pago{width:100%;max-width:660px;margin-inline:auto;} }
+
   /* nivel 1: lo que se ve gratis */
   .lista-si{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;}
   .lista-si li{display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:16px;color:var(--ink-soft);line-height:1.45;}
@@ -508,6 +517,12 @@
 
 
   <!-- ======================= LANDING ======================= -->
+  <div class="aviso-pago" id="aviso-pago" hidden role="status">
+    <p class="ap-tit">✓ Tu pago está confirmado</p>
+    <p>Operación <b id="aviso-pago-ref"></b>. Para abrir tu diagnóstico, vuelve a subir tu estado de cuenta: <b>no se cobra otra vez</b>.</p>
+    <a class="ap-btn" href="#drop" id="aviso-pago-btn">Subir mi estado de cuenta</a>
+  </div>
+
   <!-- ① PORTADA -->
   <section class="hero">
     <div class="marca">
@@ -803,7 +818,7 @@
   <div class="card">
     <h2>Antes de ver tus números</h2>
     <div class="consent">
-      <p class="aviso"><strong>Aviso de privacidad.</strong> Alejandro Rodríguez Aznar, quien opera como <strong>Habítalo México</strong>, en Cancún, Quintana Roo, es responsable del tratamiento de tus datos. Tu estado de cuenta se lee dentro de tu dispositivo: tu nombre, NSS, RFC, CURP y domicilio no se usan, no se guardan y no se envían. De tu crédito tomamos saldos, tasa, mensualidades, fechas y movimientos, y los usamos para calcular tu diagnóstico y entregártelo. Se guardan solo en esta pestaña mientras la tengas abierta, para que no los pierdas al pagar. Para cobrarte y comprobar tu pago solo viajan el folio de tu diagnóstico y tu número de operación, nunca tus números. Para saber cómo va el servicio llevamos una cuenta de cuánta gente llega y cuánta llega hasta el final: son contadores, sin cookies y sin nada que permita identificarte. Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos, gratis y sin costo, escribiendo a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a>. <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener" id="link-aviso">Consulta el aviso completo</a>.</p>
+      <p class="aviso"><strong>Aviso de privacidad.</strong> Alejandro Rodríguez Aznar, quien opera como <strong>Habítalo México</strong>, en Cancún, Quintana Roo, es responsable del tratamiento de tus datos. Tu estado de cuenta se lee dentro de tu dispositivo: tu nombre, NSS, RFC, CURP y domicilio no se usan, no se guardan y no se envían. De tu crédito tomamos saldos, tasa, mensualidades, fechas y movimientos, y los usamos para calcular tu diagnóstico y entregártelo. Se guardan en esta pestaña mientras la tengas abierta y, solo si le das a pagar, también en este navegador, en una copia que caduca a las dos horas, para que no los pierdas si Mercado Pago te regresa en otra pestaña; en cuanto vuelves, esa copia se borra. Nunca salen de tu dispositivo. Para cobrarte y comprobar tu pago solo viajan el folio de tu diagnóstico y tu número de operación, nunca tus números. Para saber cómo va el servicio llevamos una cuenta de cuánta gente llega y cuánta llega hasta el final: son contadores, sin cookies y sin nada que permita identificarte. Puedes acceder, rectificar, cancelar u oponerte al uso de tus datos, gratis y sin costo, escribiendo a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a>. <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener" id="link-aviso">Consulta el aviso completo</a>.</p>
       <label class="check"><input type="checkbox" id="c-obligatorio"> <span>He leído el aviso de privacidad y <strong>autorizo el tratamiento de mis datos financieros</strong> para calcular mi diagnóstico.</span></label>
       <p class="registro" id="registro" hidden></p>
     </div>
@@ -1587,6 +1602,8 @@
     PAGO = "no"; FOLIO = null; REF_PAGO = null;
     if(DESBLOQUEO){
       PAGO = "aprobado"; REF_PAGO = DESBLOQUEO; FOLIO = nuevoFolio(); DESBLOQUEO = null;
+      try{ sessionStorage.removeItem("orienta.pagoOk"); }catch(e){}
+      avisoPago(null);
     }
     pintarPago();
     contar("documento");
@@ -2087,11 +2104,8 @@
            Math.random().toString(36).slice(2,7).toUpperCase();
   }
 
-  function guardarBorrador(){
-    // sobrevive al redirect a Mercado Pago sin salir del dispositivo
-    try{
-      var v = leerCampos();
-      sessionStorage.setItem("orienta.borrador", JSON.stringify({
+  function datosBorrador(){
+    return {
         campos:{
           capital:$("f-capital").value, interes:$("f-interes").value, comis:$("f-comis").value,
           total:$("f-total").value, tasa:$("f-tasa").value, mcon:$("f-mcon").value,
@@ -2100,8 +2114,33 @@
         modo:MODO, folio:FOLIO, pago:PAGO, ref:REF_PAGO,
         agg:AGG, consent:CONSENT, abono:$("f-abono").value,
         abonoFrec:ABONO.frec, abonoDesde:ABONO.desde ? iso(ABONO.desde) : null
-      }));
-    }catch(e){ /* navegador sin almacenamiento: el flujo sigue, solo no sobrevive al redirect */ }
+    };
+  }
+  function guardarBorrador(){
+    // sobrevive al redirect a Mercado Pago en la misma pestaña, sin salir del dispositivo
+    try{ sessionStorage.setItem("orienta.borrador", JSON.stringify(datosBorrador())); }
+    catch(e){ /* navegador sin almacenamiento: el flujo sigue, solo no sobrevive al redirect */ }
+  }
+
+  /* PUENTE — en el celular, Mercado Pago suele abrirse en su app y al volver
+     la página se abre en OTRA pestaña, donde el borrador de sessionStorage no
+     existe. Por eso, solo en el momento de darle a pagar, se deja una copia en
+     este navegador (localStorage) que dura como máximo dos horas y se borra en
+     cuanto se usa. Nunca sale del dispositivo. */
+  var PUENTE = "orienta.puente", PUENTE_MS = 2 * 60 * 60 * 1000;
+  function guardarPuente(){
+    try{ localStorage.setItem(PUENTE, JSON.stringify({exp: Date.now() + PUENTE_MS, b: datosBorrador()})); }catch(e){}
+  }
+  function tomarPuente(){
+    var x = null;
+    try{ x = JSON.parse(localStorage.getItem(PUENTE) || "null"); localStorage.removeItem(PUENTE); }catch(e){}
+    return (x && x.b && x.exp > Date.now()) ? x.b : null;
+  }
+  function limpiarPuenteVencido(){
+    try{
+      var x = JSON.parse(localStorage.getItem(PUENTE) || "null");
+      if(x && !(x.exp > Date.now())) localStorage.removeItem(PUENTE);
+    }catch(e){}
   }
 
   function pintarPago(){
@@ -2143,6 +2182,7 @@
   $("btn-pagar").addEventListener("click", function(e){
     FOLIO = FOLIO || nuevoFolio();
     guardarBorrador();
+    guardarPuente();
     if(!API){
       $("folio-msg").className = "hint";
       $("folio-msg").textContent = "Cuando termines de pagar, regresa a esta pestaña y escribe aquí tu número de operación.";
@@ -2179,20 +2219,40 @@
       .catch(function(){ return {ok:false, motivo:"red"}; });
   }
 
+  function avisoPago(ref){
+    var a = $("aviso-pago");
+    if(!ref){ a.hidden = true; return; }
+    $("aviso-pago-ref").textContent = ref;
+    a.hidden = false;
+  }
   function desbloquear(ref){
     REF_PAGO = ref;
     FOLIO = FOLIO || nuevoFolio();
     if(!ULTIMO){
+      // pagó, pero esta pestaña no tiene sus números: se le pide volver a subir
+      // el documento, con el aviso ARRIBA de todo para que lo vea al llegar
       DESBLOQUEO = ref;
+      try{ sessionStorage.setItem("orienta.pagoOk", ref); }catch(e){}
       estado("ok", "Tu pago está confirmado (operación " + ref + "). Sube otra vez tu estado de cuenta y tu diagnóstico se abre solo, sin volver a pagar.");
-      $("drop").scrollIntoView({behavior:"smooth", block:"center"});
+      avisoPago(ref);
+      window.scrollTo(0, 0);
       return;
     }
     PAGO = "aprobado";
+    avisoPago(null);
     pintarPago();
     calcular();
     guardarBorrador();
-    $("pago-estado").scrollIntoView({behavior:"smooth", block:"center"});
+    try{ sessionStorage.removeItem("orienta.pagoOk"); }catch(e){}
+    irA($("pago-estado"));
+  }
+  // salto a un elemento que aguanta que la página siga acomodándose (fotos que
+  // terminan de cargar en el celular) y que no depende del desplazamiento suave
+  function irA(el){
+    if(!el) return;
+    [80, 450, 1200].forEach(function(t){
+      setTimeout(function(){ el.scrollIntoView({block:"start"}); }, t);
+    });
   }
 
   $("btn-confirmar").addEventListener("click", function(){
@@ -2226,9 +2286,14 @@
     return a;
   }
 
-  function restaurarBorrador(){
+  function restaurarBorrador(conPago){
     var b = null;
     try{ b = JSON.parse(sessionStorage.getItem("orienta.borrador") || "null"); }catch(e){ b = null; }
+    var pte = conPago ? tomarPuente() : null;   // al volver de pagar, el puente se usa o se tira
+    if((!b || !b.campos) && pte){               // volvió de Mercado Pago en otra pestaña
+      b = pte;
+      try{ sessionStorage.setItem("orienta.borrador", JSON.stringify(b)); }catch(e){}
+    }
     if(!b || !b.campos) return false;
     setModo(b.modo || "doc");
     Object.keys(b.campos).forEach(function(k){ var el = $("f-" + k); if(el) el.value = b.campos[k] || ""; });
@@ -2249,19 +2314,23 @@
   }
 
   function alVolver(){
+    limpiarPuenteVencido();
     var q = new URLSearchParams(location.search);
     var id = (q.get("payment_id") || q.get("collection_id") || "").replace(/\D/g, "");
     var st = q.get("status") || q.get("collection_status") || "";
-    var hay = restaurarBorrador();
+    var hay = restaurarBorrador(!!(id || st));
     if(!id && !st){
       if(hay) estado("ok", "Recuperamos tus números de esta misma pestaña: no tienes que volver a subir tu documento.");
+      // pago ya comprobado en esta pestaña, pero la recargó antes de volver a subir el documento
+      var pend = null; try{ pend = sessionStorage.getItem("orienta.pagoOk"); }catch(e){}
+      if(pend && !hay){ DESBLOQUEO = pend; avisoPago(pend); }
       return;
     }
     try{ history.replaceState(null, "", location.pathname + "#empezar"); }catch(e){}
-    if(PAGO === "aprobado") return;
+    if(PAGO === "aprobado"){ irA($("pago-estado")); return; }
     if(st === "approved" && id && API){
       estado("work", "Comprobando tu pago con Mercado Pago…");
-      if(hay) $("pago-estado").scrollIntoView({block:"center"});
+      if(hay) irA($("pago-estado"));
       comprobarPago(id).then(function(d){
         if(d && d.ok){ estado("ok", "Pago confirmado. ¡Gracias!"); desbloquear(id); }
         else estado("bad", (MOTIVOS[d && d.motivo] || "No pudimos comprobar tu pago en este momento.") +
@@ -2371,6 +2440,7 @@
     };
   }
   $("btn-pdf").addEventListener("click", function(){ descargarPDF(this); });
+  $("aviso-pago-btn").addEventListener("click", function(e){ e.preventDefault(); irA($("drop")); });
 
   /* arranca en blanco: nadie debe ver números que no son suyos */
   function vaciar(mensaje){
@@ -2391,7 +2461,8 @@
     else { var s = $("status"); s.className = "status"; s.textContent = ""; }
   }
   $("btn-vaciar").addEventListener("click", function(){
-    try{ sessionStorage.removeItem("orienta.borrador"); }catch(e){}
+    try{ sessionStorage.removeItem("orienta.borrador"); sessionStorage.removeItem("orienta.pagoOk"); localStorage.removeItem(PUENTE); }catch(e){}
+    DESBLOQUEO = null; avisoPago(null);
     vaciar("Listo, la pantalla quedó en blanco. Sube tu estado de cuenta cuando quieras.");
   });
 
