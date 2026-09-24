@@ -72,14 +72,6 @@
   .brand em{font-style:normal;color:var(--gold);}
   .topbar .warn{font-size:12.5px;opacity:.7;border-top:1px solid rgba(255,255,255,.14);padding-top:8px;}
 
-  .aviso-ejemplo{
-    background:var(--gold);color:#1B1405;border-radius:5px;padding:12px 16px;
-    display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between;
-    font-size:14.5px;line-height:1.4;box-shadow:var(--shadow);
-  }
-  .aviso-ejemplo b{font-weight:700;}
-  .aviso-ejemplo button{background:#1B1405;color:var(--gold);border-color:#1B1405;flex:none;}
-  .aviso-ejemplo button:hover{background:#2E2410;color:#fff;border-color:#2E2410;}
 
   .card{background:var(--paper);border:1px solid var(--rule);border-radius:5px;box-shadow:var(--shadow);overflow:hidden;}
   .card > h2{background:var(--band);color:var(--band-ink);padding:11px 20px;font-size:15px;font-weight:600;}
@@ -97,9 +89,20 @@
   .drop .big{font-size:17px;font-weight:600;}
   .drop .small{font-size:14px;color:var(--ink-soft);}
   .drop input{display:none;}
+  /* el escudo: la duda de «voy a subir un documento con mis datos» se resuelve
+     aquí, pegada al botón, no en un párrafo más abajo */
+  .escudo{background:var(--ok-soft);color:var(--ok);border:1px solid rgba(44,110,82,.3);
+    border-radius:5px;padding:14px 16px;display:flex;flex-direction:column;gap:9px;}
+  .escudo .e-tit{font-size:15.5px;font-weight:700;line-height:1.35;letter-spacing:.005em;}
+  .escudo ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px;}
+  .escudo li{font-size:15px;font-weight:600;display:grid;grid-template-columns:18px 1fr;gap:6px;line-height:1.35;}
+  .escudo li::before{content:"\2713";font-weight:700;}
+  .escudo .e-pie{font-size:13.5px;font-weight:400;opacity:.85;line-height:1.45;}
+  @media (min-width:900px){ .escudo ul{flex-direction:row;flex-wrap:wrap;gap:6px 22px;} }
+
   .privacy{background:var(--ok-soft);color:var(--ok);border-radius:4px;padding:11px 14px;font-size:14.5px;display:flex;flex-direction:column;gap:9px;}
   .privacy b{font-weight:700;}
-  .privacy details.check{border-top:1px solid rgba(44,110,82,.22);padding-top:9px;}
+  .privacy details.check{border-top:0;padding-top:0;}
   .privacy summary{color:var(--ok);font-size:14px;}
   .privacy ol{margin:9px 0 0;padding-left:19px;display:flex;flex-direction:column;gap:7px;line-height:1.45;}
   .privacy li::marker{font-weight:700;}
@@ -355,6 +358,30 @@
   a.link-muestra{font-size:15px;font-weight:700;color:var(--gold);}
   @media (max-width:460px){ .miniaturas{grid-template-columns:repeat(2,1fr);} }
 
+  /* nivel 1: lo que se ve gratis */
+  .lista-si{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .lista-si li{display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:16px;color:var(--ink-soft);line-height:1.45;}
+  .lista-si li::before{content:"✓";color:var(--ok);font-weight:700;font-size:17px;line-height:1.35;}
+
+  /* nivel 2: precio y tabla comparativa */
+  .precio-grande{margin:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .precio-grande b{font-family:var(--display);font-size:38px;font-weight:700;color:var(--gold);line-height:1;}
+  .precio-grande span{font-size:15px;color:var(--ink-soft);}
+  table.comparar{width:100%;border-collapse:collapse;border:1px solid var(--rule);border-radius:5px;overflow:hidden;}
+  table.comparar thead th{background:var(--band);color:var(--band-ink);font-size:12.5px;font-weight:700;
+    letter-spacing:.03em;padding:9px 10px;text-align:center;line-height:1.25;}
+  table.comparar thead th:first-child{text-align:left;}
+  table.comparar tbody th{font-weight:400;font-size:14.5px;color:var(--ink-soft);text-align:left;
+    padding:9px 10px;border-top:1px solid var(--rule-soft);line-height:1.35;}
+  table.comparar td{width:74px;text-align:center;padding:9px 6px;border-top:1px solid var(--rule-soft);font-size:16px;}
+  table.comparar td.si{color:var(--ok);font-weight:700;}
+  table.comparar td.no{color:var(--ink-faint);}
+  table.comparar tbody tr:nth-child(odd) th, table.comparar tbody tr:nth-child(odd) td{background:var(--nieve,rgba(20,36,63,.025));}
+  @media (max-width:420px){
+    table.comparar tbody th{font-size:13.5px;padding:8px 8px;}
+    table.comparar td{width:58px;}
+  }
+
   .ganancia{background:var(--gold-soft);border-radius:5px;padding:16px 18px;display:flex;flex-direction:column;gap:2px;}
   .ganancia .g1{font-family:var(--display);font-size:clamp(26px,7.4vw,34px);font-weight:700;color:var(--gold);line-height:1.12;}
   .ganancia .g2{font-size:18px;color:var(--ink);}
@@ -412,7 +439,6 @@
     /* la herramienta, el pie y los avisos se quedan en columna angosta */
     .wrap > .card:not(.landing),
     .wrap > .topbar,
-    .wrap > .aviso-ejemplo,
     .wrap > .separador,
     .wrap > footer{width:100%;max-width:660px;margin-inline:auto;}
 
@@ -428,11 +454,12 @@
     /* las secciones con foto: la imagen al lado del texto, no encima. Va en flex
        para que, cuando la foto se oculta (la del anuncio no se repite abajo),
        el texto ocupe la tarjeta completa. */
-    #l-caso, #l-obtienes, #l-antes{display:flex;align-items:stretch;}
-    #l-caso .foto, #l-obtienes .foto, #l-antes .foto{flex:0 0 38%;margin:0;}
-    #l-caso .pad, #l-obtienes .pad, #l-antes .pad{flex:1 1 auto;min-width:0;}
-    #l-caso .foto img, #l-obtienes .foto img, #l-antes .foto img{
-      height:100%;width:100%;aspect-ratio:auto;object-fit:cover;}
+    #l-caso, #l-antes{display:flex;align-items:stretch;}
+    #l-caso .foto, #l-antes .foto{flex:0 0 38%;margin:0;}
+    #l-caso .pad, #l-antes .pad{flex:1 1 auto;min-width:0;}
+    #l-caso .foto img, #l-antes .foto img{height:100%;width:100%;aspect-ratio:auto;object-fit:cover;}
+    /* el nivel 2 es largo y lleva tabla: la foto va arriba, a lo ancho y acotada */
+    #l-obtienes .foto img{aspect-ratio:auto;max-height:260px;object-fit:cover;object-position:center 42%;}
 
     /* renglones de texto que no se vuelvan larguísimos */
     .landing .pad{padding:26px 32px;}
@@ -443,7 +470,7 @@
 
   @media print{
     body{background:#fff;}
-    .topbar,.aviso-ejemplo,.card:not(#doc-card),.doc-pie,footer,.hero,.separador,.flotante{display:none !important;}
+    .topbar,.card:not(#doc-card),.doc-pie,footer,.hero,.separador,.flotante{display:none !important;}
     #doc-card{border:none;box-shadow:none;}
   }
 
@@ -481,6 +508,7 @@
 
 
   <!-- ======================= LANDING ======================= -->
+  <!-- ① PORTADA -->
   <section class="hero">
     <div class="marca">
       <img src="logo-habitalo.png" width="520" height="291" alt="Habítalo México">
@@ -492,26 +520,27 @@
       <div class="hero-texto">
         <p class="eyebrow">Para quien paga un crédito Infonavit</p>
         <h1 id="hero-titulo">¿Estás pagando una casa… o principalmente intereses?</h1>
-        <p class="hero-sub">Sube tu estado de cuenta y en un minuto ves, <b>gratis</b>, a dónde se va cada peso que te descuentan. El diagnóstico completo cuesta $50.</p>
+        <p class="hero-sub">Sube tu estado de cuenta y descubre, en un minuto, cuánto de lo que te descuentan baja de verdad tu deuda.</p>
         <a class="cta" href="#empezar" data-cta="hero">Hazlo ya, es gratis</a>
-        <a class="cta-ejemplo" href="#empezar" id="hero-ejemplo">o mira primero un ejemplo, sin subir nada</a>
-        <p class="precio-linea">El diagnóstico completo cuesta $50 y lo pagas solo después de ver tu resultado.</p>
+        <p class="precio-linea"><b>Empezar es gratis:</b> primero ves tus números. Si quieres el análisis completo, cuesta $50 y lo pagas después de ver tu resultado.</p>
+        <a class="cta-ejemplo" href="diagnostico-muestra.pdf" target="_blank" rel="noopener">o mira una muestra del diagnóstico completo (PDF)</a>
       </div>
     </div>
     <ul class="sellos">
-      <li>Tu documento no sale de tu teléfono</li>
-      <li>Sin registrarte</li>
+      <li>Tu documento se procesa en tu dispositivo</li>
+      <li>Sin registro ni contraseña</li>
       <li>Listo en un minuto</li>
     </ul>
     <p class="hero-aviso">No es una página del Infonavit ni está afiliada a esa institución. Es un servicio independiente de Habítalo México.</p>
   </section>
 
+  <!-- ② EL GANCHO -->
   <section class="card landing" id="l-caso">
     <figure class="foto" data-seccion="casa"><img data-foto="casa" src="foto-casa.jpg" width="459" height="532" loading="lazy"
       alt="Billetes arrugados cayendo en un bote de basura con la etiqueta «intereses»"></figure>
     <div class="pad">
       <p class="kicker">Un caso ilustrativo</p>
-      <h2 class="lh" data-frase="casa" data-alterna="Lo que tu estado de cuenta no te dice">¿Estás pagando una casa… o principalmente intereses?</h2>
+      <h2 class="lh" data-frase="casa" data-alterna="Lo que tu estado de cuenta no te dice">De cada $100 que pagas, ¿cuánto baja de verdad tu deuda?</h2>
       <div class="l-dato">
         <p class="chico">De cada $100 que entran a este crédito este año,</p>
         <p class="grande">solo <span id="l-pct">$19</span> bajan la deuda.</p>
@@ -520,55 +549,41 @@
       <div class="grafica" id="l-grafica"></div>
       <p class="txt" id="l-cruce"></p>
       <p class="pie-caso" id="l-pie">Caso inventado: crédito de $1,048,630 al 10.45% anual, con descuento por nómina aplicado cada dos meses. Las cifras salen del mismo cálculo que usa tu diagnóstico.</p>
+      <a class="cta-oscuro" href="#empezar" data-cta="caso">Calcular el mío, gratis</a>
     </div>
   </section>
 
-  <section class="card landing" id="l-obtienes">
-    <figure class="foto" data-seccion="fecha"><img data-foto="fecha" src="foto-fecha.jpg" width="626" height="655" loading="lazy"
-      alt="Calendario de escritorio con la leyenda «mi última mensualidad» y un día marcado en círculo"></figure>
+  <!-- ③ CÓMO FUNCIONA -->
+  <section class="card landing" id="l-como">
     <div class="pad">
-      <p class="kicker">Lo que obtienes por $50</p>
-      <h2 class="lh" data-frase="fecha" data-alterna="Tu crédito, explicado en cuatro hojas">¿Sabes realmente cuándo será tu última mensualidad del Infonavit?</h2>
-      <p class="txt">Tu diagnóstico lo responde con tus propios pagos. En el caso ilustrativo, esto es lo que aparece:</p>
-      <div class="tiles" id="l-tiles"></div>
-      <ul class="hojas">
-        <li><span class="n">1</span><span><b>A dónde se va tu pago.</b> Cuánto de lo que pagas baja tu deuda, año por año, y en qué año la mitad de tu pago por fin va a capital.</span></li>
-        <li><span class="n">2</span><span><b>Lo que puedes cambiar.</b> Cuánto antes terminas y cuánto dejas de pagar si abonas, con una tabla de tres montos, y lo que te cuesta esperar un año.</span></li>
-        <li><span class="n">3</span><span><b>Cómo comprobarlo.</b> Tus siguientes pagos uno por uno y el saldo que deberías ver en tu próximo estado de cuenta.</span></li>
-        <li><span class="n">4</span><span><b>Lo que debes tomar en cuenta.</b> Los supuestos del cálculo, dicho claro, y la constancia de tu diagnóstico.</span></li>
-      </ul>
-      <div class="oferta">
-        <div class="o-gratis">
-          <p class="o-tit">Gratis, al subir tu documento</p>
-          <ul>
-            <li>De cada $100 que entran a tu crédito este año, cuántos bajan tu deuda</li>
-            <li>Cuánto va a entrar en los próximos 12 meses y cuánto bajará tu deuda</li>
-            <li>La comprobación de que tus números cuadran, antes de pagar nada</li>
-          </ul>
-        </div>
-        <div class="o-pago">
-          <p class="o-tit">Con tu diagnóstico · $50</p>
-          <ul>
-            <li><b>Simulador:</b> cuánto abonar para terminar en los años que tú elijas</li>
-            <li>Tres escenarios de abono, con fecha y ahorro de cada uno</li>
-            <li>Lo que te cuesta esperar un año para empezar</li>
-            <li>Cuánto tiempo te falta, fecha estimada de término y total de intereses y cargos</li>
-            <li>Tu gráfica año por año, con el año en que la mitad de tu pago ya baja tu deuda</li>
-            <li>Tus siguientes pagos uno por uno y una predicción para comprobarlo</li>
-            <li>El PDF de 4 hojas, para guardarlo o compartirlo</li>
-          </ul>
-        </div>
-      </div>
-      <div class="miniaturas">
-        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-1.jpg" alt="Hoja 1 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
-        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-2.jpg" alt="Hoja 2 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
-        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-3.jpg" alt="Hoja 3 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
-        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-4.jpg" alt="Hoja 4 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
-      </div>
-      <a class="link-muestra" href="diagnostico-muestra.pdf" target="_blank" rel="noopener">Ver el diagnóstico de muestra completo (PDF) →</a>
+      <p class="kicker">Cómo funciona</p>
+      <h2 class="lh">Tres pasos, desde tu celular</h2>
+      <div class="video" id="l-video" hidden></div>
+      <ol class="pasos">
+        <li><span><b>Descarga tu estado de cuenta</b>Entra a Mi Cuenta Infonavit y descarga tu estado de cuenta histórico en PDF. Súbelo tal como te lo dan, sin editarlo.</span></li>
+        <li><span><b>Súbelo aquí</b>Se lee dentro de tu teléfono o computadora. No capturas nada, no te registras y no das ninguna contraseña.</span></li>
+        <li><span><b>Ve gratis a dónde se va tu pago</b>De cada $100 que entran a tu crédito, cuántos bajan tu deuda. Antes de pagar un peso.</span></li>
+      </ol>
+      <a class="cta-oscuro" href="#empezar" data-cta="pasos">Hazlo ya, es gratis</a>
     </div>
   </section>
 
+  <!-- ④ LO QUE VES GRATIS -->
+  <section class="card landing" id="l-gratis">
+    <div class="pad">
+      <p class="kicker">Nivel 1 · sin costo</p>
+      <h2 class="lh">Esto lo sabes sin pagar nada</h2>
+      <ul class="lista-si">
+        <li>De cada $100 que entran a tu crédito este año, cuántos bajan tu deuda</li>
+        <li>Cuánto va a entrar en los próximos 12 meses y cuánto bajará tu deuda</li>
+        <li>La comprobación de que leímos bien tu estado de cuenta y tus números cuadran</li>
+      </ul>
+      <p class="txt">El cobro aparece después, y solo si el cálculo ya salió. Si tu documento no se puede leer, no pagas nada.</p>
+      <a class="cta-oscuro" href="#empezar" data-cta="gratis">Quiero ver mis números</a>
+    </div>
+  </section>
+
+  <!-- ⑤ LO QUE PUEDES CAMBIAR -->
   <section class="card landing" id="l-antes">
     <figure class="foto" data-seccion="antes"><img data-foto="antes" src="foto-antes.jpg" width="960" height="400" loading="lazy"
       alt="Hojas de calendario tachadas volando junto a una casa y una cadena rota"></figure>
@@ -585,28 +600,54 @@
     </div>
   </section>
 
-  <section class="card landing" id="l-como">
+  <!-- ⑥ EL DIAGNÓSTICO COMPLETO -->
+  <section class="card landing" id="l-obtienes">
+    <figure class="foto" data-seccion="fecha"><img data-foto="fecha" src="foto-fecha.jpg" width="626" height="655" loading="lazy"
+      alt="Calendario de escritorio con la leyenda «mi última mensualidad» y un día marcado en círculo"></figure>
     <div class="pad">
-      <p class="kicker">Cómo funciona</p>
-      <h2 class="lh">Cuatro pasos, desde tu celular</h2>
-      <div class="video" id="l-video" hidden></div>
-      <ol class="pasos">
-        <li><span><b>Descarga tu estado de cuenta</b>Entra a Mi Cuenta Infonavit y descarga tu estado de cuenta histórico en PDF. Súbelo tal como te lo dan, sin editarlo.</span></li>
-        <li><span><b>Súbelo aquí</b>Se lee dentro de tu teléfono o computadora. No capturas nada y no tienes que registrarte.</span></li>
-        <li><span><b>Ve gratis a dónde se va tu pago</b>De cada $100 que entran a tu crédito, cuántos bajan tu deuda. Antes de pagar un peso.</span></li>
-        <li><span><b>Si te sirve, desbloquea tu diagnóstico</b>Pagas $50 con Mercado Pago y descargas tu diagnóstico en PDF al momento.</span></li>
-      </ol>
-      <a class="cta-oscuro" href="#empezar" data-cta="pasos">Hazlo ya, es gratis</a>
+      <p class="kicker">Nivel 2 · diagnóstico completo</p>
+      <h2 class="lh" data-frase="fecha" data-alterna="Tu crédito, explicado en cuatro hojas">¿Sabes realmente cuándo será tu última mensualidad del Infonavit?</h2>
+      <p class="precio-grande"><b>$50</b> <span>una sola vez, sin suscripción</span></p>
+      <p class="txt">Tu diagnóstico lo responde con tus propios pagos. En el caso ilustrativo, esto es lo que aparece:</p>
+      <div class="tiles" id="l-tiles"></div>
+
+      <table class="comparar">
+        <thead><tr><th>Qué ves</th><th>Gratis</th><th>Completo · $50</th></tr></thead>
+        <tbody>
+          <tr><th>Cuánto de tu pago baja tu deuda</th><td class="si">✓</td><td class="si">✓</td></tr>
+          <tr><th>Lo que entra en los próximos 12 meses</th><td class="si">✓</td><td class="si">✓</td></tr>
+          <tr><th>Comprobación de que tus números cuadran</th><td class="si">✓</td><td class="si">✓</td></tr>
+          <tr><th>Cuánto tiempo te falta</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Fecha estimada de término</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Intereses y cargos que te faltan por pagar</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Tu gráfica año por año</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Simulador: cuánto abonar para terminar en X años</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Tres escenarios de abono, con fecha y ahorro</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Lo que te cuesta esperar un año para empezar</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Tus siguientes pagos, uno por uno</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>El PDF de 4 hojas, para guardarlo o compartirlo</th><td class="no">—</td><td class="si">✓</td></tr>
+        </tbody>
+      </table>
+
+      <div class="miniaturas">
+        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-1.jpg" alt="Hoja 1 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
+        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-2.jpg" alt="Hoja 2 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
+        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-3.jpg" alt="Hoja 3 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
+        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-4.jpg" alt="Hoja 4 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
+      </div>
+      <a class="link-muestra" href="diagnostico-muestra.pdf" target="_blank" rel="noopener">Ver el diagnóstico de muestra completo (PDF) →</a>
+      <a class="cta-oscuro" href="#empezar" data-cta="completo">Empezar gratis y desbloquearlo al final</a>
     </div>
   </section>
 
+  <!-- ⑦ CONFIANZA -->
   <section class="card landing" id="l-confianza">
     <div class="pad">
       <p class="kicker">Por qué puedes confiar</p>
       <div class="razones">
-        <div><b>Tu documento no sale de tu dispositivo.</b><span>Se lee ahí mismo. Compruébalo: con la página abierta, ponte en modo avión y verás que funciona igual.</span></div>
+        <div><b>Tu documento se procesa en tu dispositivo.</b><span>Se lee ahí mismo y no se sube a ningún lado. Compruébalo: con la página abierta, ponte en modo avión y verás que funciona igual.</span></div>
         <div><b>Cada número se puede comprobar.</b><span>Tu diagnóstico trae la cuenta completa de tu siguiente pago y el saldo que deberías ver en tu próximo estado de cuenta.</span></div>
-        <div><b>No te pedimos datos personales.</b><span>Ni nombre, ni NSS, ni teléfono. De tu documento solo se toman los números de tu crédito.</span></div>
+        <div><b>No te pedimos datos personales.</b><span>Ni nombre, ni NSS, ni teléfono, ni contraseña. De tu documento solo se toman los números de tu crédito.</span></div>
         <div><b>Pagas después de ver que tus números cuadran.</b><span>Primero lees gratis a dónde se va tu pago, con tus propias cifras. El cobro aparece solo cuando el cálculo ya salió.</span></div>
       </div>
     </div>
@@ -617,6 +658,7 @@
     <p>Si tienes pagos atrasados, tu crédito está en prórroga o ya no tienes descuento por nómina, este diagnóstico todavía no aplica a tu caso: supone que tu descuento sigue igual. Escríbenos a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> y te orientamos.</p>
   </section>
 
+  <!-- ⑧ PREGUNTAS -->
   <section class="card landing faq" id="l-faq">
     <div class="pad">
       <p class="kicker">Preguntas frecuentes</p>
@@ -624,6 +666,8 @@
         <p>No. Habítalo Orienta es un servicio independiente de Habítalo México, en Cancún. No estamos afiliados al Infonavit ni hablamos con él por ti.</p></details>
       <details><summary>¿Qué pasa con mi estado de cuenta?</summary>
         <p>Se lee dentro de tu teléfono o computadora y no se sube a ningún lado. Tu nombre, NSS, RFC, CURP y domicilio pasan por el lector, pero no se usan, no se guardan y no se envían: para el cálculo solo se toman saldos, tasa, pagos y fechas.</p></details>
+      <details><summary>¿Entonces es gratis o cuesta $50?</summary>
+        <p>Las dos cosas, en ese orden. Subir tu documento y ver a dónde se va tu pago no cuesta nada. El diagnóstico completo —cuándo terminas, cuánto pagarás de intereses, el simulador y el PDF— cuesta $50, una sola vez, y lo pagas después de ver que tus números cuadran.</p></details>
       <details><summary>¿Qué tan exacto es?</summary>
         <p>Es una estimación calculada con tus propios pagos. Supone que tu descuento de nómina sigue igual. Para que no tengas que creernos, tu diagnóstico te dice qué saldo deberías ver en tu próximo estado de cuenta.</p></details>
       <details><summary>¿Dónde consigo mi estado de cuenta?</summary>
@@ -645,15 +689,20 @@
   </div>
   <!-- ===================== fin LANDING ===================== -->
 
-  <div class="aviso-ejemplo" id="aviso-ejemplo" hidden>
-    <span><b>Estás viendo un caso de ejemplo.</b> Los números de abajo son de un crédito inventado — no son los tuyos.</span>
-    <button class="link" id="btn-vaciar" type="button">Vaciar y usar el mío</button>
-  </div>
-
   <div class="card">
     <div class="pad">
       <h1 class="lede">Sube tu estado de cuenta y nosotros lo leemos</h1>
       <p class="sub">Descarga tu <strong>estado de cuenta histórico</strong> del portal del Infonavit y súbelo aquí tal como te lo dieron. No hay que capturar nada.</p>
+
+      <div class="escudo">
+        <p class="e-tit">🔒 Tu estado de cuenta se procesa en tu dispositivo</p>
+        <ul>
+          <li>No se envía a ningún servidor</li>
+          <li>No necesitas registrarte</li>
+          <li>No te pedimos ninguna contraseña</li>
+        </ul>
+        <p class="e-pie">Tu nombre, NSS, RFC, CURP y domicilio pasan por el lector, pero no se usan, no se guardan y no se envían: del documento solo se toman los números de tu crédito.</p>
+      </div>
 
       <label class="drop" id="drop" for="file">
         <span class="big" id="drop-title">Elige tu archivo PDF</span>
@@ -662,7 +711,6 @@
       </label>
 
       <div class="privacy">
-        <p>🔒 <b>Tu archivo no se sube a ningún lado.</b> Se lee aquí mismo, en tu dispositivo. Tu nombre, NSS, RFC, CURP y domicilio no se usan, no se guardan y no se envían: solo tomamos los números de tu crédito.</p>
         <details class="check">
           <summary>No me lo creas: compruébalo</summary>
           <ol>
@@ -691,7 +739,7 @@
 
       <div class="btnrow" style="margin-top:0;">
         <button class="link" id="btn-manual" type="button">Prefiero capturar a mano</button>
-        <button class="link" id="btn-demo" type="button">Ver un ejemplo</button>
+        <button class="link" id="btn-vaciar" type="button">Empezar de nuevo</button>
       </div>
     </div>
   </div>
@@ -838,7 +886,6 @@
 
   <footer>
     <div>Habítalo Orienta es un servicio de Habítalo México · Cancún, Quintana Roo · <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> · <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a></div>
-    <div id="pie-ejemplo" hidden>El ejemplo cargado es un caso inventado; no corresponde a ningún acreditado real.</div>
     <div>Es una proyección con supuestos, no una cotización del Infonavit ni asesoría legal o fiscal. Supone que tu descuento de nómina sigue igual.</div>
   </footer>
 </div>
@@ -1410,7 +1457,7 @@
       $("hallazgo").hidden = true; $("grafica").hidden = true;
       return;
     }
-    if(!$("c-obligatorio").checked && !EJEMPLO){          // el caso inventado no trae datos de nadie
+    if(!$("c-obligatorio").checked){
       $("nums").innerHTML = '<div class="num" style="grid-column:1/-1;"><span>Tus números están listos. Marca la casilla del aviso de privacidad aquí arriba para verlos.</span></div>';
       $("simout").textContent = ""; $("cobro").hidden = true; $("simwrap").hidden = true; $("descarga").hidden = true;
       $("hallazgo").hidden = true; $("grafica").hidden = true;
@@ -1426,28 +1473,27 @@
     };
     var base = correr(p, true);
     var pagado = (PAGO === "aprobado");
-    var abierto = pagado || EJEMPLO;        // el caso inventado se muestra completo: es la demostración
-    pintarHallazgo(v, CTX, base, p, abierto);
-    var L = abierto ? "" : " lock";
+    pintarHallazgo(v, CTX, base, p, pagado);
+    var L = pagado ? "" : " lock";
     var per = p.periodicidad || 1;
     var nPagos = base.pagos;
     /* Bloqueado no es solo borroso: el número real ni siquiera se escribe en la
        página, para que no se pueda leer en el código fuente. */
-    var val = function(t){ return abierto ? t : String(t).replace(/\S/g, "\u2022"); };
+    var val = function(t){ return pagado ? t : String(t).replace(/\S/g, "\u2022"); };
     $("nums").innerHTML =
-      '<div class="num'+L+'"><b>'+val(base.fin ? tiempoTxt(mesesEntre(p.corte, base.fin)) : "—")+'</b><span>te faltan, al ritmo de hoy'+(abierto ? ": "+pagosTxt(nPagos, per) : "")+'</span></div>' +
+      '<div class="num'+L+'"><b>'+val(base.fin ? tiempoTxt(mesesEntre(p.corte, base.fin)) : "—")+'</b><span>te faltan, al ritmo de hoy'+(pagado ? ": "+pagosTxt(nPagos, per) : "")+'</span></div>' +
       '<div class="num'+L+'"><b>'+val(base.fin?mesAnio(base.fin):"—")+'</b><span>terminarías de pagar</span></div>' +
       '<div class="num'+L+'"><b>'+val(money0(base.interes+base.cargos))+'</b><span>pagarías de intereses, seguros y cuotas en el camino</span></div>' +
       '<div class="num'+L+'"><b>'+val(money0(CTX.apMes))+'</b><span>pone tu patrón cada mes, además de tu descuento</span></div>' +
       '<p class="nota-frec">'+aclaraFrecuencia(per)+'</p>';
-    $("cobro").hidden = pagado;             // en el ejemplo el precio sigue a la vista
-    $("simwrap").hidden = !abierto;
+    $("cobro").hidden = pagado;
+    $("simwrap").hidden = !pagado;
     $("descarga").hidden = !pagado;         // el PDF solo con pago comprobado
     ULTIMO = {v:v, CTX:CTX, base:base, p:p, fpp:fpp};
-    if(!EJEMPLO) contar("numeros");
+    contar("numeros");
     pintaFlotante();
     guardarBorrador();
-    if(abierto){ pintarModo(); configurarMeta(p, base); }
+    if(pagado){ pintarModo(); configurarMeta(p, base); }
   }
 
   /* ===== la pregunta al revés: ¿cuánto abonar para terminar en X años? =====
@@ -1539,11 +1585,11 @@
     }
     setModo("doc");
     PAGO = "no"; FOLIO = null; REF_PAGO = null;
-    if(DESBLOQUEO && fuente !== "un documento de ejemplo"){
+    if(DESBLOQUEO){
       PAGO = "aprobado"; REF_PAGO = DESBLOQUEO; FOLIO = nuevoFolio(); DESBLOQUEO = null;
     }
     pintarPago();
-    if(fuente !== "un documento de ejemplo"){ EJEMPLO = false; $("aviso-ejemplo").hidden = true; $("pie-ejemplo").hidden = true; contar("documento"); }
+    contar("documento");
     $("doc-card").hidden = true;
     AGG = agregar(H.movs || []);
     pintarCampos(H);
@@ -1615,7 +1661,6 @@
      pagado cuando el webhook fue verificado contra la API con el access token.
      Las cifras del diagnóstico nunca viajan: sobreviven al redirect en el propio
      dispositivo y se restauran al volver. */
-  var EJEMPLO = false;      // true mientras se muestra el caso inventado
   var REF_PAGO = null;      // número de operación que reporta el acreditado
   var PAGO = "no";          // no | aprobado | pendiente | rechazado
   var FOLIO = null;
@@ -1752,7 +1797,7 @@
     var mesesAb = elegida.r.periodos || 1;
 
     return {
-      folio: FOLIO || "—", muestra: EJEMPLO,
+      folio: FOLIO || "—", muestra: false,
       fecha: fechaLarga(new Date()),
       motor: MOTOR_VERSION,
       hoyMes: mesAnio(v.corte),
@@ -2053,7 +2098,7 @@
           msin:$("f-msin").value, corte:$("f-corte").value, sueldo:$("f-sueldo").value
         },
         modo:MODO, folio:FOLIO, pago:PAGO, ref:REF_PAGO,
-        agg:AGG, consent:CONSENT, abono:$("f-abono").value, ejemplo:EJEMPLO,
+        agg:AGG, consent:CONSENT, abono:$("f-abono").value,
         abonoFrec:ABONO.frec, abonoDesde:ABONO.desde ? iso(ABONO.desde) : null
       }));
     }catch(e){ /* navegador sin almacenamiento: el flujo sigue, solo no sobrevive al redirect */ }
@@ -2096,12 +2141,6 @@
   }
 
   $("btn-pagar").addEventListener("click", function(e){
-    if(EJEMPLO){
-      e.preventDefault();
-      $("folio-msg").className = "hint err";
-      $("folio-msg").textContent = "Estás viendo el caso de ejemplo. Sube tu propio estado de cuenta para pagar tu diagnóstico.";
-      return;
-    }
     FOLIO = FOLIO || nuevoFolio();
     guardarBorrador();
     if(!API){
@@ -2195,7 +2234,6 @@
     Object.keys(b.campos).forEach(function(k){ var el = $("f-" + k); if(el) el.value = b.campos[k] || ""; });
     AGG = reviveAGG(b.agg);
     FOLIO = b.folio || null;
-    EJEMPLO = !!b.ejemplo; $("aviso-ejemplo").hidden = $("pie-ejemplo").hidden = !EJEMPLO;
     if(b.abono) $("f-abono").value = b.abono;
     if(b.abonoFrec) ABONO.frec = b.abonoFrec;
     if(b.abonoDesde) ABONO.desde = parseISO(b.abonoDesde);
@@ -2332,21 +2370,10 @@
       mcon:9650.00, msin:9461.00, corte:new Date(2026,8,1), tipoPago:"FIJO", fuera:null, movs:mov
     };
   }
-  function ejemplo(){
-    var H = datosEjemplo();
-    EJEMPLO = true;
-    aplicar(H, "un documento de ejemplo");
-    EJEMPLO = true;
-    $("aviso-ejemplo").hidden = $("pie-ejemplo").hidden = false;
-    estado("ok", "Ejemplo cargado: " + H.movs.length + " movimientos de un crédito inventado. Sube tu propio documento para ver tus números.");
-  }
   $("btn-pdf").addEventListener("click", function(){ descargarPDF(this); });
-  $("btn-demo").addEventListener("click", ejemplo);
 
   /* arranca en blanco: nadie debe ver números que no son suyos */
   function vaciar(mensaje){
-    EJEMPLO = false;
-    $("aviso-ejemplo").hidden = $("pie-ejemplo").hidden = true;
     AGG = null; ULTIMO = null; META_MAX = null; ABONO.desde = null;
     PAGO = "no"; FOLIO = null; REF_PAGO = null; $("f-folio").value = ""; $("folio-msg").textContent = "";
     setModo("doc");
@@ -2370,7 +2397,6 @@
 
   $("btn-manual").addEventListener("click", function(){
     AGG = null;
-    EJEMPLO = false; $("aviso-ejemplo").hidden = true;
     setModo("manual");
     PAGO = "no"; FOLIO = null; REF_PAGO = null; pintarPago();
     ["f-capital","f-interes","f-comis","f-total","f-tasa","f-mcon","f-msin","f-corte","f-sueldo"].forEach(function(id){ $(id).value = ""; });
@@ -2482,12 +2508,6 @@
     new IntersectionObserver(function(e){ heroVisto = e[0].isIntersecting; pinta(); }).observe(hero);
     new IntersectionObserver(function(e){ herramienta = e[0].isIntersecting || e[0].boundingClientRect.top < 0; pinta(); }).observe(meta);
   }
-
-  $("hero-ejemplo").addEventListener("click", function(e){
-    e.preventDefault();
-    ejemplo();
-    setTimeout(function(){ $("hallazgo").scrollIntoView({behavior:"smooth", block:"start"}); }, 60);
-  });
 
   pintarLanding();
   videoTutorial();
