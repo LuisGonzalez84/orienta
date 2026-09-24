@@ -2319,6 +2319,12 @@
     var id = (q.get("payment_id") || q.get("collection_id") || "").replace(/\D/g, "");
     var st = q.get("status") || q.get("collection_status") || "";
     var hay = restaurarBorrador(!!(id || st));
+    if(!id && !st && !hay && location.hash === "#empezar"){
+      try{ history.replaceState(null, "", location.pathname + location.search); }catch(e){}
+      try{ history.scrollRestoration = "manual"; }catch(e){}
+      [0, 120, 500].forEach(function(t){ setTimeout(function(){ window.scrollTo(0, 0); }, t); });
+      window.addEventListener("load", function(){ window.scrollTo(0, 0); });
+    }
     if(!id && !st){
       if(hay) estado("ok", "Recuperamos tus números de esta misma pestaña: no tienes que volver a subir tu documento.");
       // pago ya comprobado en esta pestaña, pero la recargó antes de volver a subir el documento
@@ -2326,7 +2332,7 @@
       if(pend && !hay){ DESBLOQUEO = pend; avisoPago(pend); }
       return;
     }
-    try{ history.replaceState(null, "", location.pathname + "#empezar"); }catch(e){}
+    try{ history.replaceState(null, "", location.pathname); }catch(e){}
     if(PAGO === "aprobado"){ irA($("pago-estado")); return; }
     if(st === "approved" && id && API){
       estado("work", "Comprobando tu pago con Mercado Pago…");
@@ -2586,6 +2592,12 @@
   contar("visita");
 
   vaciar();
+  document.querySelectorAll('a[href="#empezar"]').forEach(function(a){
+    a.addEventListener("click", function(e){
+      e.preventDefault();
+      $("empezar").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+  });
   alVolver();
 })();
 </script>
