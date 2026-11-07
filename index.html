@@ -407,6 +407,12 @@
   .video{position:relative;padding-top:56.25%;border-radius:5px;overflow:hidden;background:#000;}
   .video.vertical{padding-top:0;aspect-ratio:9/16;max-height:78vh;margin:0 auto;width:min(100%,420px);}
   .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.v-play{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:#000;cursor:pointer;}
+.v-play img{width:100%;height:100%;object-fit:cover;opacity:.85;display:block;}
+.v-boton{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:30px;line-height:72px;text-align:center;padding-left:5px;}
+.v-nota{position:absolute;left:0;right:0;bottom:0;padding:10px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;font-size:13px;}
+.ver-video{display:inline-block;margin-top:8px;font-size:14.5px;font-weight:700;color:inherit;text-decoration:underline;cursor:pointer;}
+.ver-video[hidden]{display:none;}
   .cta-oscuro{display:block;text-align:center;text-decoration:none;font-weight:700;font-size:17px;
     background:var(--band);color:var(--band-ink);border-radius:6px;padding:14px 20px;}
   .cta-oscuro:hover{background:var(--gold);color:#1B1405;}
@@ -474,6 +480,9 @@
     .landing .pad{padding:26px 32px;}
     .landing p.txt, .landing .pie-caso, .hojas li, .faq details p, .faq summary,
     .razones span, .no-aplica p{max-width:66ch;}
+.contacto-tel{margin-top:18px;padding:14px 16px;border:1px solid var(--line,#e3dccf);border-radius:5px;font-size:15px;line-height:1.5;}
+.contacto-tel b{display:block;font-size:16px;}
+.contacto-tel a{font-weight:700;color:inherit;white-space:nowrap;}
     .miniaturas{gap:12px;}
   }
 
@@ -670,7 +679,7 @@
 
   <section class="no-aplica">
     <h2>Para quién todavía no es</h2>
-    <p>Si tienes pagos atrasados, tu crédito está en prórroga o ya no tienes descuento por nómina, este diagnóstico todavía no aplica a tu caso: supone que tu descuento sigue igual. Escríbenos a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> y te orientamos.</p>
+    <p>Si tienes pagos atrasados, tu crédito está en prórroga o ya no tienes descuento por nómina, este diagnóstico todavía no aplica a tu caso: supone que tu descuento sigue igual. Escríbenos a <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> o llámanos al <a href="tel:+529987649315">998 764 9315</a> (lunes a viernes, 9:00 a 17:00 h) y te orientamos.</p>
   </section>
 
   <!-- ⑧ PREGUNTAS -->
@@ -695,6 +704,7 @@
         <p>No pagas nada: el botón de pago solo aparece cuando tus números cuadran. También puedes capturar a mano los ocho números de la primera hoja.</p></details>
       <details><summary>¿Puedo abonar a mi crédito?</summary>
         <p>Sí. El Infonavit acepta pagos adicionales sin comisión y se aplican a tu saldo. Tu diagnóstico calcula cuánto antes terminas con el monto que elijas.</p></details>
+      <p class="contacto-tel"><b>¿Tienes dudas sobre el diagnóstico?</b>Llámanos al <a href="tel:+529987649315">998 764 9315</a>, de lunes a viernes de 9:00 a 17:00 h (hora de Cancún).</p>
     </div>
   </section>
 
@@ -707,7 +717,7 @@
   <div class="card">
     <div class="pad">
       <h1 class="lede">Sube tu estado de cuenta y nosotros lo leemos</h1>
-      <p class="sub">Descarga tu <strong>estado de cuenta histórico</strong> del portal del Infonavit y súbelo aquí tal como te lo dieron. No hay que capturar nada.</p>
+      <p class="sub">Descarga tu <strong>estado de cuenta histórico</strong> del portal del Infonavit y súbelo aquí tal como te lo dieron. No hay que capturar nada.<br><a class="ver-video" id="ver-video" href="#" hidden>▶ ¿No sabes cómo descargarlo? Mira el video (2 min)</a></p>
 
       <div class="escudo">
         <p class="e-tit">🔒 Tu estado de cuenta se procesa en tu dispositivo</p>
@@ -900,7 +910,7 @@
   </div>
 
   <footer>
-    <div>Habítalo Orienta es un servicio de Habítalo México · Cancún, Quintana Roo · <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> · <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a></div>
+    <div>Habítalo Orienta es un servicio de Habítalo México · Cancún, Quintana Roo · <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> · Dudas: <a href="tel:+529987649315">998 764 9315</a> (lun a vie, 9 a 17 h) · <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a></div>
     <div>Es una proyección con supuestos, no una cotización del Infonavit ni asesoría legal o fiscal. Supone que tu descuento de nómina sigue igual.</div>
   </footer>
 </div>
@@ -924,7 +934,7 @@
      ------------------------------------------------------------------ */
   var API_PAGOS = "https://orienta-pagos.mich-gonzalez84.workers.dev";
   var LIGA_PAGO = "https://mpago.la/1FbgLmj";
-  var VIDEO_TUTORIAL = "";   // liga de YouTube del tutorial; vacío = no se muestra
+  var VIDEO_TUTORIAL = "https://youtube.com/shorts/bUJotyoedNg";   // liga de YouTube del tutorial; vacío = no se muestra
 
   /* ------------------------------------------------------------------
      CUENTA SIMPLE — cuántos llegan y hasta dónde llegan.
@@ -2565,12 +2575,20 @@
     var u = VIDEO_TUTORIAL.trim(); if(!u) return;
     var m = u.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([A-Za-z0-9_-]{6,})/);
     if(!m) return;
-    var caja = $("l-video");
-    caja.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + m[1] +
-      '" title="Cómo funciona Habítalo Orienta" loading="lazy" allowfullscreen ' +
-      'allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"></iframe>';
-    caja.classList.toggle("vertical", /shorts\//.test(u));
+    var caja = $("l-video"), id = m[1];
+    /* Portada propia: YouTube no se contacta hasta que la persona da play */
+    caja.innerHTML = '<button type="button" class="v-play" aria-label="Reproducir el video: cómo descargar y subir tu estado de cuenta">' +
+      '<img src="https://habitalo.com.mx/orienta/tutorial-portada.jpg" alt="" loading="lazy">' +
+      '<span class="v-boton" aria-hidden="true">▶</span><span class="v-nota">Video de 2 min · se reproduce desde YouTube</span></button>';
+    caja.classList.add("vertical");
     caja.hidden = false;
+    caja.querySelector(".v-play").addEventListener("click", function(){
+      caja.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+        '?autoplay=1&playsinline=1&rel=0" title="Cómo descargar y subir tu estado de cuenta" allowfullscreen ' +
+        'allow="autoplay; accelerometer; encrypted-media; gyroscope; picture-in-picture"></iframe>';
+    });
+    var vv = $("ver-video");
+    if(vv){ vv.hidden = false; vv.addEventListener("click", function(e){ e.preventDefault(); caja.scrollIntoView({behavior:"smooth", block:"center"}); }); }
   }
 
   /* botón flotante: aparece al bajar del primer botón y se va cuando ya estás en la
