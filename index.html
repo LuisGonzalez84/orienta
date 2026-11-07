@@ -309,6 +309,10 @@
     display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;opacity:.85;}
   .marca{display:flex;align-items:center;gap:16px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.14);margin-bottom:4px;}
   .marca img{display:block;height:72px;width:auto;flex:none;}
+  .marca-logo{flex:none;display:block;}
+  .marca .volver{margin-left:auto;align-self:center;font-size:13.5px;font-weight:600;color:var(--band-ink);text-decoration:none;border:1px solid rgba(255,255,255,.32);border-radius:999px;padding:6px 13px;white-space:nowrap;opacity:.9;}
+  .marca .volver:hover{opacity:1;border-color:rgba(255,255,255,.6);}
+  @media (max-width:520px){ .marca{flex-wrap:wrap;row-gap:10px;} .marca-linea{flex:1 1 100px;min-width:0;} .marca .volver{margin-left:0;font-size:12.5px;padding:5px 11px;} }
   .marca-linea{border-left:1px solid rgba(255,255,255,.22);padding-left:16px;display:flex;flex-direction:column;gap:2px;
     font-family:var(--display);font-size:22px;font-weight:700;color:#CFAE82;line-height:1.1;}
   .marca-linea small{font-family:var(--body);font-size:12.5px;font-weight:400;color:var(--band-ink);opacity:.75;line-height:1.3;}
@@ -538,8 +542,9 @@
   <!-- ① PORTADA -->
   <section class="hero">
     <div class="marca">
-      <img src="logo-habitalo.png" width="520" height="291" alt="Habítalo México">
+      <a class="marca-logo" href="https://habitalo.com.mx/" title="Ir a Habítalo México"><img src="logo-habitalo.png" width="520" height="291" alt="Habítalo México"></a>
       <span class="marca-linea">Orienta<small>Diagnóstico de tu crédito Infonavit</small></span>
+      <a class="volver" href="https://habitalo.com.mx/">← Habítalo México</a>
     </div>
     <div class="hero-cuerpo">
       <figure class="hero-foto"><img id="hero-foto" data-foto="casa" src="foto-casa.jpg" width="459" height="532"
@@ -927,7 +932,7 @@
   </div>
 
   <footer>
-    <div>Habítalo Orienta es un servicio de Habítalo México · Cancún, Quintana Roo · <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> · Dudas: <a href="tel:+529987649315">998 764 9315</a> (lun a vie, 9 a 17 h) · <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a></div>
+    <div>Habítalo Orienta es un servicio de <a href="https://habitalo.com.mx/">Habítalo México</a> · Cancún, Quintana Roo · <a href="mailto:contacto@habitalo.com.mx">contacto@habitalo.com.mx</a> · Dudas: <a href="tel:+529987649315">998 764 9315</a> (lun a vie, 9 a 17 h) · <a href="https://habitalo.com.mx/privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a></div>
     <div>Es una proyección con supuestos, no una cotización del Infonavit ni asesoría legal o fiscal. Supone que tu descuento de nómina sigue igual.</div>
   </footer>
 </div>
