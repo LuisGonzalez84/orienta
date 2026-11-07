@@ -630,7 +630,7 @@
       alt="Calendario de escritorio con la leyenda «mi última mensualidad» y un día marcado en círculo"></figure>
     <div class="pad">
       <p class="kicker">Nivel 2 · diagnóstico completo</p>
-      <h2 class="lh" data-frase="fecha" data-alterna="Tu crédito, explicado en cuatro hojas">¿Sabes realmente cuándo será tu última mensualidad del Infonavit?</h2>
+      <h2 class="lh" data-frase="fecha" data-alterna="Tu crédito, explicado en tres hojas">¿Sabes realmente cuándo será tu última mensualidad del Infonavit?</h2>
       <p class="precio-grande"><b>$99.90</b> <span>una sola vez, sin suscripción</span></p>
       <p class="txt">Tu diagnóstico lo responde con tus propios pagos. En el caso ilustrativo, esto es lo que aparece:</p>
       <div class="tiles" id="l-tiles"></div>
@@ -646,10 +646,10 @@
           <tr><th>Intereses y cargos que te faltan por pagar</th><td class="no">—</td><td class="si">✓</td></tr>
           <tr><th>Tu gráfica año por año</th><td class="no">—</td><td class="si">✓</td></tr>
           <tr><th>Simulador: cuánto abonar para terminar en X años</th><td class="no">—</td><td class="si">✓</td></tr>
-          <tr><th>Tres escenarios de abono, con fecha y ahorro</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Cuatro formas de abonar, con fecha y ahorro</th><td class="no">—</td><td class="si">✓</td></tr>
           <tr><th>Lo que te cuesta esperar un año para empezar</th><td class="no">—</td><td class="si">✓</td></tr>
-          <tr><th>Tus siguientes pagos, uno por uno</th><td class="no">—</td><td class="si">✓</td></tr>
-          <tr><th>El PDF de 4 hojas, para guardarlo o compartirlo</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Tu corrida financiera año por año, y pago por pago en Excel</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>El PDF de 3 hojas, para guardarlo o compartirlo</th><td class="no">—</td><td class="si">✓</td></tr>
         </tbody>
       </table>
 
@@ -657,7 +657,6 @@
         <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-1.jpg" alt="Hoja 1 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
         <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-2.jpg" alt="Hoja 2 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
         <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-3.jpg" alt="Hoja 3 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
-        <a href="diagnostico-muestra.pdf" target="_blank" rel="noopener"><img src="muestra-4.jpg" alt="Hoja 4 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
       </div>
       <a class="link-muestra" href="diagnostico-muestra.pdf" target="_blank" rel="noopener">Ver el diagnóstico de muestra completo (PDF) →</a>
       <a class="cta-oscuro" href="#empezar" data-cta="completo">Empezar gratis y desbloquearlo al final</a>
@@ -813,6 +812,17 @@
         <span class="where">hasta qué día están estos números</span>
         <span class="fld"><input id="f-corte" type="date"></span>
       </div>
+      <div class="q">
+        <label for="f-montoot">Monto de otorgamiento</label>
+        <span class="where">lo que te prestaron; opcional, sirve para saber cuánto llevas pagado</span>
+        <span class="fld"><span class="pre">$</span><input id="f-montoot" inputmode="decimal"></span>
+      </div>
+      <div class="q">
+        <label for="f-fechaot">Fecha de otorgamiento</label>
+        <span class="where">opcional; viene junto al monto</span>
+        <span class="fld"><input id="f-fechaot" type="date"></span>
+      </div>
+      <input id="f-plazo" type="hidden">
       <div class="q" id="q-sueldo" hidden>
         <label for="f-sueldo">¿Cuánto ganas al mes?</label>
         <span class="where">antes de descuentos. No viene en el papel: sirve para calcular lo que aporta tu patrón</span>
@@ -843,7 +853,7 @@
     <div class="cobro" id="cobro" hidden>
       <div class="precio">
         <span class="monto">$99.90</span>
-        <span class="que">Tu diagnóstico completo: cuánto tiempo te falta y la fecha estimada en que terminas, lo que pagarías de intereses y cargos, tu gráfica año por año, el simulador para elegir en cuántos años terminar, tres escenarios de abono, lo que te cuesta esperar y un PDF de 4 hojas que puedes comprobar.</span>
+        <span class="que">Tu diagnóstico completo: cuánto tiempo te falta y la fecha estimada en que terminas, lo que pagarías de intereses y cargos, tu gráfica año por año, el simulador para elegir en cuántos años terminar, cuatro formas de abonar comparadas, lo que te cuesta esperar, tu corrida financiera y un PDF de 3 hojas que puedes comprobar.</span>
       </div>
       <a class="pagar" id="btn-pagar" href="https://mpago.la/1FbgLmj" target="_blank" rel="noopener">Pagar $99.90 y ver mi diagnóstico</a>
       <p class="espera" id="espera-pago" hidden>Al terminar de pagar, Mercado Pago te regresa aquí solo, en unos segundos. Si tarda, usa el botón <b>“Volver al sitio”</b>.</p>
@@ -895,6 +905,7 @@
 
     <div class="descarga" id="descarga" hidden>
       <button class="descargar" id="btn-pdf" type="button">Ya con mi meta: descargar mi diagnóstico (PDF)</button>
+      <button class="link go" id="btn-xlsx" type="button">Descargar la corrida pago por pago (Excel)</button>
       <p class="pdf-msg" id="pdf-msg" hidden></p>
     </div>
   </div>
@@ -1064,7 +1075,10 @@
       mcon:    nm(buscar(/Mensualidad con relaci[oó]n laboral\s+\$?\s*([\d,]+\.\d{2})/)),
       msin:    nm(buscar(/Mensualidad sin relaci[oó]n laboral\s+\$?\s*([\d,]+\.\d{2})/)),
       corte:   fLarga(buscar(/Fecha de corte estado de cuenta\s+(.+)/)),
-      tipoPago:buscar(/Tipo de pago\s+(\w+)/)
+      tipoPago:buscar(/Tipo de pago\s+(\w+)/),
+      montoOt: nm(buscar(/Monto de otorgamiento pesos\s+\$?\s*([\d,]+\.\d{2})/)),
+      fechaOt: fLarga(buscar(/Fecha de otorgamiento\s+(\d{1,2} de [a-zA-ZáéíóúÁÉÍÓÚ]+ de \d{4})/)),
+      plazoAnios: parseInt(buscar(/Plazo\s+(\d+)\s*A[ÑN]OS/i), 10)
     };
     // candado: productos fuera de alcance
     var U = txt.toUpperCase();
@@ -1379,6 +1393,9 @@
     $("f-mcon").value    = isFinite(H.mcon)    ? H.mcon.toLocaleString("es-MX",{minimumFractionDigits:2}) : "";
     $("f-msin").value    = isFinite(H.msin)    ? H.msin.toLocaleString("es-MX",{minimumFractionDigits:2}) : "";
     $("f-corte").value   = iso(H.corte);
+    $("f-montoot").value = isFinite(H.montoOt) ? H.montoOt.toLocaleString("es-MX",{minimumFractionDigits:2}) : "";
+    $("f-fechaot").value = H.fechaOt ? iso(H.fechaOt) : "";
+    $("f-plazo").value   = isFinite(H.plazoAnios) ? String(H.plazoAnios) : "";
   }
 
   function pintarDeducido(A, fpp){
@@ -1430,7 +1447,8 @@
       capital:nm($("f-capital").value), interes:nm($("f-interes").value), comis:nm($("f-comis").value),
       total:nm($("f-total").value), tasa:nm($("f-tasa").value)/100,
       mcon:nm($("f-mcon").value), msin:nm($("f-msin").value), corte:parseISO($("f-corte").value),
-      sueldo:nm($("f-sueldo").value)
+      sueldo:nm($("f-sueldo").value),
+      montoOt:nm($("f-montoot").value), fechaOt:parseISO($("f-fechaot").value), plazo:nm($("f-plazo").value)
     };
   }
 
@@ -2039,15 +2057,295 @@
     m.innerHTML = texto;
   }
 
+  /* ================= diagnóstico de 3 hojas (versión 2.0) =================
+     Hoja 1: las seis respuestas. Hoja 2: la simulación con sus parámetros.
+     Hoja 3: la corrida año por año. Todo sale de correr(); aquí solo se suma
+     y se redacta. Los montos de la corrida son los APLICADOS (comisiones +
+     intereses + capital), no el pago bruto: así los totales cuadran entre hojas. */
+  var REPORTE_VERSION = "2.0";
+
+  /* La primera barra son los próximos 12 meses (igual que «$X de cada $100»);
+     las siguientes, ventanas de 12 meses que se rotulan con el año en que caen. */
+  function serie12(filas, corte){
+    var anios = [], pcts = [], idx = -1, cruce = null;
+    for(var k = 0; k < 40; k++){
+      var a = addM(corte, 12*k), b = addM(corte, 12*(k+1)), pago = 0, cap = 0, fechas = [];
+      for(var x = 0; x < filas.length; x++){
+        var r = filas[x];
+        if(r.d > a && r.d <= b && r.pago > 0){ pago += r.pago; cap += r.cap; fechas.push(r.d); }
+      }
+      if(!fechas.length || pago <= 0) break;
+      /* cada barra se rotula con el año en que cae la mayoría de sus pagos */
+      var etq = k === 0 ? "próximos 12 meses" : fechas[Math.floor(fechas.length/2)].getFullYear();
+      var pct = cap / pago * 100;
+      anios.push(etq); pcts.push(pct);
+      if(pct >= 50 && idx < 0){ idx = k; cruce = etq; }
+    }
+    return {anios: anios, pcts: pcts, idx: idx, cruce: cruce};
+  }
+
+  function datosPDF2(){
+    if(!ULTIMO || !window.OrientaPDF || !window.OrientaPDF.diagnostico2) return null;
+    var v = ULTIMO.v, C = ULTIMO.CTX, base = ULTIMO.base, p = ULTIMO.p, fpp = ULTIMO.fpp;
+    var per = p.periodicidad || 1, F = frec(ABONO.frec);
+    var costo = function(r){ return r.interes + r.cargos; };
+    var MESES_L = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    var pct1 = function(x){ return (Math.round(x*10)/10).toLocaleString("es-MX",{minimumFractionDigits:1,maximumFractionDigits:1}) + "%"; };
+
+    var ab = nm($("f-abono").value);
+    if(!isFinite(ab) || ab <= 0) ab = Math.max(100, Math.round(C.retMes * 0.10 / 100) * 100);
+    var desde = ABONO.desde || abonoDesdeDefault(v.corte);
+    function conAbono(monto, fk, d){
+      var q = {}; for(var k in p) q[k] = p[k];
+      q.abono = monto; q.abonoFrec = fk; q.abonoDesde = d;
+      return correr(q, true);
+    }
+    var r = conAbono(ab, ABONO.frec, desde);
+
+    /* ---------- hoja 1 ---------- */
+    var doce = ventana(base.filas, addM(p.corte, 12));
+    var pctCap = doce.pago > 0 ? Math.round(doce.cap / doce.pago * 100) : 0;
+    var meses = base.periodos || 1;
+    var plazo = isFinite(v.plazo) && v.plazo > 0 ? v.plazo : 30;
+    var respPagado;
+    if(isFinite(v.montoOt) && v.montoOt > 0){
+      var bajado = v.montoOt - v.capital;
+      respPagado = {q:"¿Cuánto de mi crédito ya pagué?", v: pct1(bajado / v.montoOt * 100),
+        t:"De los " + money0(v.montoOt) + " que te prestaron" +
+          (v.fechaOt ? " en " + MESES_L[v.fechaOt.getMonth()] + " de " + v.fechaOt.getFullYear() : "") +
+          ", tu deuda ha bajado " + money0(bajado) +
+          (v.fechaOt ? " en " + tiempoTxt(mesesEntre(v.fechaOt, v.corte)) : "") + "."};
+    } else {
+      respPagado = {q:"¿Cuánto de mi crédito ya pagué?", v:"—",
+        t:"Para verlo, captura tu monto de otorgamiento: viene en la primera hoja de tu Reporte histórico."};
+    }
+    var finTxt = base.fin ? "Te faltan " + tiempoTxt(mesesEntre(v.corte, base.fin)) + ": " + pagosTxt(base.pagos, per) + ", al ritmo de hoy." : "";
+    if(v.fechaOt) finTxt += " Tu plazo contratado vence en " + mesAnio(addM(v.fechaOt, plazo*12)) + ".";
+    var respuestas = [
+      {q:"¿Cuánto debo hoy?", v: money0(v.total),
+       t:"Capital " + money0(v.capital) + " + interés " + money0(v.interes) + " + comisiones " + money0(v.comis) +
+         " al " + fechaLarga(v.corte) + ". Para liquidar, la cifra oficial te la da el Infonavit."},
+      respPagado,
+      {q:"¿Cuánto baja mi deuda con lo que pago?", v:"$" + pctCap + " de cada $100",
+       t:"En los próximos 12 meses entrarán " + money0(doce.pago) + " a tu crédito y tu deuda bajará " +
+         money0(doce.cap) + ". El resto son intereses, seguros y comisiones."},
+      {q:"¿Cuánto pone mi patrón?", v: money0(C.apMes) + " al mes",
+       t:"Es el 5% de tu salario y va directo a tu crédito, además de tu descuento. De aquí al final suma " +
+         money0(C.apMes * meses) + "."},
+      {q:"¿Cuándo termino de pagar?", v: base.fin ? mesAnio(base.fin) : "—", t: finTxt},
+      {q:"¿Cuánto me falta pagar en total?", v: money0(v.total + costo(base)),
+       t:"Lo que debes hoy (" + money0(v.total) + ") más " + money0(costo(base)) +
+         " de intereses, seguros y comisiones que se irán generando. Por cada $100 de deuda, pagarás $" +
+         Math.round(costo(base) / v.capital * 100) + " más."}
+    ];
+    var serie = serie12(base.filas, p.corte);
+    var noSeQueda = "";
+    if(serie.pcts.length){
+      var p0 = Math.round(serie.pcts[0]), pN = Math.round(Math.max.apply(null, serie.pcts));
+      noSeQueda = "Cada barra son 12 meses: la parte de lo que pagas que baja tu deuda. En los próximos 12 meses es el " + p0 + "% y sube cada año";
+      if(serie.idx > 0) noSeQueda += "; para ^^" + serie.cruce + "^^ ya será más de la mitad";
+      noSeQueda += ", hasta llegar a " + pN + "% cerca del final.";
+    }
+
+    /* ---------- hoja 2 ---------- */
+    var antes = mesesEntre(r.fin, base.fin), ahorro = costo(base) - costo(r);
+    var paramElegidos = [
+      ["Abonas", money0(ab) + (F.tipo === "unico" ? " una sola vez" : "")],
+      ["Cada cuándo", F.tipo === "unico" ? "en un solo pago" : F.texto],
+      ["Desde", fechaLarga(desde)]
+    ];
+    var paramCuenta = [
+      ["Tasa de interés", (v.tasa*100).toFixed(2) + "% anual fija"],
+      ["Descuento de nómina + aportación patronal", money0(p.pago * per) + (per === 1 ? " cada mes" : " cada " + per + " meses")],
+      ["Seguros y cuotas al mes", money(fpp + C.seguro) + (C.cuotaPct ? " + cuota de administración" : " (exento de cuota de admón.)")],
+      ["Saldo de partida", money0(v.capital) + " al " + fechaLarga(v.corte)]
+    ];
+    var sumF = function(filas, fn){ var a = 0; for(var x=0; x<filas.length; x++) a += fn(filas[x]); return a; };
+    var tot = function(run){
+      return {nomina: sumF(run.filas, function(f){ return f.t === 2 ? f.com + f.int + f.cap : 0; }),
+              abonos: sumF(run.filas, function(f){ return f.t === 3 ? f.com + f.int + f.cap : 0; }),
+              int: run.interes + v.interes, car: run.cargos + v.comis};
+    };
+    var tb = tot(base), tr = tot(r);
+    var dif = function(a, b){ return Math.round(a - b) === 0 ? "—" : (a > b ? "–" : "+") + money0(Math.abs(a - b)); };
+    var comparativo = [
+      ["Terminas de pagar", mesAnio(base.fin), mesAnio(r.fin), antes > 0 ? tiempoTxt(antes) + " antes" : "sin cambio"],
+      ["Pagos " + (per === 2 ? "bimestrales" : "de nómina") + " que faltan", String(base.pagos), String(r.pagos), (base.pagos - r.pagos) + " menos"],
+      ["Lo que debes de capital", money0(v.capital), money0(v.capital), "—"],
+      ["+ Intereses", money0(tb.int), money0(tr.int), dif(tb.int, tr.int)],
+      ["+ Seguros, cuotas y comisiones", money0(tb.car), money0(tr.car), dif(tb.car, tr.car)],
+      ["= Total que entrará a tu crédito", money0(tb.nomina + tb.abonos), money0(tr.nomina + tr.abonos), dif(tb.nomina + tb.abonos, tr.nomina + tr.abonos)],
+      ["   por descuento de nómina y patrón", money0(tb.nomina), money0(tr.nomina), dif(tb.nomina, tr.nomina)],
+      ["   por tus abonos", "$0", money0(tr.abonos), "+" + money0(tr.abonos)]
+    ];
+    /* la misma cantidad al año, abonada de cuatro formas */
+    var anual = F.tipo === "unico" ? ab : ab * F.porAnio;
+    var formas = [["Cada semana","semanal", Math.round(anual/(365/7))], ["Cada mes","mensual", Math.round(anual/12)],
+                  ["Una vez al año","anual", Math.round(anual)], ["Un solo pago, una vez","unico", Math.round(anual)]]
+      .map(function(f){
+        var x = conAbono(f[2], f[1], desde);
+        return [f[0], money0(f[2]), mesAnio(x.fin), tiempoTxt(mesesEntre(x.fin, base.fin)), money0(costo(base) - costo(x)), f[1] === ABONO.frec];
+      });
+    var tarde = conAbono(ab, ABONO.frec, addM(desde, 12));
+    var esperar = costo(tarde) - costo(r);
+
+    /* ---------- hoja 3 ---------- */
+    function anualDe(run){
+      var m = {}, orden = [];
+      run.filas.forEach(function(f){
+        var a = f.d.getFullYear();
+        if(!m[a]){ m[a] = {ini:f.ini, nom:0, ab:0, int:0, com:0, cap:0, fin:f.fin}; orden.push(a); }
+        var ap = f.com + f.int + f.cap;
+        if(f.t === 2) m[a].nom += ap; else if(f.t === 3) m[a].ab += ap;
+        m[a].int += f.int; m[a].com += f.com; m[a].cap += f.cap; m[a].fin = f.fin;
+      });
+      return {m:m, orden:orden};
+    }
+    var ar = anualDe(r), abase = anualDe(base);
+    var T = {nom:0, ab:0, int:0, com:0, cap:0};
+    var corrida = ar.orden.map(function(a){
+      var g = ar.m[a];
+      T.nom += g.nom; T.ab += g.ab; T.int += g.int; T.com += g.com; T.cap += g.cap;
+      return [String(a), money0(g.ini), money0(g.nom), money0(g.ab), money0(g.int), money0(g.com), money0(g.cap), money0(g.fin),
+              abase.m[a] ? money0(abase.m[a].fin) : "—"];
+    });
+    corrida.push(["Total", "", money0(T.nom), money0(T.ab), money0(T.int), money0(T.com), money0(T.cap), "", ""]);
+    var restantes = abase.orden.filter(function(a){ return !ar.m[a]; });
+    var notaCorrida = "*Seguros, cuotas y comisiones." + (restantes.length
+      ? " Sin abonar, tu saldo seguiría hasta " + restantes[restantes.length-1] + ": " +
+        restantes.map(function(a){ return a + " " + money0(abase.m[a].fin); }).join(" · ") + "."
+      : "") + " La corrida pago por pago está en el Excel que descargas en la página.";
+
+    var f1 = null;
+    for(var x = 0; x < base.filas.length; x++){ if(base.filas[x].pago > 0 && base.filas[x].t === 2){ f1 = base.filas[x]; break; } }
+
+    var tomados = [];
+    if(isFinite(v.montoOt)) tomados.push(["Monto otorgado", money0(v.montoOt)]);
+    if(v.fechaOt) tomados.push(["Fecha de otorgamiento", fechaLarga(v.fechaOt)]);
+    tomados.push(["Saldo de capital", money(v.capital)], ["Saldo de interés", money(v.interes)],
+                 ["Comisiones", money(v.comis)], ["Saldo total del crédito", money(v.total)],
+                 ["Tasa de interés anual", (v.tasa*100).toFixed(2) + " %"],
+                 ["Mensualidad con relación laboral", money(v.mcon)], ["Fecha de corte", fechaLarga(v.corte)]);
+    var deducidos = [];
+    if(C.manual){
+      deducidos.push(["Días del último pago al corte", C.dias + " días"]);
+      deducidos.push(["Sueldo que declaraste", money0(C.salario)]);
+    } else {
+      deducidos.push(["Movimientos leídos", C.n + " renglones"]);
+      deducidos.push(["Tus pagos entran", per === 1 ? "cada mes" : "cada " + per + " meses"]);
+      deducidos.push(["Retención mensual", money(C.retMes)]);
+    }
+    deducidos.push(["Aportación patronal mensual", money(C.apMes)]);
+    deducidos.push(["Seguro de desempleo / de daños", money(fpp) + " / " + money(C.seguro)]);
+    deducidos.push(["Cuota de administración", C.cuotaPct ? "sí la paga" : "está exento"]);
+
+    return {
+      muestra: FOLIO === "MUESTRA", folio: FOLIO || "—", fecha: fechaLarga(new Date()),
+      motor: MOTOR_VERSION + " · reporte " + REPORTE_VERSION,
+      respuestas: respuestas,
+      escalera: {anios: serie.anios, pcts: serie.pcts, idx: serie.idx},
+      noSeQueda: noSeQueda,
+      tituloSim: (F.tipo === "unico" ? "Si abonas " + money0(ab) + " en un solo pago el " : "Si abonas " + money0(ab) + " " + F.texto + " desde ") + fechaLarga(desde),
+      resultado: antes > 0 ? "Terminas " + tiempoTxt(antes) + " antes" : "Terminas en la misma fecha",
+      resultadoSub: "y dejas de pagar **" + money0(ahorro) + "** de intereses y cargos.",
+      ahorroTxt: money0(ahorro),
+      paramElegidos: paramElegidos, paramCuenta: paramCuenta,
+      paramNota: "Cálculo: interés diario con base 30/360. Cada pago y cada abono cubren primero comisiones, luego intereses y lo que sobra baja tu capital.",
+      comparativo: comparativo, formas: formas, anualTxt: money0(anual),
+      notaFormas: "Abonar más seguido o al principio del año rinde más porque el interés se calcula sobre tu saldo de cada día. El pago único es una sola vez, no cada año: se muestra para comparar.",
+      esperar: esperar > 0
+        ? "Si empiezas en " + MESES_L[desde.getMonth()] + " de " + desde.getFullYear() + " te ahorras " + money0(ahorro) +
+          ". Si esperas un año, el ahorro baja a " + money0(costo(base) - costo(tarde)) + ": esperar te cuesta **" + money0(esperar) + "**."
+        : "Empezar cuanto antes es lo que más mueve tu plazo: el interés se calcula sobre tu saldo de cada día.",
+      corrida: corrida, notaCorrida: notaCorrida,
+      comprobar: f1 ? "Después de tu pago del " + fechaLarga(f1.d) + ", tu saldo de capital debe quedar en **" + money(f1.fin) +
+                      "**. Compáralo con tu siguiente estado de cuenta; si no coincide, algo cambió en tu crédito." : "—",
+      tomados: tomados, deducidos: deducidos,
+      avisos: [
+        "Es una proyección, no una cotización del Infonavit: para liquidar o hacer cualquier trámite manda la cifra que el Infonavit te dé por escrito.",
+        "Supone que tu descuento, tu empleo y la frecuencia de tus pagos siguen igual, y los seguros con su valor de hoy. Los abonos no tienen comisión: acortan el plazo, no bajan tu descuento.",
+        "No es asesoría legal, fiscal ni de inversión. Tu estado de cuenta se leyó en tu dispositivo: tu nombre, NSS, RFC, CURP y domicilio no salieron de tu equipo."
+      ],
+      avisoVersion: AVISO_VERSION,
+      consentido: CONSENT ? new Date(CONSENT.fecha).toLocaleString("es-MX") : "—",
+      /* para el Excel */
+      _runs: {base: base, r: r, ab: ab, desde: desde, F: F}
+    };
+  }
+
+  /* ================= Excel con la corrida pago por pago =================
+     Se arma en el dispositivo con SheetJS (se carga solo al pedir el archivo). */
+  var XLSX_URL = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+  function cargarXLSX(){
+    if(window.XLSX) return Promise.resolve(window.XLSX);
+    return new Promise(function(ok, mal){
+      var s = document.createElement("script");
+      s.src = XLSX_URL; s.async = true;
+      s.onload = function(){ window.XLSX ? ok(window.XLSX) : mal(new Error("sin XLSX")); };
+      s.onerror = function(){ mal(new Error("no cargó")); };
+      document.head.appendChild(s);
+    });
+  }
+  /* fecha local → número de serie de Excel, sin pasar por UTC (evita el día anterior) */
+  function serialExcel(d){ return (Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(1899, 11, 30)) / 86400000; }
+  function hojaCorrida(X, run, titulo){
+    var filas = [[titulo], [],
+      ["#", "Fecha", "Movimiento", "Días", "Saldo inicial", "Monto aplicado", "Comisiones y seguros", "Intereses", "A capital", "Saldo final"]];
+    var n = 0;
+    run.filas.forEach(function(f){
+      if(f.t === 1 || f.pago <= 0) return;
+      n++;
+      filas.push([n, serialExcel(f.d), f.t === 2 ? "Descuento de nómina + patrón" : "Abono adicional", f.dias,
+                  Math.round(f.ini*100)/100, Math.round((f.com + f.int + f.cap)*100)/100,
+                  Math.round(f.com*100)/100, Math.round(f.int*100)/100, Math.round(f.cap*100)/100, Math.round(f.fin*100)/100]);
+    });
+    var ws = X.utils.aoa_to_sheet(filas);
+    var rango = X.utils.decode_range(ws["!ref"]);
+    for(var R = 3; R <= rango.e.r; R++){
+      var cf = ws[X.utils.encode_cell({r:R, c:1})]; if(cf) cf.z = "dd/mm/yyyy";
+      for(var c = 4; c <= 9; c++){ var cc = ws[X.utils.encode_cell({r:R, c:c})]; if(cc) cc.z = "#,##0.00"; }
+    }
+    ws["!cols"] = [{wch:5},{wch:11},{wch:28},{wch:6},{wch:14},{wch:14},{wch:14},{wch:13},{wch:13},{wch:14}];
+    return ws;
+  }
+  async function descargarExcel(btn){
+    var d = datosPDF2();
+    if(!d){ msgPDF("bad", "No pude armar el Excel. Recarga la página y vuelve a intentarlo."); return; }
+    var etiqueta = btn.textContent;
+    btn.disabled = true; btn.textContent = "Preparando…";
+    try{
+      var X = await cargarXLSX(), R = d._runs, wb = X.utils.book_new();
+      var tituloAb = "Con tu abono: " + money0(R.ab) + " " + (R.F.tipo === "unico" ? "en un solo pago" : R.F.texto) + " desde " + fechaLarga(R.desde);
+      X.utils.book_append_sheet(wb, hojaCorrida(X, R.r, tituloAb), "Con tu abono");
+      X.utils.book_append_sheet(wb, hojaCorrida(X, R.base, "Sin abonar, al ritmo de hoy"), "Sin abonar");
+      var info = [["Habítalo Orienta · Corrida financiera de tu crédito Infonavit"], ["Folio", d.folio], ["Fecha", d.fecha], [],
+                  ["Lo que elegiste"]].concat(d.paramElegidos).concat([[], ["Lo que tomamos de tu estado de cuenta"]])
+                 .concat(d.paramCuenta).concat([[], [d.paramNota], []]).concat(d.avisos.map(function(a){ return [a]; }));
+      var wi = X.utils.aoa_to_sheet(info); wi["!cols"] = [{wch:44},{wch:44}];
+      X.utils.book_append_sheet(wb, wi, "Parámetros");
+      var bytes = X.write(wb, {bookType:"xlsx", type:"array"});
+      var nombre = "Corrida_Orienta_" + (FOLIO || "s-n") + ".xlsx";
+      var url = URL.createObjectURL(new Blob([bytes], {type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}));
+      var a = document.createElement("a");
+      a.href = url; a.download = nombre; a.rel = "noopener";
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 8000);
+      msgPDF("ok", "Listo: tu corrida pago por pago quedó en <b>" + nombre + "</b>.");
+    }catch(e){
+      msgPDF("bad", "No pude armar el Excel en este momento. Revisa tu conexión e intenta de nuevo; tu PDF sí incluye la corrida año por año.");
+    }
+    btn.textContent = etiqueta; btn.disabled = false;
+  }
+
   async function descargarPDF(btn){
-    var d = datosPDF();
+    var d2 = datosPDF2(), d = d2 || datosPDF();
     if(!d){
       msgPDF("bad", "No pude armar el documento. Recarga la página y vuelve a intentarlo; si sigue igual, escríbele a Habítalo.");
       return;
     }
     var bytes, nombre = "Diagnostico_Orienta_" + (FOLIO || "s-n") + ".pdf";
     try{
-      bytes = window.OrientaPDF.diagnostico(d);
+      bytes = d2 ? window.OrientaPDF.diagnostico2(d2) : window.OrientaPDF.diagnostico(d);
     }catch(e){
       msgPDF("bad", "No pude armar el documento. Escríbele a Habítalo con tu folio <b>" + (FOLIO || "—") + "</b> y te lo mandamos.");
       return;
@@ -2119,7 +2417,8 @@
         campos:{
           capital:$("f-capital").value, interes:$("f-interes").value, comis:$("f-comis").value,
           total:$("f-total").value, tasa:$("f-tasa").value, mcon:$("f-mcon").value,
-          msin:$("f-msin").value, corte:$("f-corte").value, sueldo:$("f-sueldo").value
+          msin:$("f-msin").value, corte:$("f-corte").value, sueldo:$("f-sueldo").value,
+          montoot:$("f-montoot").value, fechaot:$("f-fechaot").value, plazo:$("f-plazo").value
         },
         modo:MODO, folio:FOLIO, pago:PAGO, ref:REF_PAGO,
         agg:AGG, consent:CONSENT, abono:$("f-abono").value,
@@ -2456,6 +2755,7 @@
     };
   }
   $("btn-pdf").addEventListener("click", function(){ descargarPDF(this); });
+  $("btn-xlsx").addEventListener("click", function(){ descargarExcel(this); });
   $("aviso-pago-btn").addEventListener("click", function(e){ e.preventDefault(); irA($("drop")); });
 
   /* arranca en blanco: nadie debe ver números que no son suyos */
@@ -2463,7 +2763,7 @@
     AGG = null; ULTIMO = null; META_MAX = null; ABONO.desde = null;
     PAGO = "no"; FOLIO = null; REF_PAGO = null; $("f-folio").value = ""; $("folio-msg").textContent = "";
     setModo("doc");
-    ["f-capital","f-interes","f-comis","f-total","f-tasa","f-mcon","f-msin","f-corte","f-sueldo"].forEach(function(id){ $(id).value = ""; });
+    ["f-capital","f-interes","f-comis","f-total","f-tasa","f-mcon","f-msin","f-corte","f-sueldo","f-montoot","f-fechaot","f-plazo"].forEach(function(id){ $(id).value = ""; });
     $("c-obligatorio").checked = false; CONSENT = null;
     $("registro").hidden = true;
     $("gate").className = "gate";
@@ -2486,7 +2786,7 @@
     AGG = null;
     setModo("manual");
     PAGO = "no"; FOLIO = null; REF_PAGO = null; pintarPago();
-    ["f-capital","f-interes","f-comis","f-total","f-tasa","f-mcon","f-msin","f-corte","f-sueldo"].forEach(function(id){ $(id).value = ""; });
+    ["f-capital","f-interes","f-comis","f-total","f-tasa","f-mcon","f-msin","f-corte","f-sueldo","f-montoot","f-fechaot","f-plazo"].forEach(function(id){ $(id).value = ""; });
     $("gate").className = "gate";
     $("tomado").hidden = true;
     $("drop-title").textContent = "Elige tu archivo PDF";
