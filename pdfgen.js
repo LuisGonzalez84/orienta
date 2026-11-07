@@ -825,5 +825,130 @@
     return construir([p1, p2, p3, p4]);
   }
 
-  return {diagnostico: diagnostico, construir: construir, Pagina: Pagina, VERSION: "1.4"};
+  /* ================= diagnóstico simplificado (3 hojas) =================
+     Hoja 1: las seis respuestas. Hoja 2: la simulación con sus parámetros.
+     Hoja 3: la corrida financiera año por año y cómo comprobarla. */
+
+  /* recuadro de pregunta → cifra → explicación */
+  function respuesta(p, x, y, w, alto, r, destaca){
+    p.caja(x, y, w, alto, NIEVE);
+    p.caja(x, y, 2.5, alto, destaca ? ORO : NAVY);
+    p.texto(x + 12, y + 17, r.q, {size: 8.5, bold: true, color: SUAVE});
+    var v = String(r.v), s = 19;
+    while (ancho(v, s, true) > w - 24 && s > 10) s -= 0.5;
+    p.texto(x + 12, y + 41, v, {size: s, bold: true, color: destaca ? ORO : TINTA});
+    p.parrafo(x + 12, y + 57, r.t, {size: 7.8, color: SUAVE, max: w - 24, alto: 10});
+  }
+
+  /* parámetros en dos columnas: lo que eligió la persona y lo que salió de su estado de cuenta */
+  function parametros(p, y, elegidos, cuenta, nota){
+    var col = (ANCHO - 36) / 2, altoF = 25;
+    var filas = Math.max(elegidos.length, cuenta.length);
+    var alto = 22 + filas * altoF + 6;
+    p.caja(MARGEN, y - 4, ANCHO, alto, CREMA);
+    p.caja(MARGEN, y - 4, 2.5, alto, ORO);
+    var grupos = [["LO QUE ELEGISTE", elegidos], ["LO QUE TOMAMOS DE TU ESTADO DE CUENTA", cuenta]];
+    for (var g = 0; g < 2; g++){
+      var x = MARGEN + 14 + g * (col + 14);
+      p.texto(x, y + 10, grupos[g][0], {size: 7.3, bold: true, color: ORO});
+      for (var i = 0; i < grupos[g][1].length; i++){
+        var yy = y + 26 + i * altoF;
+        p.texto(x, yy, grupos[g][1][i][0], {size: 7.5, color: SUAVE});
+        p.texto(x, yy + 11, grupos[g][1][i][1], {size: 8.8, bold: true, color: TINTA});
+      }
+    }
+    var yn = y - 4 + alto + 11;
+    if (nota) yn = p.parrafo(MARGEN, yn, nota, {size: 7.8, color: TENUE, max: ANCHO, alto: 10}) - 10;
+    return yn + 18;
+  }
+
+  function diagnostico2(d){
+    var DE = 3, y, i;
+    var FOL = d.muestra ? "MUESTRA · CASO INVENTADO" : d.folio;
+
+    /* ---------- hoja 1: tus respuestas ---------- */
+    var p1 = new Pagina();
+    encabezado(p1, "Diagnóstico de tu crédito Infonavit", FOL, d.fecha);
+    y = 116;
+    y = seccion(p1, y, "Las respuestas sobre tu crédito");
+    var hueco = 10, w = (ANCHO - hueco) / 2, alto = 98;
+    for (i = 0; i < d.respuestas.length; i++){
+      var c = i % 2, f = Math.floor(i / 2);
+      respuesta(p1, MARGEN + c * (w + hueco), y + f * (alto + hueco), w, alto, d.respuestas[i], i === 2);
+    }
+    y += Math.ceil(d.respuestas.length / 2) * (alto + hueco) + 14;
+
+    y = seccion(p1, y, "Qué parte de lo que pagas baja tu deuda, año por año");
+    y = escalera(p1, y - 6, d.escalera.anios, d.escalera.pcts, d.escalera.idx);
+    y = parrafoRico(p1, MARGEN, y, d.noSeQueda, {size: 8.8, color: SUAVE, max: ANCHO}) + 16;
+
+    p1.caja(MARGEN, y - 12, ANCHO, 34, NAVY);
+    p1.texto(MARGEN + 14, y + 4, "¿Y si abonas?  " + d.resultado + " y dejas de pagar " + d.ahorroTxt + ".",
+             {size: 9.5, bold: true, color: [1, 1, 1]});
+    p1.texto(W - MARGEN - 12, y + 4, "Ver hoja 2 »", {size: 9, bold: true, align: "right", color: ORO_C});
+
+    pie(p1, "Habítalo Orienta · Proyección con supuestos, no una cotización del Infonavit.", 1, DE);
+
+    /* ---------- hoja 2: tu simulación ---------- */
+    var p2 = new Pagina();
+    encabezado(p2, "Tu simulación", FOL, d.fecha);
+    y = 116;
+    y = seccion(p2, y, d.tituloSim);
+    p2.texto(MARGEN, y + 14, d.resultado, {size: 22, bold: true, color: ORO});
+    y = parrafoRico(p2, MARGEN, y + 34, d.resultadoSub, {size: 12, color: TINTA, max: ANCHO}) + 14;
+
+    y = seccion(p2, y, "Parámetros de la simulación");
+    y = parametros(p2, y - 6, d.paramElegidos, d.paramCuenta, d.paramNota);
+
+    y = seccion(p2, y + 4, "Sin abonar contra abonando");
+    y = tabla(p2, y, [["", 200, "left"], ["Sin abonar", 95, "right"], ["Abonando", 95, "right"], ["Diferencia", 114, "right"]],
+              d.comparativo, {resalta: [0, 5], size: 8.5, alto: 15});
+
+    y = seccion(p2, y + 6, "La misma cantidad al año (" + d.anualTxt + "), abonada de distinta forma");
+    y = tabla(p2, y, [["Cómo abonas", 150, "left"], ["Monto", 80, "right"], ["Terminas en", 100, "right"],
+                      ["Antes", 100, "right"], ["Te ahorras", 74, "right"]],
+              d.formas.map(function(f){ return f.slice(0, 5); }),
+              {resalta: d.formas.map(function(f, k){ return f[5] ? k : -1; }).filter(function(k){ return k >= 0; }), size: 8.5, alto: 15});
+    y = p2.parrafo(MARGEN, y - 2, d.notaFormas, {size: 8, color: TENUE, max: ANCHO, alto: 10.5}) + 12;
+
+    p2.caja(MARGEN, y - 12, ANCHO, 30, CREMA);
+    parrafoRico(p2, MARGEN + 12, y + 3, d.esperar, {size: 9, color: TINTA, max: ANCHO - 24});
+
+    pie(p2, "Habítalo Orienta · Proyección con supuestos, no una cotización del Infonavit.", 2, DE);
+
+    /* ---------- hoja 3: la corrida financiera ---------- */
+    var p3 = new Pagina();
+    encabezado(p3, "Tu corrida financiera", FOL, d.fecha);
+    y = 116;
+    y = seccion(p3, y, "Tu crédito año por año, con tu abono");
+    y = tabla(p3, y, [["Año", 34, "left"], ["Saldo inicial", 66, "right"], ["Nómina y patrón", 66, "right"],
+                      ["Abonos", 52, "right"], ["Intereses", 60, "right"], ["Seguros*", 54, "right"],
+                      ["A capital", 60, "right"], ["Saldo final", 60, "right"], ["Sin abonar", 60, "right"]],
+              d.corrida, {resalta: [d.corrida.length - 1], size: 7.6, alto: 13});
+    y = p3.parrafo(MARGEN, y - 2, d.notaCorrida, {size: 7.8, color: TENUE, max: ANCHO, alto: 10}) + 14;
+
+    y = seccion(p3, y, "Compruébalo contra tu próximo estado de cuenta");
+    p3.caja(MARGEN, y - 12, ANCHO, 32, CREMA);
+    parrafoRico(p3, MARGEN + 12, y + 2, d.comprobar, {size: 8.8, color: TINTA, max: ANCHO - 24, alto: 12});
+    y += 36;
+
+    y = seccion(p3, y, "De dónde salen estos números");
+    var cw = (ANCHO - 24) / 2, ya = y, yb = y;
+    p3.texto(MARGEN, ya - 4, "Lo que dice tu estado de cuenta", {size: 7.8, bold: true, color: TENUE}); ya += 10;
+    for (i = 0; i < d.tomados.length; i++) ya = fila2(p3, MARGEN, cw, ya, d.tomados[i][0], d.tomados[i][1]);
+    p3.texto(MARGEN + cw + 24, yb - 4, "Lo que dedujimos de tus movimientos", {size: 7.8, bold: true, color: TENUE}); yb += 10;
+    for (i = 0; i < d.deducidos.length; i++) yb = fila2(p3, MARGEN + cw + 24, cw, yb, d.deducidos[i][0], d.deducidos[i][1]);
+    y = Math.max(ya, yb) + 10;
+
+    y = seccion(p3, y, "Ten en cuenta");
+    y = vinetas(p3, y - 4, d.avisos, 8);
+
+    p3.texto(MARGEN, PIE - 16, "Folio " + d.folio + " · Motor " + d.motor + " · Aviso de privacidad " + d.avisoVersion +
+             " · Consentimiento " + d.consentido, {size: 7.5, color: TENUE});
+    pie(p3, "Habítalo Orienta · No es una institución financiera ni está afiliada al Infonavit.", 3, DE);
+
+    return construir([p1, p2, p3]);
+  }
+
+  return {diagnostico2: diagnostico2, diagnostico: diagnostico, construir: construir, Pagina: Pagina, VERSION: "2.0"};
 });
