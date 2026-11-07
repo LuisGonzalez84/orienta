@@ -192,6 +192,9 @@
   .sim .manual label{font-size:14.5px;font-weight:400;color:var(--ink-soft);}
   .simout{font-size:16px;color:var(--ink-soft);}
   .simout b{color:var(--ink);font-weight:600;}
+  .simout.lock b, .meta-out.lock strong{filter:blur(5px);user-select:none;}
+  .simout .abrir{display:block;margin-top:6px;font-size:14px;color:var(--gold);font-weight:600;}
+  .nums .num em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.03em;}
   .gate{padding:16px 20px;background:var(--stop-soft);color:var(--stop);font-size:15.5px;display:none;}
   .gate.on{display:block;}
 
@@ -546,7 +549,7 @@
         <h1 id="hero-titulo">¿Estás pagando una casa… o principalmente intereses?</h1>
         <p class="hero-sub">Sube tu estado de cuenta y descubre, en un minuto, cuánto de lo que te descuentan baja de verdad tu deuda.</p>
         <a class="cta" href="#empezar" data-cta="hero">Hazlo ya, es gratis</a>
-        <p class="precio-linea"><b>Empezar es gratis:</b> primero ves tus números. Si quieres el análisis completo, cuesta $99.90 y lo pagas después de ver tu resultado.</p>
+        <p class="precio-linea"><b>Tus números son gratis:</b> cuánto debes, cuándo terminas y cuánto pagarás de intereses. Por $99.90 obtienes tu diagnóstico en PDF, tu corrida en Excel y el simulador para decidir cuánto abonar; lo pagas después de ver tu resultado.</p>
         <a class="cta-ejemplo" href="https://habitalo.com.mx/orienta/diagnostico-muestra.pdf?v=2" target="_blank" rel="noopener">o mira una muestra del diagnóstico completo (PDF)</a>
       </div>
     </div>
@@ -596,13 +599,16 @@
   <section class="card landing" id="l-gratis">
     <div class="pad">
       <p class="kicker">Nivel 1 · sin costo</p>
-      <h2 class="lh">Esto lo sabes sin pagar nada</h2>
+      <h2 class="lh" data-frase="fecha" data-alterna="Esto lo sabes sin pagar nada">¿Sabes realmente cuándo será tu última mensualidad del Infonavit?</h2>
       <ul class="lista-si">
-        <li>De cada $100 que entran a tu crédito este año, cuántos bajan tu deuda</li>
-        <li>Cuánto va a entrar en los próximos 12 meses y cuánto bajará tu deuda</li>
-        <li>La comprobación de que leímos bien tu estado de cuenta y tus números cuadran</li>
+        <li>Cuánto debes hoy y cuánto de tu crédito ya pagaste</li>
+          <li>De cada $100 que entran a tu crédito, cuántos bajan tu deuda</li>
+          <li>Cuánto pone tu patrón cada mes</li>
+          <li>Cuándo terminas de pagar y cuántos pagos te faltan</li>
+          <li>Cuánto te falta pagar en total, con intereses y seguros</li>
+          <li>Tu gráfica año por año y la comprobación de que tus números cuadran</li>
       </ul>
-      <p class="txt">El cobro aparece después, y solo si el cálculo ya salió. Si tu documento no se puede leer, no pagas nada.</p>
+      <p class="txt">Todo esto aparece en pantalla en cuanto leemos tu documento. Si no se puede leer, no pagas nada.</p>
       <a class="cta-oscuro" href="#empezar" data-cta="gratis">Quiero ver mis números</a>
     </div>
   </section>
@@ -629,23 +635,23 @@
     <figure class="foto" data-seccion="fecha"><img data-foto="fecha" src="foto-fecha.jpg" width="626" height="655" loading="lazy"
       alt="Calendario de escritorio con la leyenda «mi última mensualidad» y un día marcado en círculo"></figure>
     <div class="pad">
-      <p class="kicker">Nivel 2 · diagnóstico completo</p>
-      <h2 class="lh" data-frase="fecha" data-alterna="Tu crédito, explicado en tres hojas">¿Sabes realmente cuándo será tu última mensualidad del Infonavit?</h2>
-      <p class="precio-grande"><b>$99.90</b> <span>una sola vez, sin suscripción</span></p>
-      <p class="txt">Tu diagnóstico lo responde con tus propios pagos. En el caso ilustrativo, esto es lo que aparece:</p>
+      <p class="kicker">Nivel 2 · el simulador de tu crédito</p>
+      <h2 class="lh">Decide cuánto abonar y cuándo terminar de pagar</h2>
+      <p class="precio-grande"><b>$99.90</b> <span>una sola vez: tu diagnóstico en PDF, tu corrida en Excel y el simulador</span></p>
+      <p class="txt">Con tus números ya cargados, el simulador te dice qué pasa si abonas: cuánto, cada cuándo y desde qué fecha, o cuánto necesitas para terminar en los años que tú elijas. En el caso ilustrativo, con $1,000 extra al mes:</p>
       <div class="tiles" id="l-tiles"></div>
 
       <table class="comparar">
-        <thead><tr><th>Qué ves</th><th>Gratis</th><th>Completo · $99.90</th></tr></thead>
+        <thead><tr><th>Qué ves</th><th>Gratis</th><th>PDF + Excel + simulador · $99.90</th></tr></thead>
         <tbody>
+          <tr><th>Cuánto debes hoy y cuánto ya pagaste</th><td class="si">✓</td><td class="si">✓</td></tr>
           <tr><th>Cuánto de tu pago baja tu deuda</th><td class="si">✓</td><td class="si">✓</td></tr>
-          <tr><th>Lo que entra en los próximos 12 meses</th><td class="si">✓</td><td class="si">✓</td></tr>
-          <tr><th>Comprobación de que tus números cuadran</th><td class="si">✓</td><td class="si">✓</td></tr>
-          <tr><th>Cuánto tiempo te falta</th><td class="no">—</td><td class="si">✓</td></tr>
-          <tr><th>Fecha estimada de término</th><td class="no">—</td><td class="si">✓</td></tr>
-          <tr><th>Intereses y cargos que te faltan por pagar</th><td class="no">—</td><td class="si">✓</td></tr>
-          <tr><th>Tu gráfica año por año</th><td class="no">—</td><td class="si">✓</td></tr>
-          <tr><th>Simulador: cuánto abonar para terminar en X años</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Lo que pone tu patrón</th><td class="si">✓</td><td class="si">✓</td></tr>
+          <tr><th>Fecha estimada de término y tiempo que falta</th><td class="si">✓</td><td class="si">✓</td></tr>
+          <tr><th>Intereses y cargos que te faltan por pagar</th><td class="si">✓</td><td class="si">✓</td></tr>
+          <tr><th>Tu gráfica año por año</th><td class="si">✓</td><td class="si">✓</td></tr>
+          <tr><th>Simulador: cuánto abonar, cada cuándo y desde cuándo</th><td class="no">—</td><td class="si">✓</td></tr>
+          <tr><th>Meta al revés: cuánto abonar para terminar en X años</th><td class="no">—</td><td class="si">✓</td></tr>
           <tr><th>Cuatro formas de abonar, con fecha y ahorro</th><td class="no">—</td><td class="si">✓</td></tr>
           <tr><th>Lo que te cuesta esperar un año para empezar</th><td class="no">—</td><td class="si">✓</td></tr>
           <tr><th>Tu corrida financiera año por año, y pago por pago en Excel</th><td class="no">—</td><td class="si">✓</td></tr>
@@ -659,7 +665,7 @@
         <a href="https://habitalo.com.mx/orienta/diagnostico-muestra.pdf?v=2" target="_blank" rel="noopener"><img src="https://habitalo.com.mx/orienta/muestra-3.jpg?v=2" alt="Hoja 3 del diagnóstico de muestra" width="600" height="776" loading="lazy"></a>
       </div>
       <a class="link-muestra" href="https://habitalo.com.mx/orienta/diagnostico-muestra.pdf?v=2" target="_blank" rel="noopener">Ver el diagnóstico de muestra completo (PDF) →</a>
-      <a class="cta-oscuro" href="#empezar" data-cta="completo">Empezar gratis y desbloquearlo al final</a>
+      <a class="cta-oscuro" href="#empezar" data-cta="completo">Ver mis números gratis</a>
     </div>
   </section>
 
@@ -690,7 +696,7 @@
       <details><summary>¿Qué pasa con mi estado de cuenta?</summary>
         <p>Se lee dentro de tu teléfono o computadora y no se sube a ningún lado. Tu nombre, NSS, RFC, CURP y domicilio pasan por el lector, pero no se usan, no se guardan y no se envían: para el cálculo solo se toman saldos, tasa, pagos y fechas.</p></details>
       <details><summary>¿Entonces es gratis o cuesta $99.90?</summary>
-        <p>Las dos cosas, en ese orden. Subir tu documento y ver a dónde se va tu pago no cuesta nada. El diagnóstico completo —cuándo terminas, cuánto pagarás de intereses, el simulador y el PDF— cuesta $99.90, una sola vez, y lo pagas después de ver que tus números cuadran.</p></details>
+        <p>Las dos cosas, en ese orden. Subir tu documento y ver tus números —cuánto debes, cuánto ya pagaste, cuándo terminas, cuánto pagarás de intereses y tu gráfica— no cuesta nada. El simulador, para decidir cuánto abonar y cuándo terminar, con tu PDF de 3 hojas y el Excel de tu corrida, cuesta $99.90, una sola vez.</p></details>
       <details><summary>¿Qué tan exacto es?</summary>
         <p>Es una estimación calculada con tus propios pagos. Supone que tu descuento de nómina sigue igual. Para que no tengas que creernos, tu diagnóstico te dice qué saldo deberías ver en tu próximo estado de cuenta.</p></details>
       <details><summary>¿Dónde consigo mi estado de cuenta?</summary>
@@ -698,11 +704,11 @@
       <details><summary>¿Por qué dice «pagos bimestrales» si me descuentan en cada nómina?</summary>
         <p>Tu patrón te descuenta en cada nómina y entrega el dinero al Infonavit cada dos meses. Por eso tus pagos se aplican de forma bimestral.</p></details>
       <details><summary>¿Cómo pago y cuándo recibo mi diagnóstico?</summary>
-        <p id="faq-pago">Con Mercado Pago. Al terminar, copia el número de operación de tu comprobante, regresa a esta pestaña y escríbelo en «¿Ya pagaste?»: tu diagnóstico se abre y lo descargas en PDF al momento.</p></details>
+        <p id="faq-pago">Con Mercado Pago. Al terminar, copia el número de operación de tu comprobante, regresa a esta pestaña y escríbelo en «¿Ya pagaste?»: se abren los resultados del simulador y descargas tu PDF y tu Excel al momento.</p></details>
       <details><summary>¿Y si no se puede leer mi documento?</summary>
         <p>No pagas nada: el botón de pago solo aparece cuando tus números cuadran. También puedes capturar a mano los ocho números de la primera hoja.</p></details>
       <details><summary>¿Puedo abonar a mi crédito?</summary>
-        <p>Sí. El Infonavit acepta pagos adicionales sin comisión y se aplican a tu saldo. Tu diagnóstico calcula cuánto antes terminas con el monto que elijas.</p></details>
+        <p>Sí. El Infonavit acepta pagos adicionales sin comisión y se aplican a tu saldo. El simulador calcula cuánto antes terminas con el monto que elijas.</p></details>
       <p class="contacto-tel"><b>¿Tienes dudas sobre el diagnóstico?</b>Llámanos al <a href="tel:+529987649315">998 764 9315</a>, de lunes a viernes de 9:00 a 17:00 h (hora de Cancún).</p>
     </div>
   </section>
@@ -850,30 +856,11 @@
     <div class="grafica" id="grafica" hidden></div>
     <div class="nums" id="nums"></div>
 
-    <div class="cobro" id="cobro" hidden>
-      <div class="precio">
-        <span class="monto">$99.90</span>
-        <span class="que">Tu diagnóstico completo: cuánto tiempo te falta y la fecha estimada en que terminas, lo que pagarías de intereses y cargos, tu gráfica año por año, el simulador para elegir en cuántos años terminar, cuatro formas de abonar comparadas, lo que te cuesta esperar, tu corrida financiera y un PDF de 3 hojas que puedes comprobar.</span>
-      </div>
-      <a class="pagar" id="btn-pagar" href="https://mpago.la/1FbgLmj" target="_blank" rel="noopener">Pagar $99.90 y ver mi diagnóstico</a>
-      <p class="espera" id="espera-pago" hidden>Al terminar de pagar, Mercado Pago te regresa aquí solo, en unos segundos. Si tarda, usa el botón <b>“Volver al sitio”</b>.</p>
-      <p class="sello" id="sello-pago">Pago seguro con Mercado Pago. No cobramos hasta que tus datos cuadran — y ya cuadraron.<br>
-        Si no se abre la pestaña, copia esta liga: <span class="liga">https://mpago.la/1FbgLmj</span></p>
-      <div class="regreso">
-        <label for="f-folio">¿Ya pagaste? Escribe el número de operación que te dio Mercado Pago</label>
-        <div class="fila">
-          <input id="f-folio" inputmode="numeric" autocomplete="off" placeholder="p. ej. 1234567890">
-          <button class="link go" id="btn-confirmar" type="button">Desbloquear</button>
-        </div>
-        <p class="hint" id="folio-msg"></p>
-      </div>
-    </div>
-
     <div class="pago-estado" id="pago-estado" hidden></div>
 
     <div class="sim" id="simwrap" hidden>
-      <p class="sim-tit">Primero elige tu meta</p>
-      <p class="sim-guia">Con lo que elijas aquí se arma tu diagnóstico: los escenarios, la fecha en que terminarías y el PDF.</p>
+      <p class="sim-tit">Simula cómo terminar antes</p>
+      <p class="sim-guia" id="sim-guia">Mueve la meta o escribe cuánto puedes abonar, cada cuándo y desde cuándo. Con tu pago se abren los resultados, tu PDF y tu Excel.</p>
       <div class="modo">
         <div class="campo">
           <label for="f-frec">¿Cómo puedes abonar?</label>
@@ -901,6 +888,25 @@
         <span class="fld"><span class="pre">$</span><input id="f-abono" inputmode="decimal" value="3,000"></span>
       </div>
       <p class="simout" id="simout"></p>
+    </div>
+
+    <div class="cobro" id="cobro" hidden>
+      <div class="precio">
+        <span class="monto">$99.90</span>
+        <span class="que"><b>Por $99.90 obtienes tu diagnóstico en PDF</b> (3 hojas) <b>y tu corrida financiera en Excel</b>, pago por pago, armados con la meta que elijas. Además se abren los resultados del simulador: cuándo terminas y cuánto te ahorras, cuánto abonar para terminar en los años que quieras, cuatro formas de abonar comparadas y lo que te cuesta esperar.</span>
+      </div>
+      <a class="pagar" id="btn-pagar" href="https://mpago.la/1FbgLmj" target="_blank" rel="noopener">Pagar $99.90: mi PDF, mi Excel y el simulador</a>
+      <p class="espera" id="espera-pago" hidden>Al terminar de pagar, Mercado Pago te regresa aquí solo, en unos segundos. Si tarda, usa el botón <b>“Volver al sitio”</b>.</p>
+      <p class="sello" id="sello-pago">Pago seguro con Mercado Pago. No cobramos hasta que tus datos cuadran — y ya cuadraron.<br>
+        Si no se abre la pestaña, copia esta liga: <span class="liga">https://mpago.la/1FbgLmj</span></p>
+      <div class="regreso">
+        <label for="f-folio">¿Ya pagaste? Escribe el número de operación que te dio Mercado Pago</label>
+        <div class="fila">
+          <input id="f-folio" inputmode="numeric" autocomplete="off" placeholder="p. ej. 1234567890">
+          <button class="link go" id="btn-confirmar" type="button">Desbloquear</button>
+        </div>
+        <p class="hint" id="folio-msg"></p>
+      </div>
     </div>
 
     <div class="descarga" id="descarga" hidden>
@@ -1356,13 +1362,13 @@
       money0(doce.cap) + '</b>.</p>';
     $("hallazgo").hidden = false;
 
-    $("grafica").className = "grafica" + (pagado ? "" : " lock");
+    $("grafica").className = "grafica";
     $("grafica").innerHTML =
       '<h3>Porcentaje de tu pago que se abona a capital, año por año</h3>' +
       '<p class="pieg">Cada barra es un año. La altura es qué parte de lo que pagas ese año baja tu deuda; ' +
       'el resto son intereses, seguros y comisiones.</p>' +
-      '<div class="lienzo">' + svgEscalera(serie, !pagado) + '</div>' +
-      '<p class="cierre">' + (!pagado
+      '<div class="lienzo">' + svgEscalera(serie, false) + '</div>' +
+      '<p class="cierre">' + (false
         ? 'Tu gráfica completa, con el año en que la mitad de lo que pagas ya estará bajando tu deuda, ' +
           'va en tu diagnóstico.'
         : (serie.cruce
@@ -1517,26 +1523,23 @@
     var base = correr(p, true);
     var pagado = (PAGO === "aprobado");
     pintarHallazgo(v, CTX, base, p, pagado);
-    var L = pagado ? "" : " lock";
     var per = p.periodicidad || 1;
-    var nPagos = base.pagos;
-    /* Bloqueado no es solo borroso: el número real ni siquiera se escribe en la
-       página, para que no se pueda leer en el código fuente. */
-    var val = function(t){ return pagado ? t : String(t).replace(/\S/g, "\u2022"); };
-    $("nums").innerHTML =
-      '<div class="num'+L+'"><b>'+val(base.fin ? tiempoTxt(mesesEntre(p.corte, base.fin)) : "—")+'</b><span>te faltan, al ritmo de hoy'+(pagado ? ": "+pagosTxt(nPagos, per) : "")+'</span></div>' +
-      '<div class="num'+L+'"><b>'+val(base.fin?mesAnio(base.fin):"—")+'</b><span>terminarías de pagar</span></div>' +
-      '<div class="num'+L+'"><b>'+val(money0(base.interes+base.cargos))+'</b><span>pagarías de intereses, seguros y cuotas en el camino</span></div>' +
-      '<div class="num'+L+'"><b>'+val(money0(CTX.apMes))+'</b><span>pone tu patrón cada mes, además de tu descuento</span></div>' +
+    var R = seisRespuestas(v, CTX, base, p);
+    $("nums").innerHTML = [0, 1, 4, 5, 3].map(function(i){
+      return '<div class="num"><em>' + R[i].q + '</em><b>' + R[i].v + '</b><span>' + R[i].t + '</span></div>';
+    }).join('') + '<div class="num"><em>Todo lo de arriba es gratis</em><span>Abajo está el simulador: mueve tu meta o tu abono y ve cuánto te acercas. Con tu pago de $99.90 se abren sus resultados y descargas tu diagnóstico en PDF y tu corrida en Excel.</span></div>' +
       '<p class="nota-frec">'+aclaraFrecuencia(per)+'</p>';
     $("cobro").hidden = pagado;
-    $("simwrap").hidden = !pagado;
+    $("simwrap").hidden = false;
     $("descarga").hidden = !pagado;         // el PDF solo con pago comprobado
     ULTIMO = {v:v, CTX:CTX, base:base, p:p, fpp:fpp};
     contar("numeros");
     pintaFlotante();
     guardarBorrador();
-    if(pagado){ pintarModo(); configurarMeta(p, base); }
+    $("sim-guia").textContent = pagado
+      ? "Con lo que elijas aquí se arma tu diagnóstico: los escenarios, la fecha en que terminarías y el PDF."
+      : "Mueve la meta o escribe cuánto puedes abonar, cada cuándo y desde cuándo. Con tu pago se abren los resultados, tu PDF y tu Excel.";
+    pintarModo(); configurarMeta(p, base);
   }
 
   /* ===== la pregunta al revés: ¿cuánto abonar para terminar en X años? =====
@@ -1575,6 +1578,8 @@
     metaRender(p, base);
   }
 
+  /* sin pago, el número real no se escribe en la página: se muestran puntos */
+  function oculto(t){ return PAGO === "aprobado" ? t : String(t).replace(/[0-9][0-9,.]*/, "•••,•••"); }
   function metaRender(p, base){
     var anios = parseFloat($("f-meta").value);
     var meta = Math.max(1, Math.round(anios*12));
@@ -1590,8 +1595,10 @@
       $("simout").textContent = "";
       return;
     } else {
-      $("meta-abono").innerHTML = "necesitas abonar <strong>" + money0(ab) + "</strong> " + frec(ABONO.frec).alMes + ".";
-      $("f-abono").value = Math.round(ab).toLocaleString("es-MX");
+      $("meta-abono").innerHTML = "necesitas abonar <strong>" + oculto(money0(ab)) + "</strong> " + frec(ABONO.frec).alMes + ".";
+      document.querySelector(".meta-out").classList.toggle("lock", PAGO !== "aprobado");
+      if(PAGO === "aprobado") $("f-abono").value = Math.round(ab).toLocaleString("es-MX");
+      else { simular(p, base); return; }
     }
     simular(p, base);
   }
@@ -1606,11 +1613,14 @@
     var menos = base.pagos - con.pagos;
     var antes = (con.fin && base.fin) ? mesesEntre(con.fin, base.fin) : 0;
     var F = frec(ABONO.frec);
-    $("simout").innerHTML = "Abonando <b>"+money0(ab)+"</b> "+F.texto+(F.tipo==="unico" ? " el <b>" : " desde el <b>")+fechaCorta(ABONO.desde)+
-      "</b> acabarías en <b>"+(con.fin?mesAnio(con.fin):"—")+"</b>: terminas <b>"+tiempoTxt(antes)+" antes</b> ("+
-      pagosTxt(menos, pr)+" menos) y dejarías de pagar <b>"+
-      money0((base.interes+base.cargos)-(con.interes+con.cargos))+"</b> en intereses y cargos." +
-      (F.porAnio ? " Son " + money0(ab*F.porAnio) + " al año." : "");
+    var ok = PAGO === "aprobado";
+    $("simout").className = "simout" + (ok ? "" : " lock");
+    $("simout").innerHTML = "Abonando <i>"+money0(ab)+"</i> "+F.texto+(F.tipo==="unico" ? " el " : " desde el ")+fechaCorta(ABONO.desde)+
+      " acabarías en <b>"+(ok ? (con.fin?mesAnio(con.fin):"—") : "•••••• ••••")+"</b>: terminas <b>"+(ok ? tiempoTxt(antes) : "• años y • meses")+" antes</b> ("+
+      (ok ? pagosTxt(menos, pr) : "•• pagos")+" menos) y dejarías de pagar <b>"+
+      oculto(money0((base.interes+base.cargos)-(con.interes+con.cargos)))+"</b> en intereses y cargos." +
+      (F.porAnio ? " Son " + money0(ab*F.porAnio) + " al año." : "") +
+      (ok ? "" : '<span class="abrir">Con tu pago de $99.90 se abren los resultados y descargas tu diagnóstico en PDF y tu corrida en Excel.</span>');
   }
 
   function estado(clase, texto){
@@ -2084,6 +2094,34 @@
     return {anios: anios, pcts: pcts, idx: idx, cruce: cruce};
   }
 
+  /* Las seis respuestas: gratis en pantalla y hoja 1 del PDF. */
+  function seisRespuestas(v, C, base, p){
+    var per = p.periodicidad || 1, costo = base.interes + base.cargos;
+    var MESES_L = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    var pct1 = function(x){ return (Math.round(x*10)/10).toLocaleString("es-MX",{minimumFractionDigits:1,maximumFractionDigits:1}) + "%"; };
+    var doce = ventana(base.filas, addM(p.corte, 12));
+    var pctCap = doce.pago > 0 ? Math.round(doce.cap / doce.pago * 100) : 0;
+    var meses = base.periodos || 1, plazo = isFinite(v.plazo) && v.plazo > 0 ? v.plazo : 30, pagado;
+    if(isFinite(v.montoOt) && v.montoOt > 0){
+      var bajado = v.montoOt - v.capital;
+      pagado = {q:"¿Cuánto de mi crédito ya pagué?", v: pct1(bajado / v.montoOt * 100),
+        t:"De los " + money0(v.montoOt) + " que te prestaron" + (v.fechaOt ? " en " + MESES_L[v.fechaOt.getMonth()] + " de " + v.fechaOt.getFullYear() : "") +
+          ", tu deuda ha bajado " + money0(bajado) + (v.fechaOt ? " en " + tiempoTxt(mesesEntre(v.fechaOt, v.corte)) : "") + "."};
+    } else {
+      pagado = {q:"¿Cuánto de mi crédito ya pagué?", v:"—", t:"Para verlo, captura tu monto de otorgamiento: viene en la primera hoja de tu Reporte histórico."};
+    }
+    var finTxt = base.fin ? "Te faltan " + tiempoTxt(mesesEntre(v.corte, base.fin)) + ": " + pagosTxt(base.pagos, per) + ", al ritmo de hoy." : "";
+    if(v.fechaOt) finTxt += " Tu plazo contratado vence en " + mesAnio(addM(v.fechaOt, plazo*12)) + ".";
+    return [
+      {q:"¿Cuánto debo hoy?", v: money0(v.total), t:"Capital " + money0(v.capital) + " + interés " + money0(v.interes) + " + comisiones " + money0(v.comis) + " al " + fechaLarga(v.corte) + ". Para liquidar, la cifra oficial te la da el Infonavit."},
+      pagado,
+      {q:"¿Cuánto baja mi deuda con lo que pago?", v:"$" + pctCap + " de cada $100", t:"En los próximos 12 meses entrarán " + money0(doce.pago) + " a tu crédito y tu deuda bajará " + money0(doce.cap) + ". El resto son intereses, seguros y comisiones."},
+      {q:"¿Cuánto pone mi patrón?", v: money0(C.apMes) + " al mes", t:"Es el 5% de tu salario y va directo a tu crédito, además de tu descuento. De aquí al final suma " + money0(C.apMes * meses) + "."},
+      {q:"¿Cuándo termino de pagar?", v: base.fin ? mesAnio(base.fin) : "—", t: finTxt},
+      {q:"¿Cuánto me falta pagar en total?", v: money0(v.total + costo), t:"Lo que debes hoy (" + money0(v.total) + ") más " + money0(costo) + " de intereses, seguros y comisiones que se irán generando. Por cada $100 de deuda, pagarás $" + Math.round(costo / v.capital * 100) + " más."}
+    ];
+  }
+
   function datosPDF2(){
     if(!ULTIMO || !window.OrientaPDF || !window.OrientaPDF.diagnostico2) return null;
     var v = ULTIMO.v, C = ULTIMO.CTX, base = ULTIMO.base, p = ULTIMO.p, fpp = ULTIMO.fpp;
@@ -2107,37 +2145,7 @@
     var pctCap = doce.pago > 0 ? Math.round(doce.cap / doce.pago * 100) : 0;
     var meses = base.periodos || 1;
     var plazo = isFinite(v.plazo) && v.plazo > 0 ? v.plazo : 30;
-    var respPagado;
-    if(isFinite(v.montoOt) && v.montoOt > 0){
-      var bajado = v.montoOt - v.capital;
-      respPagado = {q:"¿Cuánto de mi crédito ya pagué?", v: pct1(bajado / v.montoOt * 100),
-        t:"De los " + money0(v.montoOt) + " que te prestaron" +
-          (v.fechaOt ? " en " + MESES_L[v.fechaOt.getMonth()] + " de " + v.fechaOt.getFullYear() : "") +
-          ", tu deuda ha bajado " + money0(bajado) +
-          (v.fechaOt ? " en " + tiempoTxt(mesesEntre(v.fechaOt, v.corte)) : "") + "."};
-    } else {
-      respPagado = {q:"¿Cuánto de mi crédito ya pagué?", v:"—",
-        t:"Para verlo, captura tu monto de otorgamiento: viene en la primera hoja de tu Reporte histórico."};
-    }
-    var finTxt = base.fin ? "Te faltan " + tiempoTxt(mesesEntre(v.corte, base.fin)) + ": " + pagosTxt(base.pagos, per) + ", al ritmo de hoy." : "";
-    if(v.fechaOt) finTxt += " Tu plazo contratado vence en " + mesAnio(addM(v.fechaOt, plazo*12)) + ".";
-    var respuestas = [
-      {q:"¿Cuánto debo hoy?", v: money0(v.total),
-       t:"Capital " + money0(v.capital) + " + interés " + money0(v.interes) + " + comisiones " + money0(v.comis) +
-         " al " + fechaLarga(v.corte) + ". Para liquidar, la cifra oficial te la da el Infonavit."},
-      respPagado,
-      {q:"¿Cuánto baja mi deuda con lo que pago?", v:"$" + pctCap + " de cada $100",
-       t:"En los próximos 12 meses entrarán " + money0(doce.pago) + " a tu crédito y tu deuda bajará " +
-         money0(doce.cap) + ". El resto son intereses, seguros y comisiones."},
-      {q:"¿Cuánto pone mi patrón?", v: money0(C.apMes) + " al mes",
-       t:"Es el 5% de tu salario y va directo a tu crédito, además de tu descuento. De aquí al final suma " +
-         money0(C.apMes * meses) + "."},
-      {q:"¿Cuándo termino de pagar?", v: base.fin ? mesAnio(base.fin) : "—", t: finTxt},
-      {q:"¿Cuánto me falta pagar en total?", v: money0(v.total + costo(base)),
-       t:"Lo que debes hoy (" + money0(v.total) + ") más " + money0(costo(base)) +
-         " de intereses, seguros y comisiones que se irán generando. Por cada $100 de deuda, pagarás $" +
-         Math.round(costo(base) / v.capital * 100) + " más."}
-    ];
+    var respuestas = seisRespuestas(v, C, base, p);
     var serie = serie12(base.filas, p.corte);
     var noSeQueda = "";
     if(serie.pcts.length){
@@ -2859,11 +2867,14 @@
     $("l-pie").textContent = "Caso inventado: crédito de " + money0(c.H.capital) + " al " +
       (c.H.tasa*100).toFixed(2) + "% anual, con descuento por nómina aplicado " + CADA[c.p.periodicidad] +
       ". Las cifras salen del mismo cálculo que usa tu diagnóstico.";
+    var pm = {}; for(var km in c.p) pm[km] = c.p[km];
+    pm.abonoFrec = "mensual"; pm.abonoDesde = addM(c.p.corte, 1);
+    var ab10 = abonoParaMeta(pm, 120);
     $("l-tiles").innerHTML =
-      '<div class="tile"><b>' + mesAnio(b.fin) + '</b><span>fecha estimada en que termina de pagar</span></div>' +
-      '<div class="tile"><b>' + tiempoTxt(mesesEntre(c.p.corte, b.fin)) + '</b><span>lo que le falta, al ritmo de hoy</span></div>' +
-      '<div class="tile"><b>' + money0(b.interes + b.cargos) + '</b><span>pagará de intereses, seguros y cuotas en el camino</span></div>' +
-      '<div class="tile"><b>' + (c.serie.cruce || "—") + '</b><span>el año en que la mitad de su pago por fin baja la deuda</span></div>';
+      '<div class="tile"><b>' + mesAnio(c.r.fin) + '</b><span>terminaría de pagar, en vez de ' + mesAnio(b.fin) + '</span></div>' +
+      '<div class="tile"><b>' + tiempoTxt(c.antes) + '</b><span>antes de lo que va hoy</span></div>' +
+      '<div class="tile"><b>' + money0(c.ahorro) + '</b><span>menos de intereses y cargos</span></div>' +
+      '<div class="tile"><b>' + (ab10 ? money0(ab10) : "—") + '</b><span>al mes, si quisiera terminar en 10 años</span></div>';
     $("l-antes-t").textContent = tiempoTxt(c.antes) + " antes";
     $("l-ahorro").textContent = money0(c.ahorro);
     $("l-antes-pie").textContent = "con " + money0(ABONO_ILUSTRATIVO) + " extra al mes, en el caso ilustrativo.";
