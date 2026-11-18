@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#111B22">
+<base href="/orienta/">
+<title>¿En qué año terminas de pagar tu Infonavit? · Habítalo Orienta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,600&family=Montserrat:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+  :root{color-scheme:dark;--azul:#1E2E39;--verde:#A5CE37;--naranja:#FF9400;--cafe:#917857;--crema:#F6F3EC;
+    --fondo:#111B22;--papel:#18252E;--raya:#2F4452;--raya2:#243641;--campo:#131F27;--borde:#3D5666;
+    --suave:#B7C3CA;--tenue:#8094A0;--mal:#FF8E7C;
+    --display:"Fraunces",Georgia,serif;--body:"Montserrat","Helvetica Neue",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;}
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;} [hidden]{display:none !important;}
+  html{scroll-behavior:smooth;scroll-padding-top:80px;}
+  body{background:var(--fondo);color:var(--crema);font:16.5px/1.55 var(--body);-webkit-font-smoothing:antialiased;}
+  a{color:inherit;} *:focus-visible{outline:2px solid var(--naranja);outline-offset:3px;}
+  .nav{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;padding:10px clamp(16px,4vw,40px);
+    background:rgba(17,27,34,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.07);}
+  .nav img{display:block;height:44px;width:auto;}
+  .nav .marca{border-left:1px solid rgba(255,255,255,.2);padding-left:14px;font-family:var(--display);font-weight:900;font-size:21px;line-height:1;}
+  .nav .volver{margin-left:auto;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,.26);border-radius:999px;padding:8px 14px;white-space:nowrap;}
+  .borrador{background:#2C2413;color:var(--naranja);font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:7px 12px;}
+  .ancho{max-width:1080px;margin:0 auto;padding-inline:20px;}
+  .et{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--naranja);margin:0;}
+  h1,h2{font-family:var(--display);font-weight:900;letter-spacing:-.02em;margin:0;text-wrap:balance;}
+  .portada{background:linear-gradient(180deg,var(--azul),var(--fondo));padding:clamp(38px,8vw,84px) 0 clamp(26px,5vw,48px);}
+  .portada .ancho{display:flex;flex-direction:column;gap:16px;}
+  h1{font-size:clamp(40px,10.5vw,84px);line-height:.98;max-width:14ch;}
+  h1 em{font-style:normal;color:var(--verde);}
+  .sub{font-size:clamp(17px,2.2vw,20px);color:var(--suave);max-width:52ch;margin:0;}
+  .sellos{list-style:none;margin:8px 0 0;padding:14px 0 0;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;gap:8px 28px;
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--suave);}
+  .sellos li::before{content:"● ";color:var(--verde);font-size:9px;vertical-align:1px;}
+  .cinta{overflow:hidden;border-block:1px solid rgba(255,255,255,.07);background:#0E161C;padding:11px 0;}
+  .cinta div{display:flex;width:max-content;animation:cinta 46s linear infinite;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--tenue);white-space:nowrap;}
+  .cinta span{padding-inline:14px;} .cinta span::after{content:"·";margin-left:28px;color:var(--cafe);}
+  .cinta .r{color:var(--naranja);} .cinta .v{color:var(--verde);}
+  @keyframes cinta{to{transform:translateX(-50%);}}
+  section{padding-block:clamp(40px,8vw,84px);}
+  section + section{border-top:1px solid var(--raya2);}
+  .dos{display:grid;gap:28px;}
+  @media (min-width:900px){ .dos{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:start;} .dos .lado{position:sticky;top:96px;} }
+  h2{font-size:clamp(30px,6.4vw,54px);line-height:1.03;max-width:16ch;}
+  .lado{display:flex;flex-direction:column;gap:16px;}
+  .lado p{margin:0;color:var(--suave);max-width:44ch;}
+  form{background:var(--papel);border:1px solid var(--raya);border-radius:16px;overflow:hidden;}
+  .q{padding:18px 20px;border-bottom:1px solid var(--raya2);display:flex;flex-direction:column;gap:8px;}
+  .q .n{font-family:var(--display);font-weight:900;font-size:22px;color:var(--naranja);margin-right:10px;}
+  .q label{font-family:var(--display);font-weight:800;font-size:clamp(18px,2.4vw,21px);line-height:1.2;}
+  .q .ayuda{font-size:14px;color:var(--tenue);margin:0;}
+  .q .fila{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .q .peso{font-family:var(--mono);color:var(--tenue);}
+  input,select{font:500 17px var(--mono);color:var(--crema);background:var(--campo);border:1.5px solid var(--borde);border-radius:10px;padding:11px 12px;min-width:0;}
+  input{width:190px;text-align:right;font-variant-numeric:tabular-nums;} select{font-family:var(--body);font-weight:600;font-size:16px;}
+  input.mal,select.mal{border-color:var(--mal);}
+  .q.opc{background:rgba(165,206,55,.05);}
+  .q.opc label small{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--verde);margin-left:8px;vertical-align:3px;}
+  .pie-f{padding:18px 20px;display:flex;flex-direction:column;gap:12px;}
+  .boton{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:700 17px var(--body);color:#16210A;background:var(--verde);
+    border:0;border-radius:999px;padding:16px 28px;cursor:pointer;text-decoration:none;}
+  .boton:hover{background:#B7DC52;} .boton::after{content:"→";}
+  .boton.naranja{background:var(--naranja);color:#1A1203;} .boton.naranja:hover{background:#FFA62B;}
+  .nota{font-size:13px;color:var(--tenue);margin:0;}
+  .aviso{border:1px solid var(--raya);border-left:3px solid var(--naranja);border-radius:16px;background:var(--papel);padding:20px;color:var(--suave);}
+  .aviso b{color:var(--crema);}
+  .error{color:var(--mal);font-size:14.5px;margin:0;}
+  /* resultado */
+  #resultado .ancho{display:flex;flex-direction:column;gap:26px;}
+  .grande{font-family:var(--display);font-weight:900;font-size:clamp(46px,12vw,112px);line-height:.95;letter-spacing:-.03em;color:var(--verde);margin:0;}
+  .grande small{display:block;font-family:var(--body);font-weight:500;font-size:clamp(16px,2vw,19px);letter-spacing:0;color:var(--suave);line-height:1.45;margin-top:14px;max-width:48ch;}
+  .fichas{display:grid;grid-template-columns:1fr;gap:12px;}
+  @media (min-width:760px){ .fichas{grid-template-columns:repeat(3,1fr);} }
+  .ficha{background:var(--papel);border:1px solid var(--raya);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px;}
+  .ficha em{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--naranja);}
+  .ficha b{font-family:var(--display);font-weight:900;font-size:clamp(24px,3.6vw,34px);line-height:1.05;letter-spacing:-.015em;}
+  .ficha b.v{color:var(--verde);} .ficha b.n{color:var(--naranja);}
+  .ficha span{font-size:14.5px;color:var(--suave);line-height:1.45;}
+  .barra{position:relative;height:54px;margin-top:6px;}
+  .barra .eje{position:absolute;left:0;right:0;top:20px;height:6px;border-radius:99px;background:var(--raya);}
+  .barra .tramo{position:absolute;top:20px;height:6px;border-radius:99px;background:var(--verde);}
+  .barra .p{position:absolute;top:13px;width:20px;height:20px;border-radius:99px;background:var(--naranja);border:3px solid var(--fondo);transform:translateX(-50%);}
+  .barra span{position:absolute;top:36px;font-family:var(--mono);font-size:11.5px;color:var(--tenue);transform:translateX(-50%);white-space:nowrap;}
+  .limite{font-size:14px;color:var(--tenue);max-width:70ch;margin:0;}
+  .invita{background:linear-gradient(180deg,#1E2E39,#18252E);border:1px solid var(--raya);border-radius:20px;padding:clamp(22px,5vw,44px);display:flex;flex-direction:column;gap:16px;}
+  .invita h2{max-width:20ch;font-size:clamp(28px,5.6vw,46px);}
+  .invita ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;border-top:1px solid var(--raya2);max-width:720px;}
+  .invita li{padding:12px 0;border-bottom:1px solid var(--raya2);display:grid;grid-template-columns:28px 1fr;gap:8px;}
+  .invita li::before{content:"✓";color:var(--verde);font-weight:700;}
+  .invita .fila{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;}
+  .invita .sec{font-weight:600;font-size:15px;text-underline-offset:3px;}
+  footer{border-top:1px solid var(--raya2);padding:24px 0 60px;font-size:13px;color:var(--tenue);line-height:1.6;}
+  footer .ancho{display:flex;flex-direction:column;gap:6px;}
+  @media (max-width:640px){ .nav img{height:38px;} .nav .marca{font-size:17px;padding-left:10px;} .boton{width:100%;} input{width:100%;} .q .fila{flex-wrap:nowrap;} }
+  .portada .boton, #resultado .boton{align-self:flex-start;}
+  .q .fila select{flex:1 1 150px;}
+  @media (max-width:640px){ .portada .boton{align-self:stretch;} }
+  @media (prefers-reduced-motion: reduce){ .cinta div{animation:none;} html{scroll-behavior:auto;} }
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Habítalo Orienta">
+  <a href="https://habitalo.com.mx/" title="Ir a Habítalo México"><img src="logo-habitalo.png" width="520" height="291" alt="Habítalo México"></a>
+  <span class="marca">Orienta</span>
+  <a class="volver" href="https://habitalo.com.mx/">← Habítalo México</a>
+</nav>
+<div class="borrador">Versión de prueba · no es la página publicada</div>
+
+<header class="portada"><div class="ancho">
+  <p class="et">Habítalo Orienta · Para quien paga un crédito Infonavit</p>
+  <h1>¿En qué año <em>terminas</em> de pagar tu Infonavit?</h1>
+  <p class="sub">Contesta cinco preguntas con lo que sabes de memoria y ve una aproximación al instante: cuándo terminarías, cuánto te falta de intereses y cuánto ganarías si abonas un poco más.</p>
+  <a class="boton" href="#preguntas">Empezar, es gratis</a>
+  <ul class="sellos"><li>Sin estado de cuenta</li><li>Sin registro ni contraseña</li><li>Un minuto</li><li>Nada sale de tu teléfono</li></ul>
+</div></header>
+<div class="cinta" aria-hidden="true"><div id="cinta"></div></div>
+
+<section id="preguntas"><div class="ancho dos">
+  <div class="lado">
+    <p class="et">Paso 1 · Tu aproximación</p>
+    <h2>Cinco datos que ya te sabes</h2>
+    <p>No necesitas descargar nada. Si no recuerdas una cifra exacta, pon la más cercana: por eso el resultado es un rango y no un número al peso.</p>
+    <p>Lo que escribes se calcula aquí mismo, en tu teléfono. No te pedimos nombre, NSS ni contraseña.</p>
+  </div>
+  <form id="f" novalidate>
+    <div class="q"><label for="anio"><span class="n">01</span>¿En qué año te dieron el crédito?</label>
+      <div class="fila">
+        <select id="anio"><option value="">Año</option><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option><option value="2021">2021 (de junio en adelante)</option><option value="antes">Antes de junio de 2021 → te invitamos al webinar</option></select>
+        <select id="mes"><option value="">No recuerdo el mes</option><option value="0">Enero</option><option value="1">Febrero</option><option value="2">Marzo</option><option value="3">Abril</option><option value="4">Mayo</option><option value="5">Junio</option><option value="6">Julio</option><option value="7">Agosto</option><option value="8">Septiembre</option><option value="9">Octubre</option><option value="10">Noviembre</option><option value="11">Diciembre</option></select>
+      </div></div>
+    <div class="aviso" id="antes" hidden style="margin:16px 20px;">
+      <b>Para tu crédito, el cálculo sale de tu estado de cuenta.</b> Muchos créditos anteriores a junio de 2021 fueron reestructurados por el Infonavit en 2025 y hoy tienen otra tasa, aunque tu estado de cuenta diga 12%. Eso no se puede adivinar de memoria. En el webinar gratuito te enseñamos a descargar tu estado de cuenta y sacamos tus números juntos. <a href="#invita">Apartar mi lugar</a>
+    </div>
+    <div class="q"><label for="monto"><span class="n">02</span>¿De cuánto fue el crédito?</label>
+      <p class="ayuda">Lo que te prestó el Infonavit, sin contar tu ahorro ni el enganche.</p>
+      <div class="fila"><span class="peso">$</span><input id="monto" inputmode="numeric" autocomplete="off" placeholder="850,000"></div></div>
+    <div class="q"><label for="desc"><span class="n">03</span>¿Cuánto te descuentan al mes?</label>
+      <p class="ayuda">Viene en tu recibo de nómina como «crédito Infonavit». Si te pagan por quincena, suma las dos.</p>
+      <div class="fila"><span class="peso">$</span><input id="desc" inputmode="numeric" autocomplete="off" placeholder="7,500"></div></div>
+    <div class="q"><label for="sal"><span class="n">04</span>¿Cuánto ganas al mes, antes de impuestos?</label>
+      <p class="ayuda">Tu sueldo bruto. Con él estimamos tu tasa y lo que aporta tu patrón (5% de tu salario).</p>
+      <div class="fila"><span class="peso">$</span><input id="sal" inputmode="numeric" autocomplete="off" placeholder="18,000"></div></div>
+    <div class="q opc"><label for="saldo"><span class="n">05</span>¿Sabes cuánto debes hoy?<small>Opcional · afina el cálculo</small></label>
+      <p class="ayuda">Es el saldo que aparece al entrar a la app o a Mi Cuenta Infonavit. Si no lo sabes, déjalo vacío.</p>
+      <div class="fila"><span class="peso">$</span><input id="saldo" inputmode="numeric" autocomplete="off" placeholder="—"></div></div>
+    <div class="pie-f">
+      <p class="error" id="err" hidden></p>
+      <button class="boton" type="submit" id="go">Ver mi aproximación</button>
+      <p class="nota">Aplica a créditos Infonavit individuales en pesos con pago fijo y descuento por nómina vigente.</p>
+    </div>
+  </form>
+</div></section>
+
+<section id="resultado" hidden><div class="ancho">
+  <p class="et">Tu aproximación</p>
+  <p class="grande"><span id="r-anio">2032</span><small id="r-anio-t"></small></p>
+  <div class="barra" id="r-barra" aria-hidden="true"></div>
+  <div class="fichas">
+    <div class="ficha"><em>Lo que te falta de intereses</em><b class="n" id="r-int">—</b><span>en intereses, seguros y comisiones, de aquí a que termines, si todo sigue igual.</span></div>
+    <div class="ficha"><em>Si abonas $1,000 extra al mes</em><b class="v" id="r-antes">—</b><span id="r-antes-t">antes de lo que vas hoy.</span></div>
+    <div class="ficha"><em>Y dejarías de pagar</em><b class="v" id="r-ah">—</b><span>de intereses y cargos, con ese mismo abono.</span></div>
+  </div>
+  <p class="limite" id="r-lim"></p>
+
+  <div class="invita" id="invita">
+    <p class="et">Paso 2 · Webinar gratuito</p>
+    <h2>Trae tu estado de cuenta y sal con tus números</h2>
+    <p class="sub">«30 años son mucho tiempo: cómo terminar de pagar tu Infonavit antes». Un taller en vivo, gratis, con el Arq. Alejandro Rodríguez Aznar, fundador de Habítalo México. Ahí, paso a paso:</p>
+    <ul>
+      <li>Descargas tu estado de cuenta histórico desde tu celular</li>
+      <li>Ves gratis tus números: cuánto debes, cuánto de tu pago baja tu deuda y cuándo terminas</li>
+      <li>Sabes si el Infonavit te bajó la tasa en 2025, aunque tu estado de cuenta no lo diga</li>
+      <li>Aprendes a planear abonos para recortar años e intereses</li>
+    </ul>
+    <div class="fila">
+      <a class="boton naranja" id="wa" target="_blank" rel="noopener" href="#">Apartar mi lugar</a>
+      <a class="sec" href="prueba/">Ya tengo mi estado de cuenta: ver mis números exactos</a>
+    </div>
+    <p class="nota">Cada quince días. Fecha y horario: por definir. Se abre WhatsApp; al escribirnos te mandamos la liga de Zoom; tu número solo se usa para eso.</p>
+  </div>
+</div></section>
+
+<footer><div class="ancho">
+  <div>Habítalo Orienta es un servicio de <a href="https://habitalo.com.mx/">Habítalo México</a> · Cancún, Quintana Roo. No es una página del Infonavit ni está afiliada a esa institución.</div>
+  <div>La aproximación es una estimación con supuestos a partir de lo que escribiste; no es una cotización del Infonavit ni asesoría legal o fiscal. Supone que tu descuento de nómina sigue igual.</div>
+</div></footer>
+
+<script>
+(function(){
+"use strict";
+/* ===== motor por eventos 1.4: el mismo de la herramienta ===== */
+var ABONO_ILUSTRATIVO = 1000;
+  /* ================= utilidades ================= */
+  var MES = {enero:1,febrero:2,marzo:3,abril:4,mayo:5,junio:6,julio:7,agosto:8,septiembre:9,octubre:10,noviembre:11,diciembre:12};
+  function nm(s){ if(s===null||s===undefined) return NaN; var t=String(s).replace(/[$,\s%]/g,""); return t===""?NaN:parseFloat(t); }
+  function money(n){ return isFinite(n) ? "$"+n.toLocaleString("es-MX",{minimumFractionDigits:2,maximumFractionDigits:2}) : "—"; }
+  function money0(n){ return isFinite(n) ? "$"+Math.round(n).toLocaleString("es-MX") : "—"; }
+  function iso(d){ return d ? d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2) : ""; }
+  function parseISO(s){ var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s||"")); return m?new Date(+m[1],+m[2]-1,+m[3]):null; }
+  function lastDay(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0).getDate(); }
+  function mk(d){ return d.getFullYear()*12+d.getMonth()+1+(d.getDate()>=lastDay(d)?1:0); }
+  function d360(a,b){ return (b.getFullYear()-a.getFullYear())*360+(b.getMonth()-a.getMonth())*30+(Math.min(b.getDate(),30)-Math.min(a.getDate(),30)); }
+  function addM(d,n){ var day=d.getDate(), t=new Date(d.getFullYear(), d.getMonth()+n, 1); t.setDate(Math.min(day,lastDay(t))); return t; }
+  var MM=["ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"];
+  function mesAnio(d){ return MM[d.getMonth()]+" "+d.getFullYear(); }
+
+  /* Unidades: un número de pagos nunca va solo. En un crédito bimestral,
+     "39 pagos" se lee como 39 mensualidades (tres años) cuando son seis y medio.
+     Por eso el tiempo va primero y los pagos llevan siempre su frecuencia. */
+  var FREC = {1:"mensual", 2:"bimestral", 3:"trimestral", 4:"cuatrimestral", 6:"semestral"};
+  function pagosTxt(n, per){
+    var f = FREC[per || 1], cab = n + (n === 1 ? " pago" : " pagos");
+    return f ? cab + " " + (n === 1 ? f : f + "es") : cab + " (uno cada " + per + " meses)";
+  }
+  var CADA = {1:"cada mes", 2:"cada dos meses", 3:"cada tres meses", 4:"cada cuatro meses", 6:"cada seis meses"};
+  function aclaraFrecuencia(per){
+    per = per || 1;
+    return "Tu patrón te descuenta en cada nómina y entrega el dinero al Infonavit " +
+           (CADA[per] || "cada " + per + " meses") + "; por eso tus pagos se aplican de forma " +
+           (FREC[per] || "periódica") + ".";
+  }
+  function sinMarcas(t){ return String(t).replace(/\*\*|\^\^/g, ""); }
+  function marcasHTML(t){ return String(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/\^\^(.+?)\^\^/g, "<b>$1</b>"); }
+  function mesesEntre(a, b){ return (b.getFullYear()-a.getFullYear())*12 + (b.getMonth()-a.getMonth()); }
+  function tiempoTxt(m){
+    m = Math.max(0, Math.round(m));
+    var a = Math.floor(m/12), r = m % 12, o = [];
+    if(a) o.push(a + (a === 1 ? " año" : " años"));
+    if(r) o.push(r + (r === 1 ? " mes" : " meses"));
+    return o.length ? o.join(" y ") : "menos de un mes";
+  }
+  function agregar(movs){
+    var A = {n:movs.length, ok:false};
+    if(!movs.length) return A;
+    var pagos = movs.filter(function(m){ return /APORT\. PATRONAL|RETENC SALARIAL/.test(m.concepto); });
+    if(!pagos.length) return A;
+
+    // fechas en que entró un pago, sin repetir
+    var vistas = {}, fechas = [];
+    pagos.forEach(function(p){
+      var k = p.fecha.getFullYear()*10000 + (p.fecha.getMonth()+1)*100 + p.fecha.getDate();
+      if(!vistas[k]){ vistas[k] = 1; fechas.push(p.fecha); }
+    });
+    fechas.sort(function(a,b){ return a - b; });
+    A.ultimoPago = fechas[fechas.length-1];
+
+    // cada cuántos meses entran: la separación más habitual entre pagos
+    var saltos = [];
+    for(var i=1;i<fechas.length;i++){
+      saltos.push(Math.max(1, Math.round(((fechas[i]-fechas[i-1])/86400000)/30.44)));
+    }
+    A.periodicidad = 1;
+    if(saltos.length){
+      var orden = saltos.slice().sort(function(a,b){ return a-b; });
+      var med = orden[Math.floor(orden.length/2)];
+      if(med >= 1 && med <= 6) A.periodicidad = med;
+    }
+
+    // promedio de los últimos tres pagos: la misma regla del modelo en Excel,
+    // que evita arrastrar un movimiento parcial o un salario viejo
+    var usar = fechas.slice(-3), desde = usar[0];
+    A.eventos = usar.length;
+    A.meses = usar.length * A.periodicidad;
+    A.retencion = pagos.filter(function(p){ return /RETENC/.test(p.concepto) && p.fecha >= desde; })
+                       .reduce(function(a,b){ return a+b.monto; }, 0);
+    A.patronal  = pagos.filter(function(p){ return /PATRONAL/.test(p.concepto) && p.fecha >= desde; })
+                       .reduce(function(a,b){ return a+b.monto; }, 0);
+    A.retMes = A.retencion/A.meses; A.apMes = A.patronal/A.meses; A.salario = A.apMes/0.05;
+    // qué pagos exactos se promediaron: va impreso en el documento para que se pueda cotejar
+    A.usados = usar.map(function(f){
+      var m = pagos.filter(function(q){ return /RETENC/.test(q.concepto) && +q.fecha === +f; })
+                   .reduce(function(x,y){ return x+y.monto; }, 0);
+      return {f:f, m:m};
+    });
+    var cuotas = movs.filter(function(m){ return /7011/.test(m.concepto); });
+    if(cuotas.length){
+      var maxC = Math.max.apply(null, cuotas.map(function(c){ return +c.fecha; }));
+      var trio = cuotas.filter(function(c){ return +c.fecha === maxC; })
+                       .map(function(c){ return c.monto; }).sort(function(a,b){ return b-a; });
+      A.cuotasPorMes = trio.length;
+      A.cuotaPct = trio.length >= 3 ? 0.01 : 0;
+      A.seguro = trio.length >= 3 ? trio[2] : (trio.length === 2 ? trio[1] : NaN);
+      A.perfil = trio.length >= 3 ? "sí paga cuota de administración" : "está exento de cuota de administración";
+    }
+    A.ok = isFinite(A.retMes) && isFinite(A.apMes) && isFinite(A.seguro);
+    return A;
+  }
+  var MOTOR_VERSION = "1.4";
+
+  /* Corre el crédito periodo a periodo. Con detalle=true devuelve el calendario
+     completo, que es lo que alimenta las tablas y las gráficas del PDF.
+     abonoDesde permite empezar a abonar más tarde (para medir qué cuesta esperar). */
+  /* ===== motor por eventos =====
+     Réplica del libro Tabla_amortización_INFONAVIT_22.09.26 (hoja Motor_Eventos):
+     una línea de tiempo con los cierres de mes, los pagos del patrón y los abonos,
+     ordenados por fecha. Entre evento y evento corre el interés diario 30/360 sobre
+     el capital; en cada evento se aplica la cascada comisiones → intereses → capital.
+     Así la FECHA del abono importa y se pueden modelar abonos semanales, mensuales,
+     anuales o un solo pago. Verificado contra el libro al centavo. */
+
+  var FRECUENCIAS = {
+    semanal: {tipo:"dias",  paso:7,  alMes:"cada semana", texto:"cada semana", porAnio:365/7},
+    mensual: {tipo:"meses", paso:1,  alMes:"al mes",      texto:"cada mes",    porAnio:12},
+    anual:   {tipo:"meses", paso:12, alMes:"al año",      texto:"cada año",    porAnio:1},
+    unico:   {tipo:"unico", paso:0,  alMes:"una sola vez",texto:"en un solo pago", porAnio:0}
+  };
+  function frec(k){ return FRECUENCIAS[k] || FRECUENCIAS.mensual; }
+  function eom(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0); }
+  function masDias(d, n){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()+n); }
+
+  /* Construye la lista de eventos ordenada por fecha.
+     En una misma fecha: primero el cierre de mes, luego el pago del patrón, luego el abono. */
+  function eventos(p, horizonte){
+    var ev = [], d;
+    for(d = eom(p.corte); d <= horizonte; d = eom(addM(d, 1))) ev.push({d:d, t:1, m:0});
+    for(d = p.primerPago; d <= horizonte; d = addM(d, p.periodicidad || 1))
+      ev.push({d:d, t:2, m:p.pago * (p.periodicidad || 1)});
+    var ab = p.abono || 0, F = frec(p.abonoFrec), desde = p.abonoDesde;
+    if(ab > 0 && desde){
+      if(F.tipo === "unico"){
+        if(desde <= horizonte) ev.push({d:desde, t:3, m:ab});
+      } else {
+        var k = 0; d = desde;
+        while(d <= horizonte){
+          ev.push({d:d, t:3, m:ab}); k++;
+          d = (F.tipo === "dias") ? masDias(desde, F.paso*k) : addM(desde, F.paso*k);
+        }
+      }
+    }
+    ev.sort(function(a,b){ return (a.d - b.d) || (a.t - b.t); });
+    return ev;
+  }
+
+  function correr(p, detalle){
+    var horizonte = addM(p.corte, 361);
+    var ev = eventos(p, horizonte);
+    var s = p.saldo, i = p.interes, c = p.comis, dp = p.corte;
+    var ti = 0, tc = 0, fin = null, pagos = 0, nAb = 0, abonado = 0;
+    var filas = detalle ? [] : null;
+    for(var x = 0; x < ev.length; x++){
+      if(s + i + c <= 0) break;
+      var e = ev[x], f = d360(dp, e.d);
+      var j = s * p.tasa / 360 * f;                                     // interés devengado
+      var k = (e.t === 1) ? (s * p.cuotaPct / 12 + p.fpp + p.seguro) : 0; // cuotas del mes
+      var L = e.m;
+      var mm = Math.min(L, c + k), nn = Math.min(L - mm, i + j), oo = Math.min(L - mm - nn, s);
+      ti += j; tc += k;
+      var s0 = s;
+      s = Math.round((s - oo) * 100) / 100;
+      i = i + j - nn;
+      c = c + k - mm;
+      if(L > 0){
+        fin = e.d;
+        if(e.t === 2) pagos++;
+        else { nAb++; abonado += mm + nn + oo; }
+      }
+      if(detalle) filas.push({n:x+1, d:e.d, t:e.t, dias:f, ini:s0, pago:L,
+                              com:mm, int:nn, cap:oo, fin:s});
+      dp = e.d;
+    }
+    var meses = fin ? mesesEntre(p.corte, fin) : 0;
+    return {periodos: meses, meses: meses, pagos: pagos, fin: fin,
+            interes: ti, cargos: tc, filas: filas, abonado: abonado, nAbonos: nAb};
+  }
+
+  /* ---- agregados que solo se usan para el documento ---- */
+  function ventana(filas, hasta){
+    var a = {pago:0, ic:0, cap:0, n:0};
+    for(var x=0; x<filas.length; x++){
+      var r = filas[x];
+      if(r.d > hasta) break;
+      a.pago += r.pago; a.ic += r.int + r.com; a.cap += r.cap; a.n++;
+    }
+    return a;
+  }
+
+  /* Qué porcentaje de lo que entra en el año baja la deuda, y en qué año
+     ese porcentaje llega a la mitad. Es lo que impide leer el titular como
+     si la proporción de hoy se quedara igual toda la vida del crédito. */
+  function serieCapital(filas){
+    var m = {}, orden = [];
+    for(var x=0; x<filas.length; x++){
+      var r = filas[x], a = r.d.getFullYear();
+      if(!m[a]){ m[a] = {pago:0, cap:0}; orden.push(a); }
+      m[a].pago += r.pago; m[a].cap += r.cap;
+    }
+    var pcts = [], cruce = null, idx = -1;
+    for(var q=0; q<orden.length; q++){
+      var g = m[orden[q]], pct = g.pago > 0 ? (g.cap / g.pago * 100) : 0;
+      pcts.push(pct);
+      if(pct >= 50 && cruce === null){ cruce = orden[q]; idx = q; }
+    }
+    return {anios: orden, pcts: pcts, cruce: cruce, idx: idx};
+  }
+
+  function porAnio(filas, maxFilas){
+    var m = {}, orden = [];
+    for(var x=0; x<filas.length; x++){
+      var r = filas[x], a = r.d.getFullYear();
+      if(!m[a]){ m[a] = {ini:r.ini, pago:0, ic:0, cap:0, fin:r.fin}; orden.push(a); }
+      m[a].pago += r.pago; m[a].ic += r.int + r.com; m[a].cap += r.cap; m[a].fin = r.fin;
+    }
+    var paso = Math.ceil(orden.length / (maxFilas || 16)), out = [];
+    for(var q=0; q<orden.length; q+=paso){
+      var blo = orden.slice(q, q+paso), g = {ini:m[blo[0]].ini, pago:0, ic:0, cap:0, fin:0};
+      for(var w=0; w<blo.length; w++){
+        g.pago += m[blo[w]].pago; g.ic += m[blo[w]].ic; g.cap += m[blo[w]].cap; g.fin = m[blo[w]].fin;
+      }
+      out.push([blo.length>1 ? (blo[0]+"–"+blo[blo.length-1]) : String(blo[0]),
+                money0(g.ini), money0(g.pago), money0(g.ic), money0(g.cap), money0(g.fin)]);
+    }
+    return out;
+  }
+
+  /* La misma escalera del PDF, en SVG. El viewBox es angosto a propósito:
+     así el texto conserva tamaño legible cuando la gráfica se encoge en un
+     celular. Los colores salen de las variables del tema, para que funcione
+     igual en claro y en oscuro. */
+  function datosEjemplo(){
+    var mov = [];
+    var bim = [[2025,8],[2025,10],[2026,0],[2026,2],[2026,4],[2026,6]];      // sep, nov, ene, mar, may, jul
+    var patr = [2968.40, 2968.40, 3052.10, 3052.10, 3052.10, 3052.10];
+    bim.forEach(function(x, i){
+      mov.push({fecha:new Date(x[0],x[1],7), concepto:"8880 APORT. PATRONAL", monto:patr[i]});
+      mov.push({fecha:new Date(x[0],x[1],7), concepto:"8880 RETENC SALARIAL", monto:19300.00});
+    });
+    for(var k=0;k<12;k++){
+      var d = new Date(2025, 8+k+1, 0);                                      // último día de sep-2025 … ago-2026
+      mov.push({fecha:d, concepto:"7011 SEGURO/COMISION", monto:189.00});
+      mov.push({fecha:d, concepto:"7011 SEGURO/COMISION", monto:58.40});
+    }
+    return {
+      tasa:0.1045, capital:1048630.25, interes:13712.40, comis:482.10, total:1062824.75,
+      mcon:9650.00, msin:9461.00, corte:new Date(2026,8,1), tipoPago:"FIJO", fuera:null, movs:mov
+    };
+  }
+  function casoIlustrativo(){
+    var H = datosEjemplo(), A = agregar(H.movs), per = A.periodicidad || 1;
+    var fpp = Math.round((H.mcon - H.msin)*100)/100;
+    var p = {
+      saldo:H.capital, interes:H.interes, comis:H.comis, tasa:H.tasa,
+      cuotaPct:A.cuotaPct, fpp:fpp, seguro:A.seguro,
+      pago:A.retMes + A.apMes, periodicidad:per,
+      corte:H.corte, primerPago:addM(A.ultimoPago, per), abono:0
+    };
+    var base = correr(p, true);
+    var q = {}; for(var k in p) q[k] = p[k];
+    q.abono = ABONO_ILUSTRATIVO; q.abonoFrec = "mensual"; q.abonoDesde = addM(H.corte, 1);
+    var r = correr(q, true);
+    var doce = ventana(base.filas, addM(p.corte, 12));
+    return {
+      H:H, p:p, base:base, r:r,
+      pct: Math.round(doce.cap / doce.pago * 100),
+      serie: serieCapital(base.filas),
+      antes: mesesEntre(r.fin, base.fin),
+      ahorro: (base.interes + base.cargos) - (r.interes + r.cargos),
+      porDia: H.capital * H.tasa / 360
+    };
+  }
+
+/* ===== aproximación sin estado de cuenta ===== */
+var TRAMOS = [[4086.68,5448.90,0.0191,0.0333],[5721.35,8173.35,0.0355,0.0551],[8445.80,10897.80,0.0570,0.0721],[11170.25,13622.25,0.0741,0.0886],[13894.70,16346.70,0.0903,0.1042]];
+function tasaPorSalario(s){
+  if(s >= 16619.15) return 0.1045;
+  for(var i=0;i<TRAMOS.length;i++){ var t=TRAMOS[i]; if(s <= t[1]) return s <= t[0] ? t[2] : t[2]+(t[3]-t[2])*(s-t[0])/(t[1]-t[0]); }
+  return 0.1045;
+}
+function base(e){
+  var p = {saldo:e.monto, interes:0, comis:0, tasa:tasaPorSalario(e.salario), cuotaPct:0.01,
+    fpp:Math.round(0.02*e.desc*100)/100, seguro:Math.round(e.monto*1.21e-5*100)/100,
+    pago:e.desc + 0.05*e.salario, periodicidad:2, corte:e.fechaOt, primerPago:addM(e.fechaOt,1),
+    abono:0, abonoFrec:"mensual", abonoDesde:e.fechaOt};
+  var saldoHoy = e.saldo;
+  if(!(saldoHoy > 0)){
+    var r = correr(p, true); saldoHoy = e.monto;
+    for(var i=0;i<r.filas.length;i++){ if(r.filas[i].d <= e.hoy) saldoHoy = r.filas[i].fin; else break; }
+  }
+  return {p:p, saldoHoy:saldoHoy};
+}
+function desdeHoy(e, b, abono){
+  var p = {}; for(var k in b.p) p[k] = b.p[k];
+  p.saldo = b.saldoHoy; p.corte = e.hoy; p.primerPago = addM(e.hoy,1); p.abono = abono; p.abonoDesde = e.hoy;
+  return correr(p, false);
+}
+function azar(seed){ var s = seed>>>0; return function(){ s = (s*1664525+1013904223)>>>0; return s/4294967296; }; }
+function pct(a,q){ var b=a.slice().sort(function(x,y){return x-y;}); return b[Math.min(b.length-1,Math.floor(q*b.length))]; }
+/* Lo que la memoria suele fallar: monto ±5%, descuento ±3%, salario −5% a +25%
+   (se suele decir el neto), mes y día si no se saben, saldo ±1.5% si se dio. */
+function rango(r, N){
+  var R = azar(20261115), fin=[], fut=[], ah=[], an=[], sinFin=0;
+  for(var k=0;k<N;k++){
+    var mes = (r.mes!=null) ? r.mes : (r.anio===2021 ? 5+Math.floor(R()*7) : Math.floor(R()*12));
+    var e = {hoy:r.hoy, fechaOt:new Date(r.anio, mes, 1+Math.floor(R()*27)),
+      monto:r.monto*(0.95+0.10*R()), desc:r.desc*(0.97+0.06*R()), salario:r.salario*(0.95+0.30*R()),
+      saldo:r.saldo ? r.saldo*(0.985+0.03*R()) : 0};
+    if(e.fechaOt > r.hoy) e.fechaOt = addM(r.hoy,-1);
+    var b = base(e), c0 = desdeHoy(e,b,0), c1 = desdeHoy(e,b,1000);
+    if(!c0.fin || c0.meses >= 359){ sinFin++; continue; }
+    var f0 = c0.interes+c0.cargos;
+    fin.push(c0.fin.getFullYear()*12+c0.fin.getMonth()); fut.push(f0);
+    ah.push(f0-(c1.interes+c1.cargos)); an.push(c0.meses-c1.meses);
+  }
+  if(fin.length < N*0.6) return null;
+  return {fin:[pct(fin,.1),pct(fin,.5),pct(fin,.9)], fut:[pct(fut,.1),pct(fut,.9)], ah:[pct(ah,.1),pct(ah,.9)], an:pct(an,.5)};
+}
+window.__rango = rango;
+
+/* ===== página ===== */
+var $ = function(id){ return document.getElementById(id); };
+var pal = [["Saldo de capital",""],["Intereses","r"],["Aportación patronal",""],["Descuento por nómina",""],["Última mensualidad","v"],["Abonos a capital",""],["Seguros y comisiones","r"],["Tu plan de pagos","v"],["Tasa fija",""],["Costo de esperar","r"],["Simulador",""]];
+var tira = pal.map(function(p){ return '<span'+(p[1]?' class="'+p[1]+'"':'')+'>'+p[0]+'</span>'; }).join("");
+$("cinta").innerHTML = tira + tira;
+var WA = "https://wa.me/529987649315?text=" + encodeURIComponent("Hola, quiero apartar mi lugar en el webinar de Habítalo Orienta");
+$("wa").href = WA;
+
+function num(id){ var t = $(id).value.replace(/[^0-9.]/g,""); return t === "" ? NaN : parseFloat(t); }
+["monto","desc","sal","saldo"].forEach(function(id){
+  $(id).addEventListener("input", function(){
+    var t = this.value.replace(/[^0-9]/g,""); this.value = t ? Number(t).toLocaleString("es-MX") : ""; this.classList.remove("mal");
+  });
+});
+$("anio").addEventListener("change", function(){
+  var a = this.value === "antes"; $("antes").hidden = !a; $("mes").hidden = a; this.classList.remove("mal");
+});
+function miles(n){ var r = n >= 100000 ? 5000 : 1000; return "$" + (Math.round(n/r)*r).toLocaleString("es-MX"); }
+function ym(m){ return {a:Math.floor(m/12), m:m%12}; }
+function fallo(t, ids){ $("err").textContent = t; $("err").hidden = false; (ids||[]).forEach(function(i){ $(i).classList.add("mal"); }); }
+
+$("f").addEventListener("submit", function(ev){
+  ev.preventDefault(); $("err").hidden = true;
+  var anio = $("anio").value;
+  if(anio === "antes"){ $("resultado").hidden = false; document.querySelector(".grande").hidden = true; $("r-barra").hidden = true;
+    document.querySelector(".fichas").hidden = true; $("r-lim").hidden = true; document.querySelector("#resultado .et").hidden = true; $("invita").scrollIntoView(); return; }
+  var monto = num("monto"), desc = num("desc"), sal = num("sal"), saldo = num("saldo");
+  if(!anio) return fallo("Elige el año en que te dieron el crédito.", ["anio"]);
+  if(!(monto >= 50000 && monto <= 3000000)) return fallo("Revisa el monto del crédito: debe estar entre $50,000 y $3,000,000.", ["monto"]);
+  if(!(desc >= 300 && desc <= 60000)) return fallo("Revisa tu descuento mensual.", ["desc"]);
+  if(!(sal >= 4000 && sal <= 400000)) return fallo("Revisa tu salario mensual.", ["sal"]);
+  if(desc > sal*0.45) return fallo("El descuento no puede ser casi la mitad de tu salario. Revisa que los dos sean mensuales.", ["desc","sal"]);
+  if(isFinite(saldo) && !(saldo > 1000 && saldo <= monto*1.25)) return fallo("Revisa tu saldo: debe parecerse al monto de tu crédito o ser menor. Si no lo sabes, déjalo vacío.", ["saldo"]);
+  var mes = $("mes").value === "" ? null : +$("mes").value, hoy = new Date(); hoy = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  $("go").textContent = "Calculando…";
+  setTimeout(function(){
+    var R = rango({anio:+anio, mes:mes, monto:monto, desc:desc, salario:sal, saldo:isFinite(saldo)?saldo:0, hoy:hoy}, 160);
+    $("go").textContent = "Ver mi aproximación";
+    if(!R) return fallo("Con esos datos tu pago no alcanza a bajar la deuda. Revisa el monto y el descuento; si están bien, tu caso necesita el cálculo con estado de cuenta.", ["monto","desc"]);
+    pinta(R, isFinite(saldo));
+  }, 30);
+});
+
+var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+function pinta(R, conSaldo){
+  ["grande","fichas"].forEach(function(c){ document.querySelector("."+c).hidden = false; });
+  $("r-barra").hidden = false; $("r-lim").hidden = false; document.querySelector("#resultado .et").hidden = false;
+  var a = ym(R.fin[0]), m = ym(R.fin[1]), z = ym(R.fin[2]);
+  $("r-anio").textContent = m.a;
+  $("r-anio-t").innerHTML = (a.a === z.a)
+    ? "Terminarías de pagar alrededor de <b>" + MESES[m.m] + " de " + m.a + "</b>, si tu descuento sigue igual."
+    : "Terminarías de pagar alrededor de " + m.a + ": lo más probable es que sea <b>entre " + a.a + " y " + z.a + "</b>, si tu descuento sigue igual.";
+  var ini = R.fin[0]-12, fin = R.fin[2]+12, L = function(v){ return (100*(v-ini)/(fin-ini)).toFixed(1); };
+  $("r-barra").innerHTML = '<div class="eje"></div><div class="tramo" style="left:'+L(R.fin[0])+'%;width:'+(L(R.fin[2])-L(R.fin[0]))+'%"></div>' +
+    '<div class="p" style="left:'+L(R.fin[1])+'%"></div><span style="left:'+L(R.fin[0])+'%">'+a.a+'</span>' +
+    (z.a !== a.a ? '<span style="left:'+L(R.fin[2])+'%">'+z.a+'</span>' : '');
+  $("r-int").textContent = miles(R.fut[0]) + " a " + miles(R.fut[1]);
+  $("r-antes").textContent = tiempoTxt(R.an);
+  $("r-ah").textContent = miles(R.ah[0]) + " a " + miles(R.ah[1]);
+  $("r-lim").textContent = (conSaldo
+    ? "Como nos diste tu saldo, el rango es más estrecho. "
+    : "El rango es amplio porque no conocemos tu saldo real: si lo consultas en la app del Infonavit y lo escribes en la pregunta 5, se afina. ") +
+    "Aun así es una aproximación: no ve tus pagos exactos, tus seguros ni los meses en que no hubo descuento. Tu número exacto sale de tu estado de cuenta.";
+  $("resultado").hidden = false;
+  $("resultado").scrollIntoView();
+}
+})();
+</script>
+</body>
+</html>
